@@ -1,0 +1,54 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup Label="Globals">
+    <SccProjectName>SAK</SccProjectName>
+    <SccProvider>SAK</SccProvider>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>Genesys.Entity</RootNamespace>
+    <Version>3.18.2</Version>
+    <Authors>Robert J. Good</Authors>
+    <Company>Genesys Source</Company>
+    <Product>Genesys.Entity.Rules.Standard</Product>
+    <RootNamespace>Genesys.Entity</RootNamespace>
+    <AssemblyName>Genesys.Entity.Rules.Standard</AssemblyName>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Genesys.Entity.Rules.Standard.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Interoperability\Entity.Interop\Genesys.Entity.Interop.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Activity\" />
+    <Folder Include="Application\" />
+    <Folder Include="Device\" />
+    <Folder Include="Entity\" />
+    <Folder Include="Flow\" />
+    <Folder Include="Location\" />
+    <Folder Include="Module\" />
+    <Folder Include="Option\" />
+    <Folder Include="Schedule\" />
+    <Folder Include="Setting\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Genesys.Extensions.Standard" Version="4.18.19186.1" />
+    <PackageReference Include="Genesys.Framework.Interop.Standard" Version="4.18.19186.3" />
+    <PackageReference Include="Genesys.Framework.Models.Standard" Version="4.18.19186.3" />
+  </ItemGroup>
+  
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PreBuild.$(Configuration).bat&quot; &quot;$(MSBuildProjectDirectory)&quot; &quot;$(Configuration)&quot; &quot;$(ProjectName)&quot;" />
+  </Target>
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PostBuild.$(Configuration).bat&quot; &quot;$(MSBuildProjectDirectory)\$(OutDir)&quot; &quot;$(Configuration)&quot; &quot;$(ProjectName)&quot;" />
+  </Target>
+</Project>
