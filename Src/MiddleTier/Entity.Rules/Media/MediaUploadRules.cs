@@ -1,16 +1,16 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="UploadRules.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="UploadRules.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Extensions;
-using Genesys.Framework.Data;
+using GoodToCode.Extensions;
+using GoodToCode.Framework.Data;
 using System;
 
-namespace Genesys.Entity.Media
+namespace GoodToCode.Entity.Media
 {
     /// <summary>
     /// Upload rules and authorizations

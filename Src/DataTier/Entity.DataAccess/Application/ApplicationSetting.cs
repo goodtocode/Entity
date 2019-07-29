@@ -1,20 +1,20 @@
 //-----------------------------------------------------------------------
-// <copyright file="ApplicationSetting.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="ApplicationSetting.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Entity.Setting;
-using Genesys.Extensions;
-using Genesys.Extras.Data;
-using Genesys.Framework.Data;
-using Genesys.Framework.Repository;
+using GoodToCode.Entity.Setting;
+using GoodToCode.Extensions;
+using GoodToCode.Extras.Data;
+using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Repository;
 using System;
 using System.Linq;
 
-namespace Genesys.Entity.Application
+namespace GoodToCode.Entity.Application
 {
     /// <summary>
     /// Application DAO

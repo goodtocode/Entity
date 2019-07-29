@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------
-// <copyright file="IActivityFlow.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="IActivityFlow.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Entity.Application;
-using Genesys.Entity.Flow;
-using Genesys.Framework.Activity;
-using Genesys.Framework.Data;
+using GoodToCode.Entity.Application;
+using GoodToCode.Entity.Flow;
+using GoodToCode.Framework.Activity;
+using GoodToCode.Framework.Data;
 
-namespace Genesys.Entity.Activity
+namespace GoodToCode.Entity.Activity
 {
     /// <summary>
     /// Flow activity that tracks Flow executions

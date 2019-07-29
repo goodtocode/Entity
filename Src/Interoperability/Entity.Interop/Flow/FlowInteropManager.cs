@@ -1,18 +1,18 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="FlowInteropManager.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="FlowInteropManager.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using Genesys.Extensions;
-using Genesys.Entity.Activity;
-using Genesys.Framework.Worker;
-using Genesys.Framework.Session;
+using GoodToCode.Extensions;
+using GoodToCode.Entity.Activity;
+using GoodToCode.Framework.Worker;
+using GoodToCode.Framework.Session;
 
-namespace Genesys.Entity.Flow
+namespace GoodToCode.Entity.Flow
 {
     /// <summary>
     /// Handles workflow interop of data and types across tiers

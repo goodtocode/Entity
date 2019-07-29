@@ -17,7 +17,7 @@
 //using Vgo.Framework.Validation;
 //#endregion
 
-//namespace Genesys.Entity.Event
+//namespace GoodToCode.Entity.Event
 //{
 //    /// <summary>
 //    /// Workflow to change event location and time

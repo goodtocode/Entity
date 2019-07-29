@@ -1,15 +1,15 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IBusiness.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="IBusiness.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Framework.Name;
+using GoodToCode.Framework.Name;
 using System;
 
-namespace Genesys.Entity.Business
+namespace GoodToCode.Entity.Business
 {
     /// <summary>
     /// Business record

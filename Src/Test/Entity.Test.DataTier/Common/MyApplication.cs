@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="MyApplication.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="MyApplication.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
@@ -8,9 +8,9 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using Genesys.Extras.Configuration;
+using GoodToCode.Extras.Configuration;
 
-namespace Genesys.Entity.Common
+namespace GoodToCode.Entity.Common
 {
     /// <summary>
     /// Global info for all test methods

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27004.2006
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataTier", "DataTier", "{E20B2508-368F-438B-8594-61B0478407F7}"
 EndProject
@@ -9,29 +9,29 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MiddleTier", "MiddleTier", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PresentationTier", "PresentationTier", "{4121C2AA-ACD7-4403-90F3-4ECED0F284CC}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Genesys.Entity.Database", "DataTier\Entity.Database\Genesys.Entity.Database.sqlproj", "{F8AA8218-1E36-483A-80B4-1BA49FD43E35}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GoodToCode.Entity.Database", "DataTier\Entity.Database\GoodToCode.Entity.Database.sqlproj", "{F8AA8218-1E36-483A-80B4-1BA49FD43E35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Flows", "MiddleTier\Entity.Flows\Genesys.Entity.Flows.csproj", "{598C9D8A-4678-4493-9B49-701485654D10}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Flows", "MiddleTier\Entity.Flows\GoodToCode.Entity.Flows.csproj", "{598C9D8A-4678-4493-9B49-701485654D10}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{7D4E1969-280B-4B5E-B247-7C6AD9245861}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Test.MiddleTier", "Test\Entity.Test.MiddleTier\Genesys.Entity.Test.MiddleTier.csproj", "{A68BE8F1-ACB2-476D-81C9-BB35D1B995E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Test.MiddleTier", "Test\Entity.Test.MiddleTier\GoodToCode.Entity.Test.MiddleTier.csproj", "{A68BE8F1-ACB2-476D-81C9-BB35D1B995E5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Test.DataTier", "Test\Entity.Test.DataTier\Genesys.Entity.Test.DataTier.csproj", "{AE60D74D-73D1-4A7D-BC87-30627DF4CE0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Test.DataTier", "Test\Entity.Test.DataTier\GoodToCode.Entity.Test.DataTier.csproj", "{AE60D74D-73D1-4A7D-BC87-30627DF4CE0A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Rules", "MiddleTier\Entity.Rules\Genesys.Entity.Rules.csproj", "{7B5ED026-9433-4963-95FB-3839EB248CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Rules", "MiddleTier\Entity.Rules\GoodToCode.Entity.Rules.csproj", "{7B5ED026-9433-4963-95FB-3839EB248CB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Genesys.Entity.Universal", "PresentationTier\Entity.Universal\Genesys.Entity.Universal.csproj", "{9EE3AA94-CE7A-41B4-8FD1-786AEB134E85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoodToCode.Entity.Universal", "PresentationTier\Entity.Universal\GoodToCode.Entity.Universal.csproj", "{9EE3AA94-CE7A-41B4-8FD1-786AEB134E85}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Web", "PresentationTier\Entity.Web\Genesys.Entity.Web.csproj", "{8F0B10EC-D093-4BE8-A8FD-64A15D10BE50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Web", "PresentationTier\Entity.Web\GoodToCode.Entity.Web.csproj", "{8F0B10EC-D093-4BE8-A8FD-64A15D10BE50}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.DataAccess", "DataTier\Entity.DataAccess\Genesys.Entity.DataAccess.csproj", "{18775C40-E495-40F4-8E1A-BD8DF03032A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.DataAccess", "DataTier\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj", "{18775C40-E495-40F4-8E1A-BD8DF03032A7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Models", "MiddleTier\Entity.Models\Genesys.Entity.Models.csproj", "{DCE0CFD0-2617-4061-A2EA-2BF12DD1C4A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Models", "MiddleTier\Entity.Models\GoodToCode.Entity.Models.csproj", "{DCE0CFD0-2617-4061-A2EA-2BF12DD1C4A2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interoperability", "Interoperability", "{CB37100C-1CDD-4169-8E68-16B643955DF6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Genesys.Entity.Interop", "Interoperability\Entity.Interop\Genesys.Entity.Interop.csproj", "{1728590D-71DC-447F-B35E-339BFFA8DD33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Interop", "Interoperability\Entity.Interop\GoodToCode.Entity.Interop.csproj", "{1728590D-71DC-447F-B35E-339BFFA8DD33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -229,51 +229,5 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4E088952-E7AB-403B-813E-6A991E6A4FD8}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 11
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://genesyssource.visualstudio.com/
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = DataTier\\Entity.DataAccess\\Genesys.Entity.DataAccess.csproj
-		SccProjectTopLevelParentUniqueName1 = Entities.sln
-		SccProjectName1 = DataTier/Entity.DataAccess
-		SccLocalPath1 = DataTier\\Entity.DataAccess
-		SccProjectUniqueName2 = DataTier\\Entity.Database\\Genesys.Entity.Database.sqlproj
-		SccProjectTopLevelParentUniqueName2 = Entities.sln
-		SccProjectName2 = DataTier/Entity.Database
-		SccLocalPath2 = DataTier\\Entity.Database
-		SccProjectUniqueName3 = Interoperability\\Entity.Interop\\Genesys.Entity.Interop.csproj
-		SccProjectTopLevelParentUniqueName3 = Entities.sln
-		SccProjectName3 = Interoperability/Entity.Interop
-		SccLocalPath3 = Interoperability\\Entity.Interop
-		SccProjectUniqueName4 = MiddleTier\\Entity.Flows\\Genesys.Entity.Flows.csproj
-		SccProjectTopLevelParentUniqueName4 = Entities.sln
-		SccProjectName4 = MiddleTier/Entity.Flows
-		SccLocalPath4 = MiddleTier\\Entity.Flows
-		SccProjectUniqueName5 = MiddleTier\\Entity.Models\\Genesys.Entity.Models.csproj
-		SccProjectTopLevelParentUniqueName5 = Entities.sln
-		SccProjectName5 = MiddleTier/Entity.Models
-		SccLocalPath5 = MiddleTier\\Entity.Models
-		SccProjectUniqueName6 = MiddleTier\\Entity.Rules\\Genesys.Entity.Rules.csproj
-		SccProjectTopLevelParentUniqueName6 = Entities.sln
-		SccProjectName6 = MiddleTier/Entity.Rules
-		SccLocalPath6 = MiddleTier\\Entity.Rules
-		SccProjectUniqueName7 = PresentationTier\\Entity.Universal\\Genesys.Entity.Universal.csproj
-		SccProjectTopLevelParentUniqueName7 = Entities.sln
-		SccProjectName7 = PresentationTier/Entity.Universal
-		SccLocalPath7 = PresentationTier\\Entity.Universal
-		SccProjectUniqueName8 = PresentationTier\\Entity.Web\\Genesys.Entity.Web.csproj
-		SccProjectTopLevelParentUniqueName8 = Entities.sln
-		SccProjectName8 = PresentationTier/Entity.Web
-		SccLocalPath8 = PresentationTier\\Entity.Web
-		SccProjectUniqueName9 = Test\\Entity.Test.DataTier\\Genesys.Entity.Test.DataTier.csproj
-		SccProjectTopLevelParentUniqueName9 = Entities.sln
-		SccProjectName9 = Test/Entity.Test.DataTier
-		SccLocalPath9 = Test\\Entity.Test.DataTier
-		SccProjectUniqueName10 = Test\\Entity.Test.MiddleTier\\Genesys.Entity.Test.MiddleTier.csproj
-		SccProjectTopLevelParentUniqueName10 = Entities.sln
-		SccProjectName10 = Test/Entity.Test.MiddleTier
-		SccLocalPath10 = Test\\Entity.Test.MiddleTier
 	EndGlobalSection
 EndGlobal

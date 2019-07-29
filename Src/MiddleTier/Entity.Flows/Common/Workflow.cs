@@ -1,6 +1,6 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="Workflow.cs" company="Genesys Source">
-////      Copyright (c) Genesys Source. All rights reserved.
+//// <copyright file="Workflow.cs" company="GoodToCode">
+////      Copyright (c) GoodToCode. All rights reserved.
 ////      All rights are reserved. Reproduction or transmission in whole or in part, in
 ////      any form or by any means, electronic, mechanical or otherwise, is prohibited
 ////      without the prior written consent of the copyright owner.
@@ -8,14 +8,14 @@
 ////-----------------------------------------------------------------------
 //using System;
 //using System.Linq;
-//using Genesys.Extensions;
-//using Genesys.Framework.Worker;
+//using GoodToCode.Extensions;
+//using GoodToCode.Framework.Worker;
 //
-//using Genesys.Entity.Flow;
-//using Genesys.Entity.Activity;
-//using Genesys.Framework.Activity;
+//using GoodToCode.Entity.Flow;
+//using GoodToCode.Entity.Activity;
+//using GoodToCode.Framework.Activity;
 
-//namespace Genesys.Entity.Common
+//namespace GoodToCode.Entity.Common
 //{
 //    /// <summary>
 //    /// Base class required for all workflows

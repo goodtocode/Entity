@@ -1,19 +1,19 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IApplicationData.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="IApplicationData.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using Genesys.Extras.Net;
-using Genesys.Framework.Session;
-using Genesys.Extras.Configuration;
-using Genesys.Entity.Device;
-using Genesys.Framework.Device;
+using GoodToCode.Extras.Net;
+using GoodToCode.Framework.Session;
+using GoodToCode.Extras.Configuration;
+using GoodToCode.Entity.Device;
+using GoodToCode.Framework.Device;
 
-namespace Genesys.Entity.Application
+namespace GoodToCode.Entity.Application
 {
     /// <summary>
     /// Global class containing application metadata, storage, device and application record

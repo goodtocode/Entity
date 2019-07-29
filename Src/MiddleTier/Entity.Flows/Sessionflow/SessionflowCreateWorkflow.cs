@@ -1,18 +1,18 @@
 ﻿////-----------------------------------------------------------------------
-//// <copyright file="SessionflowCreateWorkflow.cs" company="Genesys Source">
-////      Copyright (c) Genesys Source. All rights reserved.
+//// <copyright file="SessionflowCreateWorkflow.cs" company="GoodToCode">
+////      Copyright (c) GoodToCode. All rights reserved.
 ////      All rights are reserved. Reproduction or transmission in whole or in part, in
 ////      any form or by any means, electronic, mechanical or otherwise, is prohibited
 ////      without the prior written consent of the copyright owner.
 //// </copyright>
 ////-----------------------------------------------------------------------
 //using System;
-//using Genesys.Extensions;
-//using Genesys.Framework.Session;
-//using Genesys.Entity.Common;
+//using GoodToCode.Extensions;
+//using GoodToCode.Framework.Session;
+//using GoodToCode.Entity.Common;
 //
 
-//namespace Genesys.Entity.Flow
+//namespace GoodToCode.Entity.Flow
 //{
 //    /// <summary>
 //    /// Create new sessionflow. This record is required to call any other workflow.

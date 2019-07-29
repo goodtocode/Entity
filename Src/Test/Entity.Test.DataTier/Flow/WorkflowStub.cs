@@ -1,21 +1,21 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="WorkflowStub.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="WorkflowStub.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Entity.Activity;
-using Genesys.Entity.Application;
-using Genesys.Extensions;
-using Genesys.Framework.Data;
-using Genesys.Framework.Repository;
-using Genesys.Framework.Session;
+using GoodToCode.Entity.Activity;
+using GoodToCode.Entity.Application;
+using GoodToCode.Extensions;
+using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Session;
 using System;
 
-namespace Genesys.Entity.Flow
+namespace GoodToCode.Entity.Flow
 {
     /// <summary>
     /// Fake workflow class that simulates real workflow

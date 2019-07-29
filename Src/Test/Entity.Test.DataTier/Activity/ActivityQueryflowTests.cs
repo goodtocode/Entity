@@ -1,25 +1,25 @@
 //-----------------------------------------------------------------------
-// <copyright file="ActivityQueryflowTests.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="ActivityQueryflowTests.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Entity.Application;
-using Genesys.Entity.Flow;
-using Genesys.Entity.Person;
-using Genesys.Extensions;
-using Genesys.Extras.Configuration;
-using Genesys.Framework.Repository;
+using GoodToCode.Entity.Application;
+using GoodToCode.Entity.Flow;
+using GoodToCode.Entity.Person;
+using GoodToCode.Extensions;
+using GoodToCode.Extras.Configuration;
+using GoodToCode.Framework.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace Genesys.Entity.Activity
+namespace GoodToCode.Entity.Activity
 {
     /// <summary>
     /// Test framework functionality

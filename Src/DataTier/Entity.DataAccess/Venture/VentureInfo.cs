@@ -1,25 +1,25 @@
 //-----------------------------------------------------------------------
-// <copyright file="VentureInfo.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="VentureInfo.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Extensions;
-using Genesys.Extras.Data;
-using Genesys.Extras.Text.Cleansing;
-using Genesys.Framework.Activity;
-using Genesys.Framework.Data;
-using Genesys.Framework.Repository;
-using Genesys.Framework.Validation;
+using GoodToCode.Extensions;
+using GoodToCode.Extras.Data;
+using GoodToCode.Extras.Text.Cleansing;
+using GoodToCode.Framework.Activity;
+using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace Genesys.Entity.Venture
+namespace GoodToCode.Entity.Venture
 {
     /// <summary>
     /// Ventures

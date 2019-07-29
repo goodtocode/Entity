@@ -1,5 +1,5 @@
 ﻿---
--- GenesysData: Inserts all Genesys Source data, and one sandbox applicationId associated to Genesys. 
+-- GoodToCodeData: Inserts all GoodToCode data, and one sandbox applicationId associated to GoodToCode. 
 ---
 
 --------------------------------------------------------------
@@ -36,7 +36,7 @@ WHEN NOT MATCHED BY TARGET THEN
 Use [EntityData]
 MERGE INTO [Entity].[Application] AS Target 
 USING (VALUES
-	(@SandboxApplicationKey, @EntityKey, N'Genesys Sandbox App', N'Genesys Sandbox App for development and testing', N'http://www.GenesysSource.com/Policy/Privacy.html', N'http://www.GenesysSource.com/Policy/Terms.html', GetUTCDate())
+	(@SandboxApplicationKey, @EntityKey, N'GoodToCode Sandbox App', N'GoodToCode Sandbox App for development and testing', N'http://www.GoodToCode.com/Policy/Privacy.html', N'http://www.GoodToCode.com/Policy/Terms.html', GetUTCDate())
 	)
 	AS Source ([ApplicationKey], [BusinessEntityKey], [ApplicationName], [ApplicationSlogan], [PrivacyUrl], [TermsUrl], [TermsRevisedDate])
 ON Target.[ApplicationKey] = Source.[ApplicationKey]
@@ -53,7 +53,7 @@ WHEN NOT MATCHED BY TARGET THEN
 -- ActivitySessionflow for new Business
 Use [EntityData]
 Insert INTO [Activity].[ActivityContext] (ActivityContextKey, [IdentityUserName])
-	Select @ActivityContextKey As ActivityContextKey, N'admin@GenesysSource.com' As IdentityUserName
+	Select @ActivityContextKey As ActivityContextKey, N'admin@GoodToCode.com' As IdentityUserName
 Insert INTO [Activity].[ActivitySessionflow] ([ActivityContextKey], [FlowKey], [ApplicationKey])
 	Select @ActivityContextKey, FlowKey, @SandboxApplicationKey as [ApplicationKey]
 		From [Entity].[Flow] Where FlowKey = '71C39399-6976-4620-9F24-CFC7FFA64B45'
@@ -62,7 +62,7 @@ Insert INTO [Activity].[ActivitySessionflow] ([ActivityContextKey], [FlowKey], [
 Use [EntityData]
 MERGE INTO [Entity].[Business] AS Target 
 USING (VALUES 
-	(@EntityKey, N'Genesys Source', @ActivityContextKey, @ActivityContextKey)
+	(@EntityKey, N'GoodToCode', @ActivityContextKey, @ActivityContextKey)
 	)
 	AS Source ([BusinessKey], [BusinessName], [CreatedActivityKey], [ModifiedActivityKey]) 
 ON Target.[BusinessKey] = Source.[BusinessKey]

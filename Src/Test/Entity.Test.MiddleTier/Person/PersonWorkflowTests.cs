@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="PersonWorkflowTests.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="PersonWorkflowTests.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
@@ -10,12 +10,12 @@
 using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Genesys.Extensions;
+using GoodToCode.Extensions;
 
-using Genesys.Framework.Worker;
-using Genesys.Framework.Session;
+using GoodToCode.Framework.Worker;
+using GoodToCode.Framework.Session;
 
-namespace Genesys.Entity.Person
+namespace GoodToCode.Entity.Person
 {
     /// <summary>
     /// Test framework functionality

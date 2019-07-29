@@ -4,12 +4,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Genesys Source Framework foundation classes for for Universal")]
-[assembly: AssemblyDescription("Genesys Source Framework foundation classes for classes power your resuable framework for your .NET Core PCL/libraries, Universal x-platform mobile apps and all .NET Full libraries and apps.")]
+[assembly: AssemblyTitle("GoodToCode Framework foundation classes for for Universal")]
+[assembly: AssemblyDescription("GoodToCode Framework foundation classes for classes power your resuable framework for your .NET Core PCL/libraries, Universal x-platform mobile apps and all .NET Full libraries and apps.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Genesys Source")]
-[assembly: AssemblyProduct("Genesys Source Framework foundation classes for for Universal")]
-[assembly: AssemblyCopyright("Copyright © 2017-2018 Genesys Source")]
+[assembly: AssemblyCompany("GoodToCode")]
+[assembly: AssemblyProduct("GoodToCode Framework foundation classes for for Universal")]
+[assembly: AssemblyCopyright("Copyright © 2017-2018 GoodToCode")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

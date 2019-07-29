@@ -1,17 +1,17 @@
 //-----------------------------------------------------------------------
-// <copyright file="PersonTests.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="PersonTests.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Extensions;
-using Genesys.Extras.Configuration;
-using Genesys.Extras.Mathematics;
-using Genesys.Extras.Serialization;
-using Genesys.Framework.Repository;
+using GoodToCode.Extensions;
+using GoodToCode.Extras.Configuration;
+using GoodToCode.Extras.Mathematics;
+using GoodToCode.Extras.Serialization;
+using GoodToCode.Framework.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Genesys.Entity.Person
+namespace GoodToCode.Entity.Person
 {
     /// <summary>
     /// Test framework functionality

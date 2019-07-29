@@ -1,6 +1,6 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="ProcessTests.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="ProcessTests.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
@@ -9,15 +9,15 @@
 //-----------------------------------------------------------------------
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Genesys.Extensions;
-using Genesys.Extras.Serialization;
-using Genesys.Entity.Application;
-using Genesys.Entity.Person;
-using Genesys.Framework.Worker;
-using Genesys.Framework.Session;
+using GoodToCode.Extensions;
+using GoodToCode.Extras.Serialization;
+using GoodToCode.Entity.Application;
+using GoodToCode.Entity.Person;
+using GoodToCode.Framework.Worker;
+using GoodToCode.Framework.Session;
 
 
-namespace Genesys.Entity.Process
+namespace GoodToCode.Entity.Process
 {
     /// <summary>
     /// Tests for interop process classes

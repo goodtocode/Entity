@@ -32,4 +32,4 @@ Post-Deployment Script Template
 :r .\Environment\$(TargetEnvironment).sql
 
 ---- To be re-factored to "Enter your company name: " to generate records and basic test data
-:r .\Data\GenesysData.sql
+:r .\Data\GoodToCodeData.sql

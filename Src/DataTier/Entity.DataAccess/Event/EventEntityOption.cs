@@ -1,22 +1,22 @@
 //-----------------------------------------------------------------------
-// <copyright file="EventEntityOption.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="EventEntityOption.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Extensions;
-using Genesys.Extras.Data;
-using Genesys.Framework.Data;
-using Genesys.Framework.Repository;
-using Genesys.Framework.Validation;
+using GoodToCode.Extensions;
+using GoodToCode.Extras.Data;
+using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 
-namespace Genesys.Entity.Event
+namespace GoodToCode.Entity.Event
 {
     /// <summary>
     /// EventEntity DAO

@@ -1,20 +1,20 @@
 //-----------------------------------------------------------------------
-// <copyright file="LocationModel.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="LocationModel.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using Genesys.Extensions;
-using Genesys.Framework.Data;
-using Genesys.Framework.Name;
-using Genesys.Framework.Validation;
+using GoodToCode.Extensions;
+using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Name;
+using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace Genesys.Entity.Location
+namespace GoodToCode.Entity.Location
 {
     /// <summary>
     /// Events

@@ -3,12 +3,12 @@
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with the SQLCLR assembly.
-[assembly: AssemblyTitle("Genesys Source Entities EntityData Database")]
-[assembly: AssemblyDescription("Genesys Source Entities powers your resuable framework for your .Net Core PCL/libraries, Universal x-platform mobile apps and all .Net Full libraries and apps.")]
+[assembly: AssemblyTitle("GoodToCode Entities EntityData Database")]
+[assembly: AssemblyDescription("GoodToCode Entities powers your resuable framework for your .Net Core PCL/libraries, Universal x-platform mobile apps and all .Net Full libraries and apps.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Genesys Source")]
-[assembly: AssemblyProduct("Genesys Source Entities EntityData Database")]
-[assembly: AssemblyCopyright("Copyright © 2017 Genesys Source. All rights reserved.")]
+[assembly: AssemblyCompany("GoodToCode")]
+[assembly: AssemblyProduct("GoodToCode Entities EntityData Database")]
+[assembly: AssemblyCopyright("Copyright © 2017 GoodToCode. All rights reserved.")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

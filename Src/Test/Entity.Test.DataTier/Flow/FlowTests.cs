@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------
-// <copyright file="FlowTests.cs" company="Genesys Source">
-//      Copyright (c) Genesys Source. All rights reserved.
+// <copyright file="FlowTests.cs" company="GoodToCode">
+//      Copyright (c) GoodToCode. All rights reserved.
 // 
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
@@ -9,11 +9,11 @@
 //-----------------------------------------------------------------------
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Genesys.Extensions;
+using GoodToCode.Extensions;
 
-using Genesys.Framework.Repository;
+using GoodToCode.Framework.Repository;
 
-namespace Genesys.Entity.Flow
+namespace GoodToCode.Entity.Flow
 {
     /// <summary>
     /// Test framework functionality

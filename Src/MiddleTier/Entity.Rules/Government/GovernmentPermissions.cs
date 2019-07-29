@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Genesys.Entity.Government
+namespace GoodToCode.Entity.Government
 {
     class GovernmentPermissions
     {
