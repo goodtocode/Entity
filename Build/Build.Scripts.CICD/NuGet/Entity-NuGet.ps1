@@ -1,5 +1,5 @@
 ﻿#-----------------------------------------------------------------------
-# <copyright file="Framework-NuGet.ps1" company="GoodToCode">
+# <copyright file="Entity-NuGet.ps1" company="GoodToCode">
 #      Copyright (c) GoodToCode. All rights reserved.
 #      All rights are reserved. Reproduction or transmission in whole or in part, in
 #      any form or by any means, electronic, mechanical or otherwise, is prohibited
@@ -14,7 +14,7 @@ param(
 	[String]$Path = '\\Dev-Vm-01.dev.goodtocode.com\Vault\Drops', 
 	[String]$Domain = 'nuget.goodtocode.com',
 	[String]$Database = 'DatabaseServer.dev.goodtocode.com',
-	[String]$ProductName = "Entities",
+	[String]$ProductName = "Entity",
 	[String]$RepoName = "GoodToCode-Entities",
 	[String]$Build = '\\Dev-Vm-01.dev.goodtocode.com\Vault\Builds\Sprints',
 	[String]$SubFolder = 'Packages',
@@ -26,7 +26,7 @@ param(
 # *** Initialize
 # ***
 Set-ExecutionPolicy Unrestricted -Scope Process -Force
-$VerbosePreference = 'Continue' # 'SilentlyContinue'
+$VerbosePreference = 'SilentlyContinue' # 'Continue'
 [String]$ThisScript = $MyInvocation.MyCommand.Path
 [String]$ThisDir = Split-Path $ThisScript
 [DateTime]$Now = Get-Date
@@ -59,9 +59,34 @@ $BuildFull = [String]::Format("{0}\{1}\{2}\{3}", $Build, (Get-Date).ToString("yy
 # *** Execute
 # ***
 # Build 
-#Restore-Solution -Path $Solution -Configuration Debug -DevEnv $True
+Restore-Solution -Path $Solution -Configuration Debug -DevEnv $True
+# Update version
+Update-ContentsByTag -Path $Nuget -Value (Get-Version -Major 4) -Open '<version>' -Close '</version>' -Include *.nuspec
+
+# NuGet: Framework.Interop.Standard
+$AssemblyPath=[String]::Format("{0}\*.Interop.*", $Lib)
+$NuGetSpecFile = [String]::Format("{0}\{1}.Interop.Standard.nuspec", $Nuget, $ProductName)
+Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
+Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
+Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
 
 # NuGet: Framework.DataAccess.Core
 $AssemblyPath=[String]::Format("{0}\*.DataAccess.*", $Lib)
-$NuGetSpecFile = [String]::Format("{0}\Entity.DataAccess.Core.nuspec", $Nuget)
+$NuGetSpecFile = [String]::Format("{0}\{1}.DataAccess.Core.nuspec", $Nuget, $ProductName)
+Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
+Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
+
+# NuGet: Framework.Models.Standard
+$AssemblyPath=[String]::Format("{0}\*.Models.*", $Lib)
+$NuGetSpecFile = [String]::Format("{0}\{1}.Models.Standard.nuspec", $Nuget, $ProductName)
+Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
+Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
+Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
+
+# NuGet: Framework.Web.Core
+#$AssemblyPath=[String]::Format("{0}\*.Web.*", $Lib)
+#$NuGetSpecFile = [String]::Format("{0}\{1}.Web.Core.nuspec", $Nuget, $ProductName)
+#Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
+#Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
+#Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile

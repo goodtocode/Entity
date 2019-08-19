@@ -12,8 +12,8 @@
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>Genesys.Entity.Database</RootNamespace>
-    <AssemblyName>Genesys.Entity.Database</AssemblyName>
+    <RootNamespace>GoodToCode.Entity.Database</RootNamespace>
+    <AssemblyName>GoodToCode.Entity.Database</AssemblyName>
     <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -32,9 +32,9 @@
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
     <TarGetFrameworkProfile />
     <TargetDatabase>GoodToCode.Entity.Database</TargetDatabase>
-    <DacApplicationName>Genesys.Entity.EntityData</DacApplicationName>
+    <DacApplicationName>GoodToCode.Entity.EntityData</DacApplicationName>
     <DacVersion>3.00.001</DacVersion>
-    <DacDescription>Genesys Framework data, schema, security objects and DBA objects.</DacDescription>
+    <DacDescription>GoodToCode Framework data, schema, security objects and DBA objects.</DacDescription>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -58,7 +58,7 @@
     <DefineTrace>true</DefineTrace>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <SqlTargetName>Genesys.Framework</SqlTargetName>
+    <SqlTargetName>GoodToCode.Framework</SqlTargetName>
   </PropertyGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
@@ -112,7 +112,7 @@
     <None Include="Scripts\Data\Shared\Module.sql" />
     <None Include="Scripts\Data\Shared\Option.sql" />
     <None Include="Scripts\Data\Shared\OptionGroup.sql" />
-    <None Include="Scripts\Data\GenesysData.sql" />
+    <None Include="Scripts\Data\GoodToCodeData.sql" />
     <Build Include="Setting\Tables\Setting.sql" />
     <Build Include="Setting\Tables\ApplicationSetting.sql" />
     <Build Include="Setting\Tables\ModuleSetting.sql" />

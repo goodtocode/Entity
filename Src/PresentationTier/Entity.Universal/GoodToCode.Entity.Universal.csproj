@@ -95,7 +95,7 @@
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <ItemGroup>
-    <None Include="GenesysEntity.snk" />
+    <None Include="GoodToCodeEntity.snk" />
     <None Include="App_Data\PreBuild.Debug.bat" />
     <None Include="App_Data\PreBuild.Release.bat" />
     <None Include="App_Data\PostBuild.Debug.bat" />
@@ -116,10 +116,7 @@
     <PackageReference Include="Genesys.Framework.Interop.Standard">
       <Version>4.18.19186.3</Version>
     </PackageReference>
-    <PackageReference Include="Genesys.Framework.Models.Standard">
-      <Version>4.18.19186.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.1.9" />
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform" Version="6.2.8" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Interoperability\Entity.Interop\GoodToCode.Entity.Interop.csproj">
