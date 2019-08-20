@@ -15,6 +15,7 @@
     <Company>GoodToCode</Company>
     <Product>GoodToCode.Entity.Web.Core</Product>
     <RootNamespace>GoodToCode.Entity</RootNamespace>
+    <AssemblyName>GoodToCode.Entity.Web.Core</AssemblyName>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
