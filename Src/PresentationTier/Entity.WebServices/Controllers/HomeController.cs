@@ -19,7 +19,6 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.WebService.Models;
 using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -82,7 +81,7 @@ namespace GoodToCode.Entity.WebServices
         /// <returns></returns>
         public IActionResult Error()
         {
-           return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+           return View(new ErrorViewModel { RequestId = System.Diagnostics.Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

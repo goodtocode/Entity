@@ -51,7 +51,7 @@ namespace GoodToCode.Entity.WebServices
         {
             var returnValue = new List<PersonModel>();
             var model = new PersonModel() { Id = key.TryParseInt32(), Key = key.TryParseGuid(), FirstName = firstName, LastName = lastName };
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName == model.FirstName || x.LastName == model.LastName || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);
+            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(model.FirstName) || x.LastName.Contains(model.LastName) || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);            
 
             if (searchResults.Any())
                 returnValue.FillRange(searchResults);
@@ -68,7 +68,7 @@ namespace GoodToCode.Entity.WebServices
         public IActionResult Post([FromBody]PersonModel data)
         {
             var model = new PersonSearchModel();
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName == model.FirstName || x.LastName == model.LastName || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);
+            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(model.FirstName) || x.LastName.Contains(model.LastName) || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);
             var form = Request.ReadFormAsync();
             model.Fill(data);
             if (searchResults.Any())
