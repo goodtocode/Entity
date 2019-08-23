@@ -85,7 +85,7 @@ namespace GoodToCode.Entity.Schedule
         /// <summary>
         /// Schedule_ScheduleInfo
         /// </summary>
-        [TestMethod()]
+        ///[TestMethod()]
         public void Schedule_SlotAggregate_Create()
         {
             var scheduleEntity = new ScheduleInfo();

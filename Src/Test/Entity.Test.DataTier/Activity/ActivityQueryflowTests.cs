@@ -103,9 +103,9 @@ namespace GoodToCode.Entity.Activity
             var savedItem = new ActivityQueryflow();
 
             // Init
-            flow = readerFlow.GetAll().FirstOrDefaultSafe();
-            applicationKey = readerApp.GetAll().FirstOrDefaultSafe().Key;
             new PersonInfoTests().Person_PersonInfo_Create();
+            flow = readerFlow.GetAll().FirstOrDefaultSafe();
+            applicationKey = readerApp.GetAll().FirstOrDefaultSafe().Key;            
             entityKey = PersonInfoTests.RecycleBin.LastOrDefault();
             Assert.IsTrue(flow.Key != Defaults.Guid);
             Assert.IsTrue(applicationKey != Defaults.Guid);
