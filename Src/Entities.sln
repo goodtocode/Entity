@@ -29,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interoperability", "Interop
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.Interop", "Interoperability\Entity.Interop\GoodToCode.Entity.Interop.csproj", "{1728590D-71DC-447F-B35E-339BFFA8DD33}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entity.WebServices", "PresentationTier\Entity.WebServices\Entity.WebServices.csproj", "{465C963C-6921-4F51-9FE7-78C0A0B11E37}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoodToCode.Entity.WebServices", "PresentationTier\Entity.WebServices\GoodToCode.Entity.WebServices.csproj", "{465C963C-6921-4F51-9FE7-78C0A0B11E37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
