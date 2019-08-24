@@ -81,7 +81,6 @@ namespace GoodToCode.Entity.Schedule
             Assert.IsTrue(databaseAccess);
         }
 
-
         /// <summary>
         /// Schedule_ScheduleInfo
         /// </summary>

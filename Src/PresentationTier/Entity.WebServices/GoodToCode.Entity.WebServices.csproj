@@ -19,7 +19,7 @@
     <PackageLicenseUrl>http://www.GoodToCode.com/policy/nuget/license.html</PackageLicenseUrl>
     <PackageProjectUrl>http://www.GoodToCode.com</PackageProjectUrl>
     <PackageIconUrl>http://www.GoodToCode.com/images/marketplace/__TemplateIcon.png</PackageIconUrl>
-    <RepositoryUrl>http://www.github.com/GoodToCode/framework-for-core</RepositoryUrl>
+    <RepositoryUrl>http://www.github.com/GoodToCode/framework</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>GoodToCode Framework cross-platform open-source full-stack entity Web API mvc universal core</PackageTags>
   </PropertyGroup>
