@@ -131,7 +131,7 @@ function Clear-Lib
  	 [string[]]$Include = ("*.snk", "*.zip", "*.log", "*.bak", "*.tmp,  *.vspscc", "*.vssscc", "*.csproj.vspscc", "*.sqlproj.vspscc", "*.cache"),
  	 [string]$Exclude = ""
 	)
-	Write-Host "Clear-Solution -Path $Path -Include $Include -Exclude $Exclude"
+	Write-Host "Clear-Lib -Path $Path -Include $Include -Exclude $Exclude"
 	$Path = Set-Unc -Path $Path
 	$Path = Add-Prefix -String $Path -Add "\\"
 	# Cleanup Files
@@ -198,11 +198,14 @@ function Get-Version
 		[String]$Build = '',
 		[String]$Format = 'M.YY.MM.HHH'
 	)	
-	Write-Verbose "Get-Version -Major $Major -Minor $Minor -Revision $Revision -Build $Build"
+	Write-Host "Get-Version -Major $Major -Minor $Minor -Revision $Revision -Build $Build"
 	[DateTime]$Now = Get-Date
 	[DateTime]$BoM = Get-Date -Year $Now.Year -Month $Now.Month -Day 1 -Hour 0 -Minute 0 -Second 0
 	[String]$returnValue = ''
 
+	$Minor = $Minor.Replace('-1', '')
+	$Revision = $Revision.Replace('-1', '')
+	$Build = $Build.Replace('-1', '')
 	$TimeSpan = $Now - $Bom
 	$HoursSoFar = ($TimeSpan.Days * 24) + $TimeSpan.Hours;
 	[String] $YY = $Now.Year.ToString().Substring(2, 2).PadLeft(2, "0")
