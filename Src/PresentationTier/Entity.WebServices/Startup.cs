@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -25,22 +27,15 @@ namespace GoodToCode.Entity.WebServices
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // Turn off CORS restrictions 1/3
-            //services.Configure<MvcOptions>(options =>
-            //{
-            //    options.Filters.Add(new Microsoft.AspNetCore.Mvc.Cors.Internal.CorsAuthorizationFilterFactory("AllowAll"));
-            //});
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
 
-            // Turn off CORS restrictions 2/3
-            //services.AddCors(options =>
-            //{
-            //    options.AddPolicy("AllowAll", 
-
-            //        builder => builder.AllowAnyOrigin()
-            //            .AllowAnyMethod()
-            //            .AllowAnyHeader()
-            //            .AllowCredentials());
-            //});
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
 
             services
                 .AddMvc()
@@ -50,6 +45,11 @@ namespace GoodToCode.Entity.WebServices
                     options.SerializerSettings.ContractResolver
                         = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                 });
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,16 +72,18 @@ namespace GoodToCode.Entity.WebServices
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
-            // Turn off CORS restrictions 3/3
-            //app.UseCors("AllowAll");
-
+            app.UseCors("AllowAll");
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Discovery");
+            });
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            });            
         }
     }
 }

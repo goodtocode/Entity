@@ -19,6 +19,7 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Extras.Web.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -42,7 +43,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpGet()]        
         public string Get()
         {
-            return WebApiController.MessageUpAndRunning;
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
         }
 
         /// <summary>
@@ -52,7 +53,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpPost()]
         public string Post()
         {
-            return WebApiController.MessageUpAndRunning;
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpPut()]
         public string Put()
         {
-            return WebApiController.MessageUpAndRunning;
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
         }
 
         /// <summary>
@@ -72,7 +73,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpDelete()]
         public string Delete()
         {
-            return WebApiController.MessageUpAndRunning;
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
         }
     }
 }

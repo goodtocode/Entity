@@ -46,7 +46,7 @@ namespace GoodToCode.Entity.WebServices
         /// <param name="firstName">String - Text to search in first name</param>
         /// <param name="lastName">String - Text to search in the last name field</param>
         /// <returns>Partial view of only the search results region</returns>
-        [HttpGet(ControllerRoute + "/{key}/{firstName}/{lastName}"), Route(ControllerRoute)]
+        [HttpGet(ControllerRoute + "/{key}/{firstName}/{lastName}")]
         public IActionResult Get(string key = "-1", string firstName = "", string lastName = "")
         {
             var returnValue = new List<PersonModel>();
