@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.WebClient
@@ -11,10 +10,9 @@ namespace GoodToCode.Entity.WebClient
     {
         public static IServiceCollection AddHttpWorkflow(this IServiceCollection services, IConfiguration configuration)
         {
-            if (services == null) // Defense
+            if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            // Add service
             return services.AddScoped<IFileService, FileService>();
         }
     }
@@ -35,8 +33,6 @@ namespace GoodToCode.Entity.WebClient
 
         public async Task<bool> Process(string path, string file, byte[] content)
         {
-            Directory.CreateDirectory(Path.Combine(path));
-            File.AppendAllText(Path.Combine(path, file), content.ToString());
             return await Task.Run(() => true);
         }
     }

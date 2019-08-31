@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataTier\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj" />
-    <ProjectReference Include="..\..\Interoperability\Entity.Interop\GoodToCode.Entity.Interop.csproj" />
+    <ProjectReference Include="..\..\Common\Entity.Abstractions\GoodToCode.Entity.Abstractions.csproj" />
     <ProjectReference Include="..\..\MiddleTier\Entity.Flows\GoodToCode.Entity.Flows.csproj" />
     <ProjectReference Include="..\..\MiddleTier\Entity.Models\GoodToCode.Entity.Models.csproj" />
     <ProjectReference Include="..\..\MiddleTier\Entity.Rules\GoodToCode.Entity.Rules.csproj" />

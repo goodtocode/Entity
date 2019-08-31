@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <package>
   <metadata>
-    <id>GoodToCode.Entity.All.PresentationTier</id>
+    <id>GoodToCode.Entity.Abstractions.Standard</id>
     <version>4.18.10.352281</version>
-    <title>GoodToCode Framework all classes for n-Tier Apps connecting to web service back-ends. Supports .NET Core</title>
-    <description>GoodToCode Framework all classes for ASP.NET Core MVC, Web API Core, Xamarin iOS, Xamarin Android and .NET Standard libraries.</description>
+    <title>GoodToCode Framework Abstractions for MVC, Web API, WPF, Universal, Xamarin, .NET Core, Web Forms and Win Forms</title>
+    <description>GoodToCode Framework Abstractions for your business entities and models. GoodToCode Framework is a full-stack .NET solution that centralizes your business objects in one reusable solution that runs in Windows, Web and Mobile..</description>
     <authors>GoodToCode</authors>
     <owners>GoodToCode</owners>
     <licenseUrl>http://www.goodtocode.com/policy/nuget/license.html</licenseUrl>
@@ -16,14 +16,12 @@
     <tags>GoodToCode Framework cross-platform open-source full-stack entity Web API mvc universal core</tags>
     <dependencies>
       <group>
-        <dependency id="GoodToCode.Extensions.Core" version="4.0.0" />
-        <dependency id="GoodToCode.Framework.Interop.Standard" version="4.0.0" />
-        <dependency id="GoodToCode.Framework.Models.Standard" version="4.0.0" />
+        <dependency id="GoodToCode.Extensions.Standard" version="4.0.0" />
+        <dependency id="GoodToCode.Framework.Abstractions.Standard" version="4.0.0" />
       </group>
     </dependencies>
   </metadata>
   <files>
-    <!--Entity.Abstractions-->
     <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Abstractions.Standard.dll" target="lib\netcoreapp2.1" />
     <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Abstractions.Standard.xml" target="lib\netcoreapp2.1" />
     <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Abstractions.Standard.pdb" target="lib\netcoreapp2.1" />
@@ -36,18 +34,5 @@
     <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Abstractions.Standard.dll" target="lib\uap10.0" />
     <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Abstractions.Standard.xml" target="lib\uap10.0" />
     <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Abstractions.Standard.pdb" target="lib\uap10.0" />
-    <!--Entity.Models-->
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.dll" target="lib\netcoreapp2.1" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.xml" target="lib\netcoreapp2.1" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.pdb" target="lib\netcoreapp2.1" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.dll" target="lib\netcoreapp2.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.xml" target="lib\netcoreapp2.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.pdb" target="lib\netcoreapp2.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.dll" target="lib\netstandard2.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.xml" target="lib\netstandard2.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.pdb" target="lib\netstandard2.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.dll" target="lib\uap10.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.xml" target="lib\uap10.0" />
-    <file src="\lib\GoodToCode-Entities\GoodToCode.Entity.Models.Standard.pdb" target="lib\uap10.0" />
   </files>
 </package>

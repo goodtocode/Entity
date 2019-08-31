@@ -11,11 +11,10 @@ namespace GoodToCode.Entity.WebClient
     {
         public static IServiceCollection AddFileIo(this IServiceCollection services, IConfiguration configuration)
         {
-            if (services == null) // Defense
+            if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            // Add service
-            return services.AddScoped<IFileService, FileService>();
+            return services.AddSingleton<IFileService, FileService>();
         }
     }
 

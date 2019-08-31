@@ -11,17 +11,17 @@
     <Version>3.18.2</Version>
     <Authors>Robert J. Good</Authors>
     <Company>GoodToCode</Company>
-    <Product>GoodToCode.Entity.Interop.Standard</Product>
+    <Product>GoodToCode.Entity.Abstractions.Standard</Product>
     <RootNamespace>GoodToCode.Entity</RootNamespace>
-    <AssemblyName>GoodToCode.Entity.Interop.Standard</AssemblyName>
+    <AssemblyName>GoodToCode.Entity.Abstractions.Standard</AssemblyName>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\GoodToCode.Entity.Interop.Standard.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\GoodToCode.Entity.Abstractions.Standard.xml</DocumentationFile>
   </PropertyGroup>
   
   <ItemGroup>
-    <None Remove="GoodToCode.Entity.Interop.csproj.vspscc" />
+    <None Remove="GoodToCode.Entity.Abstractions.csproj.vspscc" />
   </ItemGroup>
   
   <ItemGroup>

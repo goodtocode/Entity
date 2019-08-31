@@ -55,7 +55,7 @@
   <ItemGroup>
     <Content Include="Admin\app_offline.htm" />
     <Content Include="NuGet\Entity.DataAccess.Core.nuspec" />
-    <Content Include="NuGet\Entity.Interop.Standard.nuspec" />
+    <Content Include="NuGet\Entity.Abstractions.Standard.nuspec" />
     <Content Include="NuGet\Entity.Models.Standard.nuspec" />
     <Content Include="NuGet\Entity.Web.Core.nuspec" />
     <Content Include="Keys\GoodToCodeEntity.snk" />

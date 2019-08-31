@@ -38,7 +38,7 @@ GoodToCode Entities helps you create your business-object framework with standar
 
 <strong>Entity.Models</strong> - <span style="text-align:justify; line-height:18px">Cross-Platform View Models project. Contains the Framework-level view models for http transport and .Serialize() built-in.</span>
 
-<strong>Entity.Interop</strong> - <span style="text-align:justify; line-height:18px">Cross-Platform Interface project. All projects reference this project so that interfaces are enforced in all tiers, and on mobile device as well.</span>
+<strong>Entity.Abstractions</strong> - <span style="text-align:justify; line-height:18px">Cross-Platform Interface project. All projects reference this project so that interfaces are enforced in all tiers, and on mobile device as well.</span>
 
 <strong>Entity.Web</strong> - <span style="text-align:justify; line-height:18px">MVC and Web API support project. Contains UI/UX classes and user controls.</span>
 

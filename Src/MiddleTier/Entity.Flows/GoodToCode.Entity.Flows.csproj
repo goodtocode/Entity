@@ -39,7 +39,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DataTier\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj" />
-    <ProjectReference Include="..\..\Interoperability\Entity.Interop\GoodToCode.Entity.Interop.csproj" />
+    <ProjectReference Include="..\..\Common\Entity.Abstractions\GoodToCode.Entity.Abstractions.csproj" />
     <ProjectReference Include="..\Entity.Models\GoodToCode.Entity.Models.csproj" />
     <ProjectReference Include="..\Entity.Rules\GoodToCode.Entity.Rules.csproj" />
   </ItemGroup>

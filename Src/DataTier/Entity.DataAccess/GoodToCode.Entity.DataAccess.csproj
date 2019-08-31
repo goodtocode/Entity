@@ -38,7 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Interoperability\Entity.Interop\GoodToCode.Entity.Interop.csproj" />
+    <ProjectReference Include="..\..\Common\Entity.Abstractions\GoodToCode.Entity.Abstractions.csproj" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

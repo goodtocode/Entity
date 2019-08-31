@@ -63,28 +63,28 @@ Restore-Solution -Path $Solution -Configuration Debug -DevEnv $True
 # Update version
 Update-ContentsByTag -Path $Nuget -Value (Get-Version -Major 4) -Open '<version>' -Close '</version>' -Include *.nuspec
 
-# NuGet: Framework.Interop.Standard
-$AssemblyPath=[String]::Format("{0}\*.Interop.*", $Lib)
-$NuGetSpecFile = [String]::Format("{0}\{1}.Interop.Standard.nuspec", $Nuget, $ProductName)
+# NuGet: Abstractions.Standard
+$AssemblyPath=[String]::Format("{0}\*.Abstractions.*", $Lib)
+$NuGetSpecFile = [String]::Format("{0}\{1}.Abstractions.Standard.nuspec", $Nuget, $ProductName)
 Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
 Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
 
-# NuGet: Framework.DataAccess.Core
+# NuGet: DataAccess.Core
 $AssemblyPath=[String]::Format("{0}\*.DataAccess.*", $Lib)
 $NuGetSpecFile = [String]::Format("{0}\{1}.DataAccess.Core.nuspec", $Nuget, $ProductName)
 Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
 Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
 
-# NuGet: Framework.Models.Standard
+# NuGet: Models.Standard
 $AssemblyPath=[String]::Format("{0}\*.Models.*", $Lib)
 $NuGetSpecFile = [String]::Format("{0}\{1}.Models.Standard.nuspec", $Nuget, $ProductName)
 Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
 Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
 
-# NuGet: Framework.Web.Core
+# NuGet: Web.Core
 #$AssemblyPath=[String]::Format("{0}\*.Web.*", $Lib)
 #$NuGetSpecFile = [String]::Format("{0}\{1}.Web.Core.nuspec", $Nuget, $ProductName)
 #Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
