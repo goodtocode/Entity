@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.WebClient
@@ -11,17 +10,19 @@ namespace GoodToCode.Entity.WebClient
     {
         public static IServiceCollection AddHttpCrud(this IServiceCollection services, IConfiguration configuration)
         {
-            if (services == null) // Defense
+            if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            // Add service
             return services.AddScoped<IFileService, FileService>();
         }
     }
 
     public interface IHttpCrudService
     {
-        Task<bool> Save(string path, string file, byte[] content);
+        Task<bool> Create(string item);
+        Task<bool> Read(string item);
+        Task<bool> Update(string item);
+        Task<bool> Delete(string item);
     }
 
     public class HttpCrudService : IHttpCrudService
@@ -33,10 +34,23 @@ namespace GoodToCode.Entity.WebClient
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task<bool> Save(string path, string file, byte[] content)
+        public async Task<bool> Create(string item)
         {
-            Directory.CreateDirectory(Path.Combine(path));
-            File.AppendAllText(Path.Combine(path, file), content.ToString());
+            return await Task.Run(() => true);
+        }
+
+        public async Task<bool> Read(string item)
+        {
+            return await Task.Run(() => true);
+        }
+
+        public async Task<bool> Update(string item)
+        {
+            return await Task.Run(() => true);
+        }
+
+        public async Task<bool> Delete(string item)
+        {
             return await Task.Run(() => true);
         }
     }
