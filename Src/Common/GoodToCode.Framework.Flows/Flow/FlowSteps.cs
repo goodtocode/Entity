@@ -9,7 +9,7 @@
 using GoodToCode.Extensions;
 using System;
 
-namespace GoodToCode.Entity.Flow
+namespace GoodToCode.Framework.Flow
 {
     /// <summary>
     /// Workflow steps

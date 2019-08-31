@@ -1,57 +1,79 @@
-﻿using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using GoodToCode.Extras.Net;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace GoodToCode.Entity.WebClient
+namespace GoodToCode.Framework.Hosting
 {
     public static partial class ServicesExtensions
     {
-        public static IServiceCollection AddHttpCrud(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddHttpCrud<TDto>(this IServiceCollection services) where TDto : new()
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            return services.AddScoped<IFileService, FileService>();
+            return services.AddScoped<IHttpCrudService<TDto>, HttpCrudService<TDto>>();
         }
     }
 
-    public interface IHttpCrudService
+    public interface IHttpCrudService<TDto>
     {
-        Task<bool> Create(string item);
-        Task<bool> Read(string item);
-        Task<bool> Update(string item);
-        Task<bool> Delete(string item);
+        Task<TDto> Create(TDto item);
+        Task<TDto> Read(TDto item);
+        Task<TDto> Update(TDto item);
+        Task<string> Delete(TDto item);
     }
 
-    public class HttpCrudService : IHttpCrudService
+    public class HttpCrudService<TDto> : IHttpCrudService<TDto> where TDto : new()
     {
-        private IHostingEnvironment _hostingEnvironment { get; set; }
+        private readonly IHostingEnvironment hostingEnvironment;
+        private readonly Uri uri;
 
-        public HttpCrudService(IHostingEnvironment hostingEnvironment)
+        public HttpCrudService(IHostingEnvironment environment, string url)
         {
-            _hostingEnvironment = hostingEnvironment;
+            hostingEnvironment = environment;
+            uri = new Uri(url);
         }
 
-        public async Task<bool> Create(string item)
+        public async Task<TDto> Create(TDto item)
         {
-            return await Task.Run(() => true);
+            TDto returnData;
+            using (var client = new HttpRequestPut<TDto>(uri, item))
+            {
+                returnData = await client.SendAsync();
+            }
+            return await Task.Run(() => returnData);
         }
 
-        public async Task<bool> Read(string item)
+        public async Task<TDto> Read(TDto item)
         {
-            return await Task.Run(() => true);
+            TDto returnData;
+            using (var client = new HttpRequestGet<TDto>(uri))
+            {
+                returnData = await client.SendAsync();
+            }
+            return await Task.Run(() => returnData);
         }
 
-        public async Task<bool> Update(string item)
+        public async Task<TDto> Update(TDto item)
         {
-            return await Task.Run(() => true);
+            TDto returnData;
+            using (var client = new HttpRequestPost<TDto>(uri, item))
+            {
+                returnData = await client.SendAsync();
+            }
+            return await Task.Run(() => returnData);
         }
 
-        public async Task<bool> Delete(string item)
+        public async Task<string> Delete(TDto item)
         {
-            return await Task.Run(() => true);
+            string returnData;
+            using (var client = new HttpRequestDelete(uri))
+            {
+                returnData = await client.SendAsync();
+            }
+            return await Task.Run(() => returnData);
         }
     }
 }

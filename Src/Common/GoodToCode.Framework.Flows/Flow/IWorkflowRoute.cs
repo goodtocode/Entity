@@ -7,7 +7,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
-namespace GoodToCode.Entity.Flow
+namespace GoodToCode.Framework.Flow
 {
     /// <summary>
     /// Flow route info

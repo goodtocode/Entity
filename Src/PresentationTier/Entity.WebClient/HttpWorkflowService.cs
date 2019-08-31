@@ -4,11 +4,11 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
 
-namespace GoodToCode.Entity.WebClient
+namespace GoodToCode.Framework.Hosting
 {
     public static partial class ServicesExtensions
     {
-        public static IServiceCollection AddHttpWorkflow(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddHttpWorkflow(this IServiceCollection services)
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
@@ -24,11 +24,11 @@ namespace GoodToCode.Entity.WebClient
 
     public class HttpWorkflowService : IHttpWorkflowService
     {
-        private IHostingEnvironment _hostingEnvironment { get; set; }
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public HttpWorkflowService(IHostingEnvironment hostingEnvironment)
+        public HttpWorkflowService(IHostingEnvironment environment)
         {
-            _hostingEnvironment = hostingEnvironment;
+            this.hostingEnvironment = environment;
         }
 
         public async Task<bool> Process(string path, string file, byte[] content)

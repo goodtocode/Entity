@@ -154,8 +154,10 @@ namespace GoodToCode.Entity
 
         public static IQueryable<EntityOption> GetByEntity(Guid EntityKey)
         {
-            var reader = new EntityReader<EntityOption>();
-            return reader.GetByWhere(x => x.EntityKey == EntityKey);
+            using (var reader = new EntityReader<EntityOption>())
+            {
+                return reader.GetByWhere(x => x.EntityKey == EntityKey);
+            }
         }
 
         /// <summary>
@@ -167,11 +169,13 @@ namespace GoodToCode.Entity
         public static EntityOption GetByEntityOption(Guid EntityKey, Guid OptionKey)
         {
             var returnValue = new EntityOption();
-            var reader = new EntityReader<EntityOption>();
-            var dataSelection = reader.GetByWhere(x => x.EntityKey == EntityKey && x.OptionKey == OptionKey);
-            returnValue = dataSelection.FirstOrDefaultSafe();
-            returnValue.EntityKey = EntityKey;
-            returnValue.OptionKey = OptionKey;
+            using (var reader = new EntityReader<EntityOption>())
+            {
+                var dataSelection = reader.GetByWhere(x => x.EntityKey == EntityKey && x.OptionKey == OptionKey);
+                returnValue = dataSelection.FirstOrDefaultSafe();
+                returnValue.EntityKey = EntityKey;
+                returnValue.OptionKey = OptionKey;
+            }
             return returnValue;
         }
 
@@ -182,8 +186,10 @@ namespace GoodToCode.Entity
         /// <param name="OptionGroupKey">OptionGroupId</param>
         public static IQueryable<EntityOption> GetByEntityOptionGroup(Guid entityKey, Guid OptionGroupKey)
         {
-            var reader = new EntityReader<EntityOption>();
-            return reader.GetByWhere(x => x.EntityKey == entityKey & x.OptionGroupKey == OptionGroupKey);
+            using (var reader = new EntityReader<EntityOption>())
+            {
+                return reader.GetByWhere(x => x.EntityKey == entityKey & x.OptionGroupKey == OptionGroupKey);
+            }
         }
 
         /// <summary>
@@ -215,11 +221,13 @@ namespace GoodToCode.Entity
         /// <param name="workflow">Workflow processing this record</param>
         public void Save(IFlowClass workflow)
         {
-            var reader = new EntityReader<EntityOption>();
-            var groupKey = reader.GetByKey(OptionKey).OptionGroupKey;
-            foreach (var conOption in EntityOption.GetByEntity(workflow.Activity.EntityKey).Where(x => x.OptionGroupKey == groupKey))
+            using (var reader = new EntityReader<EntityOption>())
             {
-                conOption.Delete(workflow);
+                var groupKey = reader.GetByKey(OptionKey).OptionGroupKey;
+                foreach (var conOption in EntityOption.GetByEntity(workflow.Activity.EntityKey).Where(x => x.OptionGroupKey == groupKey))
+                {
+                    conOption.Delete(workflow);
+                }
             }
             EntityOption.Create(OptionKey, workflow);
         }
@@ -231,13 +239,17 @@ namespace GoodToCode.Entity
         /// <param name="workflow">Workflow processing this record</param>
         public void Delete(IFlowClass workflow)
         {
-            var writer = new StoredProcedureWriter<EntityOption>();
-            var reader = new EntityReader<EntityOption>();
-            var groupKey = reader.GetByKey(OptionKey).OptionGroupKey;
-            foreach (var conOption in EntityOption.GetByEntity(workflow.Activity.EntityKey).Where(x => x.OptionGroupKey == groupKey))
+            using (var writer = new StoredProcedureWriter<EntityOption>())
             {
-                conOption.ActivityContextKey = workflow.Activity.Key;
-                writer.Delete(conOption);
+                using (var reader = new EntityReader<EntityOption>())
+                {
+                    var groupKey = reader.GetByKey(OptionKey).OptionGroupKey;
+                    foreach (var conOption in EntityOption.GetByEntity(workflow.Activity.EntityKey).Where(x => x.OptionGroupKey == groupKey))
+                    {
+                        conOption.ActivityContextKey = workflow.Activity.Key;
+                        writer.Delete(conOption);
+                    }
+                }
             }
             EntityOption.Create(OptionKey, workflow);
         }

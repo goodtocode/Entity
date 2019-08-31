@@ -6,18 +6,15 @@
 ////      without the prior written consent of the copyright owner.
 //// </copyright>
 ////-----------------------------------------------------------------------
+//using GoodToCode.Entity.Activity;
+//using GoodToCode.Framework.Flow;
+//using GoodToCode.Extensions;
+//using GoodToCode.Extras.Collections;
+//using GoodToCode.Framework.Session;
+//using GoodToCode.Framework.Worker;
 //using System;
 //using System.Linq;
 //using System.Net.Http;
-//using GoodToCode.Extensions;
-//using GoodToCode.Extras.Collections;
-//using GoodToCode.Framework.Worker;
-//
-//using GoodToCode.Entity.Flow;
-//using GoodToCode.Entity.Activity;
-//using GoodToCode.Framework.Session;
-//using GoodToCode.Framework.Entity;
-//using GoodToCode.Framework.Activity;
 
 //namespace GoodToCode.Entity.Common
 //{
@@ -72,7 +69,7 @@
 //        /// Last flow mode: (ValidateAndSave, ValidateOnly, SaveOnly)
 //        /// </summary>
 //        public FlowModes LastMode { get { return previousModeValue; } }
-        
+
 //        /// <summary>
 //        /// Flow Mode: (ValidateAndSave, ValidateOnly, SaveOnly)
 //        /// </summary>
@@ -160,7 +157,8 @@
 //            {
 //                Result.OnFail("This process has already ran, and cant be executed twice.");
 //                OnFlowAlreadyDone();
-//            } else
+//            }
+//            else
 //            {
 //                try
 //                {
@@ -188,7 +186,8 @@
 //            if (this.Result.FailedRules.Count == 0)
 //            {
 //                OnFlowComplete();
-//            } else
+//            }
+//            else
 //            {
 //                OnFlowFailed();
 //            }
@@ -234,7 +233,7 @@
 
 //            // here on purpose to throw warning, to fix the lack of ApplicationKey in context. 
 //            // Need to redo context to gel well with bearer token designs & Foundation owning common objects.
-//            return true; 
+//            return true;
 //            return returnValue;
 //        }
 

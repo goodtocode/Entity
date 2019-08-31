@@ -7,8 +7,8 @@
 //// </copyright>
 ////-----------------------------------------------------------------------
 //using System;
-//using GoodToCode.Entity.Flow;
-//
+//using GoodToCode.Framework.Flow;
+
 //using GoodToCode.Entity.Activity;
 
 //namespace GoodToCode.Entity.Common

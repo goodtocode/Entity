@@ -10,8 +10,8 @@
 //using System.Linq;
 //using GoodToCode.Extensions;
 //using GoodToCode.Framework.Worker;
-//
-//using GoodToCode.Entity.Flow;
+
+//using GoodToCode.Framework.Flow;
 //using GoodToCode.Entity.Activity;
 //using GoodToCode.Framework.Activity;
 
@@ -30,7 +30,7 @@
 //        /// Workflow Activity record associated with executing this workflow via Execute()
 //        /// </summary>
 //        public override IActivityFlow Activity { get; protected set; } = new ActivityWorkflow();
-        
+
 //        /// <summary>
 //        /// Encourage use of Create() method over constructors for this class.
 //        /// </summary>
@@ -70,7 +70,8 @@
 //            {
 //                Result.OnFail("This process has already ran, and cant be executed twice.");
 //                OnFlowAlreadyDone();
-//            } else
+//            }
+//            else
 //            {
 //                try
 //                {
@@ -112,12 +113,13 @@
 //            if (this.Result.FailedRules.Count == 0)
 //            {
 //                OnFlowComplete();
-//            } else
+//            }
+//            else
 //            {
 //                OnFlowFailed();
 //            }
 
 //            return Result;
-//        }        
+//        }
 //    }
 //}

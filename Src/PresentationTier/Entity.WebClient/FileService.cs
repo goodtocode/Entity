@@ -5,11 +5,11 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace GoodToCode.Entity.WebClient
+namespace GoodToCode.Framework.Hosting
 {
     public static partial class ServicesExtensions
     {
-        public static IServiceCollection AddFileIo(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddFileIo(this IServiceCollection services)
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
@@ -25,11 +25,11 @@ namespace GoodToCode.Entity.WebClient
 
     public class FileService : IFileService
     {
-        private IHostingEnvironment _hostingEnvironment { get; set; }
+        private readonly IHostingEnvironment hostingEnvironment;
 
-        public FileService(IHostingEnvironment hostingEnvironment)
+        public FileService(IHostingEnvironment environment)
         {
-            _hostingEnvironment = hostingEnvironment;
+            hostingEnvironment = environment;
         }
 
         public async Task<bool> Save(string path, string file, byte[] content)

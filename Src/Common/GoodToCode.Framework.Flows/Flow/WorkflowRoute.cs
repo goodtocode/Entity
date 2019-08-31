@@ -9,7 +9,7 @@
 using System;
 using GoodToCode.Extensions;
 
-namespace GoodToCode.Entity.Flow
+namespace GoodToCode.Framework.Flow
 {
     /// <summary>
     /// Contains all data required to chain workflow service routing from the app, to app services to mid services (and the workflow)

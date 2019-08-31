@@ -26,8 +26,10 @@ namespace GoodToCode.Entity.Flow
         {
             get
             {
-                var reader = new EntityReader<ActivityWorkflow>();
-                return reader.GetAll().FirstOrDefaultSafe();
+                using (var reader = new EntityReader<ActivityWorkflow>())
+                {
+                    return reader.GetAll().FirstOrDefaultSafe();
+                }
             }
         }
 

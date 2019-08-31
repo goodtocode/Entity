@@ -1,39 +1,42 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IFlowInteropManager.cs" company="GoodToCode">
+// <copyright file="ICrudflow.cs" company="GoodToCode">
 //      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Framework.Worker;
 using System;
 
-namespace GoodToCode.Entity.Flow
+namespace GoodToCode.Framework.Flow
 {
     /// <summary>
-    /// Interop for routes, data in and result of a Flow
-    /// </summary> 
-    public interface IFlowInteropManager<TDataIn>
+    /// CRUD interface for a Crudflow class that Creates, Reads, Updates and Deletes a TEntity
+    /// </summary>
+    /// <typeparam name="TEntity">Type of class supporting CRUD methods</typeparam>
+    public interface ICrudflow<TEntity>
     {
         /// <summary>
-        /// Root Url to services that accept these requests
+        /// Create the object
         /// </summary>
-        string RootUrl { get; set;  }
+        /// <returns></returns>
+        TEntity Create();
 
         /// <summary>
-        /// Route to out-of-domain DMZ (external) app services
+        /// Retrieve the object
         /// </summary>
-        IFlowRoute WebServicesRoute { get; }
+        /// <param name="predicate"></param>
+        /// <returns></returns>
+        TEntity Read(Predicate<TEntity> predicate);
 
         /// <summary>
-        /// Route to in-domain mid services
+        /// Update the object
         /// </summary>
-        IFlowRoute MidServicesRoute { get; }
+        TEntity Update();
 
         /// <summary>
-        /// Parameter in, encapsulates Context and DataIn
+        /// Delete the object
         /// </summary>
-        IWorkerParameter<TDataIn> Parameter { get; set; }
+        TEntity Delete();
     }
 }

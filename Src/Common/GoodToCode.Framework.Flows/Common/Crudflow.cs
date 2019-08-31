@@ -12,8 +12,8 @@
 //using GoodToCode.Framework.Worker;
 //using GoodToCode.Framework.Session;
 //using GoodToCode.Entity.Activity;
-//
-//using GoodToCode.Entity.Flow;
+
+//using GoodToCode.Framework.Flow;
 //using System;
 //using System.Linq;
 
@@ -158,50 +158,50 @@
 //        {
 //            var returnValue = new WorkerResult();
 
-////            OnFlowBegin();
-////            try
-////            {
-////                Result.OnStart();
-////                if (this.Mode != FlowModes.ValidationOnly && this.Behavior.Contains(FlowBehaviors.NoTracking) == false)
-////                {
-////                    Activity.Save();
-////                }
-////                IsFlowDataComplete();
-////                DoValidate();
-////                if (this.Result.FailedRules.Count == 0)
-////                {
-////                    if (this.Mode != FlowModes.ValidationOnly)
-////                    {
-////                        DoSave();
-////                    }
-////                    Activity.FlowStepKey = FlowInfo.Steps.Completed;
-////                    Result.OnSuccess();
-////                }
-////            }
-////            catch (System.Exception ex)
-////            {
-////                Activity.FlowStepKey = FlowInfo.Steps.FailedUnexpected;
-////                Result.OnFail("An unexpected error occurred.");
-////                ExceptionLogger.Create(ex, typeof(TFlowClass),
-////                    String.Format("Workflow.Execute(). ItemToProcess: {0} {1}", this.GetType().FullName, this.ToString()), "DefaultConnection", "MiddleTier");
-////#if DEBUG
-////                System.Diagnostics.Debugger.Break();
-////#endif
-////            }
-////            finally
-////            {
-////                if (this.Mode != FlowModes.ValidationOnly && this.Behavior.Contains(FlowBehaviors.NoTracking) == false)
-////                {
-////                    Activity.Save();
-////                }
-////            }
-////            if (this.Result.FailedRules.Count == 0)
-////            {
-////                OnFlowComplete();
-////            } else
-////            {
-////                OnFlowFailed();
-////            }
+//            //            OnFlowBegin();
+//            //            try
+//            //            {
+//            //                Result.OnStart();
+//            //                if (this.Mode != FlowModes.ValidationOnly && this.Behavior.Contains(FlowBehaviors.NoTracking) == false)
+//            //                {
+//            //                    Activity.Save();
+//            //                }
+//            //                IsFlowDataComplete();
+//            //                DoValidate();
+//            //                if (this.Result.FailedRules.Count == 0)
+//            //                {
+//            //                    if (this.Mode != FlowModes.ValidationOnly)
+//            //                    {
+//            //                        DoSave();
+//            //                    }
+//            //                    Activity.FlowStepKey = FlowInfo.Steps.Completed;
+//            //                    Result.OnSuccess();
+//            //                }
+//            //            }
+//            //            catch (System.Exception ex)
+//            //            {
+//            //                Activity.FlowStepKey = FlowInfo.Steps.FailedUnexpected;
+//            //                Result.OnFail("An unexpected error occurred.");
+//            //                ExceptionLogger.Create(ex, typeof(TFlowClass),
+//            //                    String.Format("Workflow.Execute(). ItemToProcess: {0} {1}", this.GetType().FullName, this.ToString()), "DefaultConnection", "MiddleTier");
+//            //#if DEBUG
+//            //                System.Diagnostics.Debugger.Break();
+//            //#endif
+//            //            }
+//            //            finally
+//            //            {
+//            //                if (this.Mode != FlowModes.ValidationOnly && this.Behavior.Contains(FlowBehaviors.NoTracking) == false)
+//            //                {
+//            //                    Activity.Save();
+//            //                }
+//            //            }
+//            //            if (this.Result.FailedRules.Count == 0)
+//            //            {
+//            //                OnFlowComplete();
+//            //            } else
+//            //            {
+//            //                OnFlowFailed();
+//            //            }
 
 //            return Result;
 //        }
@@ -306,7 +306,7 @@
 //        {
 //            Context.EntityKey = EntityKey;
 //        }
-        
+
 //        /// <summary>
 //        /// Event handler
 //        /// </summary>
@@ -393,7 +393,7 @@
 //            /// List of failed rules
 //            /// </summary>
 //            public KeyValueListString FailedRules { get; set; } = new KeyValueListString();
-//        }        
+//        }
 
 //        /// <summary>
 //        /// Flow generated or retrieved a EntityID

@@ -1,29 +1,23 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IFlowClass.cs" company="GoodToCode">
+// <copyright file="IFlowId.cs" company="GoodToCode">
 //      Copyright (c) GoodToCode. All rights reserved.
 //      All rights are reserved. Reproduction or transmission in whole or in part, in
 //      any form or by any means, electronic, mechanical or otherwise, is prohibited
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Entity.Activity;
-using GoodToCode.Framework.Session;
+using System;
 
-namespace GoodToCode.Entity.Flow
+namespace GoodToCode.Framework.Flow
 {
     /// <summary>
-    /// Flow class
+    /// Flow Id
     /// </summary>
-    public interface IFlowClass : IActivityFlow
+    public interface IFlowKey
     {
         /// <summary>
-        /// Context
+        /// FlowId
         /// </summary>
-        ISessionContext Context { get; }
-
-        /// <summary>
-        /// Activity
-        /// </summary>
-        IActivityFlow Activity { get; }
+        Guid FlowKey { get; set; }
     }
 }

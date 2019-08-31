@@ -7,9 +7,8 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using GoodToCode.Framework.Name;
 
-namespace GoodToCode.Entity.Flow
+namespace GoodToCode.Framework.Flow
 {
     /// <summary>
     /// Holds Ids of global records
