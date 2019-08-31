@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace GoodToCode.Entity.Messaging
+namespace GoodToCode.Entity.PubSub
 {
     //Startup.cs
-    //            services.AddScoped<IBusService>(sp => {
+    //            services.AddScoped<IPubSubService>(sp => {
     //    var emailListener = sp.GetService<IEmailListener>();
     //    var loggerListener = sp.GetService<ILoggerListener>();
-    //    var bus = new BusService();
+    //    var bus = new PubSubService();
     //    bus.Subscribe(subscriber: emailListener);
     //    bus.Subscribe(subscriber: loggerListener);
     //    return bus;
@@ -19,17 +16,17 @@ namespace GoodToCode.Entity.Messaging
     //        services.AddScoped<ILoggerListener, LoggerListener>();
 
     // Controller
-    //    private IBusService _busService;
+    //    private IPubSubService _PubSubService;
 
-    //public HomeController(IBusService busService)
+    //public HomeController(IPubSubService PubSubService)
     //{
-    //    _busService = busService;
+    //    _PubSubService = PubSubService;
     //}
 
     //[Route("/")]
     //public IActionResult Index()
     //{
-    //    _busService.Publish(Event: new EnrollmentCreationEvent());
+    //    _PubSubService.Publish(Event: new EnrollmentCreationEvent());
     //    return new ContentResult(); // ViewComponent(typeof(TestViewComponent));
     //}
 

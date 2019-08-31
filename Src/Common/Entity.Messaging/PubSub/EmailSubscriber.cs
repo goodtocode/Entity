@@ -1,18 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace GoodToCode.Entity.Messaging
+namespace GoodToCode.Entity.PubSub
 {
     public interface IEmailListener : ISubscriberService
     { }
 
     public class EmailListener : IEmailListener
     {
-
-
         public IEnumerable<Type> EventTypes
         {
             get
