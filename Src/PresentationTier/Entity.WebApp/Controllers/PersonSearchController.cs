@@ -81,14 +81,10 @@ namespace GoodToCode.Entity.Person
         [HttpPost()]
         public async Task<ActionResult> Search(PersonModel data)
         {
-            var model = new PersonSearchModel();
-            var searchResults = await crudService.Read(data.CastOrFill<PersonSearchModel>());
-
-            if (searchResults.Results.Count > 0)
-                model.Results.FillRange(searchResults.Results);
-            TempData[ResultMessage] = $"{model.Results.Count} matches found";
-
-            return View(PersonSearchController.SearchView, model);
+            var query = $"{data.Key}/{data.FirstName}/{data.LastName}";
+            var searchResults = await crudService.Read(query);
+            TempData[ResultMessage] = $"{searchResults.Results.Count} matches found";
+            return View(PersonSearchController.SearchView, searchResults);
         }
 
         /// <summary>

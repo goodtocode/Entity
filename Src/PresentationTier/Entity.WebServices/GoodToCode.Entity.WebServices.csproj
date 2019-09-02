@@ -60,7 +60,7 @@
     <None Include="Properties\launchSettings.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Controllers\PersonController.cs" />
-    <None Include="Controllers\PersonSearchSearchController.cs" />
+    <None Include="Controllers\PersonSearchController.cs" />
     <None Include="Controllers\HomeController.cs" />
     <None Include="Models\ErrorViewModel.cs" />
     <None Include="Program.cs" />

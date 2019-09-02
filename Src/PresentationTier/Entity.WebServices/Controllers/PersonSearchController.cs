@@ -39,8 +39,9 @@ namespace GoodToCode.Entity.WebServices
 
         /// <summary>
         /// Parameterized HttpGet search, refreshing only the results region
-        ///  Path: /PersonSearch?id={id}&firstName={firstName}&lastName={lastName}
+        ///  Path: /PersonSearch/{id}/{firstName}/{lastName}
         ///  Parameters are strings in order to validate, log and handle incorrect values
+        ///  Searched as: Contains, OR
         /// </summary>
         /// <param name="id">Int32 - ID to include in search results</param>
         /// <param name="firstName">String - Text to search in first name</param>
@@ -49,12 +50,11 @@ namespace GoodToCode.Entity.WebServices
         [HttpGet(ControllerRoute + "/{key}/{firstName}/{lastName}")]
         public IActionResult Get(string key = "-1", string firstName = "", string lastName = "")
         {
-            var returnValue = new List<PersonModel>();
-            var model = new PersonModel() { Id = key.TryParseInt32(), Key = key.TryParseGuid(), FirstName = firstName, LastName = lastName };
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(model.FirstName) || x.LastName.Contains(model.LastName) || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);            
+            var returnValue = new PersonSearchModel() { Id = key.TryParseInt32(), Key = key.TryParseGuid(), FirstName = firstName, LastName = lastName };
+            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(returnValue.FirstName) || x.LastName.Contains(returnValue.LastName) || x.Key == returnValue.Key).Take(100);
 
             if (searchResults.Any())
-                returnValue.FillRange(searchResults);
+                returnValue.Results.FillRange(searchResults);
 
             return Ok(returnValue);
         }

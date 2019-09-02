@@ -1,4 +1,5 @@
-﻿using GoodToCode.Extras.Net;
+﻿using GoodToCode.Extensions;
+using GoodToCode.Extras.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,9 @@ namespace GoodToCode.Framework.Hosting
     public interface IHttpCrudService<TDto>
     {
         Task<TDto> Create(TDto item);
-        Task<TDto> Read(TDto item);
+        Task<TDto> Read(string query);
+        Task<TDto> Read(int id);
+        Task<TDto> Read(Guid key);
         Task<TDto> Update(TDto item);
         Task<string> Delete(TDto item);
     }
@@ -31,12 +34,15 @@ namespace GoodToCode.Framework.Hosting
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration configuration;
 
-        private Uri Uri { get { return new Uri(configuration["AppSettings:MyWebService"]); } }
+        private string uriRoot => configuration["AppSettings:MyWebService"];
+        private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
+        public Uri Uri { get; set; }
 
         public HttpCrudService(IHostingEnvironment environment, IConfiguration config)
         {
             hostingEnvironment = environment;
             configuration = config;
+            Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
         }
 
         public async Task<TDto> Create(TDto item)
@@ -49,10 +55,33 @@ namespace GoodToCode.Framework.Hosting
             return await Task.Run(() => returnData);
         }
 
-        public async Task<TDto> Read(TDto item)
+        public async Task<TDto> Read(string query)
         {
             TDto returnData;
-            using (var client = new HttpRequestGet<TDto>(Uri))
+            var uriQuery = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
+            using (var client = new HttpRequestGet<TDto>(uriQuery))
+            {
+                returnData = await client.SendAsync();
+            }
+            return await Task.Run(() => returnData);
+        }
+
+        public async Task<TDto> Read(int id)
+        {
+            TDto returnData;
+            var uriId = new Uri($"{Uri.ToString().RemoveLast("/")}?Id={id.ToString()}");
+            using (var client = new HttpRequestGet<TDto>(uriId))
+            {
+                returnData = await client.SendAsync();
+            }
+            return await Task.Run(() => returnData);
+        }
+
+        public async Task<TDto> Read(Guid key)
+        {
+            TDto returnData;
+            var uriKey = new Uri($"{Uri.ToString().RemoveLast("/")}?Key={key.ToString()}");
+            using (var client = new HttpRequestGet<TDto>(uriKey))
             {
                 returnData = await client.SendAsync();
             }
