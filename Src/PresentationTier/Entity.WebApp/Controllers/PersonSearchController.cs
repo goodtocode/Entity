@@ -17,12 +17,12 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
+using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Person
 {
@@ -40,6 +40,8 @@ namespace GoodToCode.Entity.Person
         public const string SearchResultsView = "~/Views/PersonSearch/PersonSearchResults.cshtml";
         public const string ResultMessage = "ResultMessage";
 
+        private IHttpCrudService<PersonSearchModel> crudService;
+        
         /// <summary>
         /// Called right before action methods executed
         /// </summary>
@@ -48,6 +50,15 @@ namespace GoodToCode.Entity.Person
         {
             TempData[ResultMessage] = Defaults.String;
             base.OnActionExecuting(context);
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="crud"></param>
+        public PersonSearchController(IHttpCrudService<PersonSearchModel> crud)
+        {
+            crudService = crud;
         }
 
         /// <summary>
@@ -68,16 +79,14 @@ namespace GoodToCode.Entity.Person
         /// <returns>View of search parameters and any found results</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public ActionResult Search(PersonModel data)
+        public async Task<ActionResult> Search(PersonModel data)
         {
             var model = new PersonSearchModel();
-            //var searchResults = PersonInfo.GetByAny(data).Take(25);
+            var searchResults = await crudService.Read(data.CastOrFill<PersonSearchModel>());
 
-            //model.Fill(data);
-            //var results = searchResults.ToList();
-            //if (searchResults.Any())
-            //    model.Results.FillRange(searchResults);
-            //TempData[ResultMessage] = $"{model.Results.Count} matches found";
+            if (searchResults.Results.Count > 0)
+                model.Results.FillRange(searchResults.Results);
+            TempData[ResultMessage] = $"{model.Results.Count} matches found";
 
             return View(PersonSearchController.SearchView, model);
         }

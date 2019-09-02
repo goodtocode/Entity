@@ -1,5 +1,6 @@
 ﻿using GoodToCode.Extras.Net;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace GoodToCode.Framework.Hosting
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            return services.AddScoped<IHttpCrudService<TDto>, HttpCrudService<TDto>>();
+            return services.AddTransient<IHttpCrudService<TDto>, HttpCrudService<TDto>>();
         }
     }
 
@@ -28,18 +29,20 @@ namespace GoodToCode.Framework.Hosting
     public class HttpCrudService<TDto> : IHttpCrudService<TDto> where TDto : new()
     {
         private readonly IHostingEnvironment hostingEnvironment;
-        private readonly Uri uri;
+        private readonly IConfiguration configuration;
 
-        public HttpCrudService(IHostingEnvironment environment, string url)
+        private Uri Uri { get { return new Uri(configuration["AppSettings:MyWebService"]); } }
+
+        public HttpCrudService(IHostingEnvironment environment, IConfiguration config)
         {
             hostingEnvironment = environment;
-            uri = new Uri(url);
+            configuration = config;
         }
 
         public async Task<TDto> Create(TDto item)
         {
             TDto returnData;
-            using (var client = new HttpRequestPut<TDto>(uri, item))
+            using (var client = new HttpRequestPut<TDto>(Uri, item))
             {
                 returnData = await client.SendAsync();
             }
@@ -49,7 +52,7 @@ namespace GoodToCode.Framework.Hosting
         public async Task<TDto> Read(TDto item)
         {
             TDto returnData;
-            using (var client = new HttpRequestGet<TDto>(uri))
+            using (var client = new HttpRequestGet<TDto>(Uri))
             {
                 returnData = await client.SendAsync();
             }
@@ -59,7 +62,7 @@ namespace GoodToCode.Framework.Hosting
         public async Task<TDto> Update(TDto item)
         {
             TDto returnData;
-            using (var client = new HttpRequestPost<TDto>(uri, item))
+            using (var client = new HttpRequestPost<TDto>(Uri, item))
             {
                 returnData = await client.SendAsync();
             }
@@ -69,7 +72,7 @@ namespace GoodToCode.Framework.Hosting
         public async Task<string> Delete(TDto item)
         {
             string returnData;
-            using (var client = new HttpRequestDelete(uri))
+            using (var client = new HttpRequestDelete(Uri))
             {
                 returnData = await client.SendAsync();
             }

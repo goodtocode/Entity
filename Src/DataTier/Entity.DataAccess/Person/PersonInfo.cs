@@ -41,7 +41,7 @@ namespace GoodToCode.Entity.Person
                 new SqlParameter("@MiddleName", MiddleName),
                 new SqlParameter("@LastName", LastName),
                 new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderCode", GenderId),
+                new SqlParameter("@GenderId", GenderId),
                 new SqlParameter("@ActivityContextKey", ActivityContextKey)
             }
         };
@@ -61,7 +61,7 @@ namespace GoodToCode.Entity.Person
                 new SqlParameter("@MiddleName", MiddleName),
                 new SqlParameter("@LastName", LastName),
                 new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderCode", GenderId),
+                new SqlParameter("@GenderId", GenderId),
                 new SqlParameter("@ActivityContextKey", ActivityContextKey)
             }
         };

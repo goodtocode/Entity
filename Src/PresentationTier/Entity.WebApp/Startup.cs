@@ -28,7 +28,9 @@ namespace GoodToCode.Entity.WebApp
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddHttpCrud<PersonModel>();
+            // Add Get, Put, Post, Delete calls as CRUD-aligned requests
+            services.AddHttpCrud<PersonModel>()
+                .AddHttpCrud<PersonSearchModel>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -50,7 +52,7 @@ namespace GoodToCode.Entity.WebApp
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

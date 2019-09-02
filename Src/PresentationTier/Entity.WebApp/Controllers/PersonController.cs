@@ -17,14 +17,11 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Configuration;
+using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Data.SqlClient;
-using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Person
 {
@@ -46,6 +43,8 @@ namespace GoodToCode.Entity.Person
         public const string DeleteView = "~/Views/Person/PersonDelete.cshtml";
         public const string ResultMessage = "ResultMessage";
 
+        private IHttpCrudService<PersonModel> crudService;
+
         /// <summary>
         /// Called right before action methods executed
         /// </summary>
@@ -54,14 +53,22 @@ namespace GoodToCode.Entity.Person
         {
             TempData[ResultMessage] = Defaults.String;
             base.OnActionExecuting(context);
+        }        
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="crud"></param>
+        public PersonController(IHttpCrudService<PersonModel> crud)
+        {
+            crudService = crud;
         }
 
         /// <summary>
         /// Displays entity
         /// </summary>
         /// <returns>View rendered with model data</returns>
-        [AllowAnonymous]
-        [HttpGet]
+        [HttpGet, AllowAnonymous]
         public ActionResult Summary(string id)
         {
             // Change to Web API call to resource server
