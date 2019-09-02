@@ -18,10 +18,15 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using GoodToCode.Extensions;
+using GoodToCode.Extras.Configuration;
+using GoodToCode.Extras.Net;
 using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.Extensions.Configuration;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Person
 {
@@ -33,14 +38,14 @@ namespace GoodToCode.Entity.Person
     {
         public const string ControllerName = "Person";
         public const string SummaryAction = "Summary";
-        public const string SummaryView = "~/Views/Person/PersonSummary.cshtml";
+        public const string SummaryView = "PersonSummary.cshtml";
         public const string CreateAction = "Create";
         public const string CreateActionText = CreateAction;
-        public const string CreateView = "~/Views/Person/PersonCreate.cshtml";
+        public const string CreateView = "PersonCreate.cshtml";
         public const string EditAction = "Edit";
-        public const string EditView = "~/Views/Person/PersonEdit.cshtml";
+        public const string EditView = "PersonEdit.cshtml";
         public const string DeleteAction = "Delete";
-        public const string DeleteView = "~/Views/Person/PersonDelete.cshtml";
+        public const string DeleteView = "PersonDelete.cshtml";
         public const string ResultMessage = "ResultMessage";
 
         private IHttpCrudService<PersonModel> crudService;
@@ -53,7 +58,7 @@ namespace GoodToCode.Entity.Person
         {
             TempData[ResultMessage] = Defaults.String;
             base.OnActionExecuting(context);
-        }        
+        }
 
         /// <summary>
         /// Constructor
@@ -228,16 +233,16 @@ namespace GoodToCode.Entity.Person
         /// Can connect to the database?
         /// </summary>
         /// <returns></returns>
-        public static bool CanConnect()
+        public async static Task<bool> CanConnect()
         {
-            // Change to DI injected configuration
-
             var returnValue = Defaults.Boolean;
-            //var configuration = new ConfigurationManagerCore(ApplicationTypes.Native);
-            //using (var connection = new SqlConnection(configuration.ConnectionStringValue("DefaultConnection")))
-            //{
-            //    returnValue = connection.CanOpen();
-            //}
+            var configuration = new ConfigurationManagerCore(ApplicationTypes.Native);
+
+            using (var client = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi"))
+            {
+                await client.SendAsync();
+                returnValue = client.Response.IsSuccessStatusCode;
+            }
             return returnValue;
         }
     }

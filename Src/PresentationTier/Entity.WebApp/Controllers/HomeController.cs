@@ -6,7 +6,7 @@ namespace GoodToCode.Entity.WebApp
     public class HomeController : Controller
     {
         public const string ControllerName = "Home";
-        public const string IndexGetView = "~/Views/Home/Index.cshtml";
+        public const string IndexGetView = "~/Pages/Home/Index.cshtml";
         public const string IndexGetAction = "Index";
         public const string IndexPostAction = "IndexPost";
         public const string IndexPutAction = "IndexPut";

@@ -35,9 +35,9 @@ namespace GoodToCode.Entity.Person
         public const string ControllerName = "PersonSearch";
         public const string SearchAction = "Search";
         public const string SearchActionText = SearchAction;
-        public const string SearchView = "~/Views/PersonSearch/PersonSearch.cshtml";
+        public const string SearchView = "~/Pages/PersonSearch/PersonSearch.cshtml";
         public const string SearchResultsAction = "SearchResults";
-        public const string SearchResultsView = "~/Views/PersonSearch/PersonSearchResults.cshtml";
+        public const string SearchResultsView = "~/Pages/PersonSearch/PersonSearchResults.cshtml";
         public const string ResultMessage = "ResultMessage";
 
         private IHttpCrudService<PersonSearchModel> crudService;
