@@ -38,7 +38,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\GoodToCode.Framework.Flows\GoodToCode.Framework.Flows.csproj" />
     <ProjectReference Include="..\..\DataTier\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj" />
     <ProjectReference Include="..\..\Common\Entity.Abstractions\GoodToCode.Entity.Abstractions.csproj" />
     <ProjectReference Include="..\Entity.Models\GoodToCode.Entity.Models.csproj" />

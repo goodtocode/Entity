@@ -12,11 +12,11 @@ namespace GoodToCode.Entity.Person
     /// <summary>
     /// Gender Code
     /// </summary>        
-    public interface IGenderCode
+    public interface IGenderId
     {
         /// <summary>
         /// Gender Id (ISO/IEC 5218)
         /// </summary>
-        int GenderCode { get; set; }
+        int GenderId { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace GoodToCode.Entity.Person
     /// <summary>
     /// Person
     /// </summary>        
-    public interface IPerson
+    public interface IPerson : IGenderId
     {
         /// <summary>
         /// FirstName

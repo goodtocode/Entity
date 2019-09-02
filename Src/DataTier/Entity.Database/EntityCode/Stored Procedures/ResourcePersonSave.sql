@@ -5,7 +5,7 @@
 	@MiddleName			nvarchar(50),
 	@LastName			nvarchar(50),
 	@BirthDate			datetime,
-	@GenderCode			int,
+	@GenderId			int,
 	@ActivityContextKey	Uniqueidentifier
 AS
 	-- Local variables
@@ -32,8 +32,8 @@ AS
 				Select @PersonKey = IsNull(NullIf(@PersonKey, '00000000-0000-0000-0000-000000000000'), NewId())
 				Insert Into [Entity].[Entity] (EntityKey) Values (@PersonKey)
 				-- Create person record
-				Insert Into [Entity].[Person] (PersonKey, FirstName, MiddleName, LastName, BirthDate, GenderCode, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-					Values (@PersonKey, @FirstName, @MiddleName, @LastName, @BirthDate, @GenderCode, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[Person] (PersonKey, FirstName, MiddleName, LastName, BirthDate, GenderId, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
+					Values (@PersonKey, @FirstName, @MiddleName, @LastName, @BirthDate, @GenderId, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
                 -- Create Resource record
                 Select @ResourceKey = IsNull(NullIf(@ResourceKey, '00000000-0000-0000-0000-000000000000'), NewId())
 				Insert Into [Entity].[Resource] (ResourceKey, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
@@ -52,7 +52,7 @@ AS
 					P.MiddleName			= @MiddleName, 
 					P.LastName				= @LastName, 
 					P.BirthDate				= @BirthDate, 
-					P.GenderCode			= @GenderCode,
+					P.GenderId			= @GenderId,
 					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Person] P

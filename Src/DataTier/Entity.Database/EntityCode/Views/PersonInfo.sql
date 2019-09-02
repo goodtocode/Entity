@@ -6,7 +6,7 @@ Select	P.PersonId As [Id],
 		P.MiddleName, 
 		P.LastName,
 		P.BirthDate,
-		P.GenderCode, 
+		P.GenderId, 
 		P.ModifiedActivityKey As ActivityContextKey,
 		P.CreatedDate, 
 		P.ModifiedDate

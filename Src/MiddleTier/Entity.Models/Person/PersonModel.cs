@@ -40,6 +40,11 @@ namespace GoodToCode.Entity.Person
         public DateTime BirthDate { get; set; } = Defaults.Date;
 
         /// <summary>
+        /// Gender Id (ISO/IEC 5218)
+        /// </summary>
+        public int GenderId { get; set; } = Defaults.Int32;
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <remarks></remarks>

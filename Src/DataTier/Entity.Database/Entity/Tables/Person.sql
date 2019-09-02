@@ -5,7 +5,7 @@
     [MiddleName]            NVARCHAR (50)    CONSTRAINT [DF_Person_MiddleName] DEFAULT ('') NOT NULL,
     [LastName]              NVARCHAR (50)    CONSTRAINT [DF_Person_LastName] DEFAULT ('') NOT NULL,
     [BirthDate]             DATETIME         CONSTRAINT [DF_Person_BirthDate] DEFAULT ('01-01-1900') NOT NULL,
-	[GenderCode]	        INT			CONSTRAINT [DF_Person_GenderCode] DEFAULT(-1) NOT NULL,
+	[GenderId]	        INT			CONSTRAINT [DF_Person_GenderId] DEFAULT(-1) NOT NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_Person_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [CreatedActivityKey]    UNIQUEIDENTIFIER         CONSTRAINT [DF_Person_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [ModifiedActivityKey]   UNIQUEIDENTIFIER         CONSTRAINT [DF_Person_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
@@ -16,7 +16,7 @@
     CONSTRAINT [FK_Person_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
 	CONSTRAINT [FK_Person_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
 	CONSTRAINT [FK_Person_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_Person_Gender] FOREIGN KEY ([GenderCode]) REFERENCES [Entity].[Gender] ([GenderCode])
+	CONSTRAINT [FK_Person_Gender] FOREIGN KEY ([GenderId]) REFERENCES [Entity].[Gender] ([GenderId])
 );
 GO
 CREATE NonCLUSTERED INDEX [IX_Person_All] ON [Entity].[Person] ([FirstName] Asc, [MiddleName] Asc, [LastName] Asc, [BirthDate] Asc)

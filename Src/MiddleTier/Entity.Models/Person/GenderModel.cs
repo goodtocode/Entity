@@ -24,7 +24,7 @@ namespace GoodToCode.Entity.Person
         /// </summary>
         public List<KeyValuePair<int, string>> GenderSelections()
         {
-            return new List<KeyValuePair<int, string>>() { Genders.NotSet, Genders.Male, Genders.Female };
+            return new List<KeyValuePair<int, string>>() { Person.Genders.NotSet, Person.Genders.Male, Person.Genders.Female };
         }
 
         /// <summary>

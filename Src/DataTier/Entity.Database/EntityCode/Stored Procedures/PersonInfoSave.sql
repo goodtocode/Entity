@@ -5,7 +5,7 @@
 	@MiddleName			nvarchar(50),
 	@LastName			nvarchar(50),
 	@BirthDate			datetime,
-	@GenderCode			int,
+	@GenderId			int,
 	@ActivityContextKey	Uniqueidentifier
 AS
 	-- Local variables
@@ -34,8 +34,8 @@ AS
                     Values (@Key)
 				Select	@EntityId = SCOPE_IDENTITY()
 				-- Create person record
-				Insert Into [Entity].[Person] (PersonKey, FirstName, MiddleName, LastName, BirthDate, GenderCode, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-					Values (@Key, @FirstName, @MiddleName, @LastName, @BirthDate, @GenderCode, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[Person] (PersonKey, FirstName, MiddleName, LastName, BirthDate, GenderId, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
+					Values (@Key, @FirstName, @MiddleName, @LastName, @BirthDate, @GenderId, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
 				Select	@Id = SCOPE_IDENTITY()
 			End
 			Else
@@ -46,7 +46,7 @@ AS
 					P.MiddleName			= @MiddleName, 
 					P.LastName				= @LastName, 
 					P.BirthDate				= @BirthDate, 
-					P.GenderCode			= @GenderCode,
+					P.GenderId			= @GenderId,
 					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Person] P

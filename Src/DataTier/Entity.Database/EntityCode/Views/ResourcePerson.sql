@@ -10,7 +10,7 @@ Select	RP.ResourcePersonId As [Id],
 		P.MiddleName, 
 		P.LastName, 
 		P.BirthDate,
-		P.GenderCode, 
+		P.GenderId, 
 		RP.ModifiedActivityKey As ActivityContextKey,
 		RP.CreatedDate, 
 		RP.ModifiedDate

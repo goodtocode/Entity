@@ -1,0 +1,54 @@
+﻿@model GoodToCode.Entity.Person.PersonSearchModel
+@using GoodToCode.Extensions
+@using GoodToCode.Entity.Person
+
+<div id="section-search" class="section-light">
+    <div class="section-contents">
+        <form action="~/@(PersonSearchController.ControllerName)/@(PersonSearchController.SearchAction)" method="post" class="form-horizontal" role="form">
+            <div class="section-header">Find a Person</div>
+            @Html.AntiForgeryToken()
+            <div class="form-group row">
+                <div class="col-sm-3">Id</div>
+                <div class="col-sm-9">
+                    @Html.TextBox("Id", Model.Id, new { @id = "txtId", @class = "form-control", @Value = Model.Id == Defaults.Integer ? Defaults.String : Model.Id.ToString(), @placeholder = "Person Id" })
+                    @Html.ValidationMessageFor(m => m.Id, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3">First Name</div>
+                <div class="col-sm-9">
+                    @Html.TextBox("FirstName", Model.FirstName, new { @id = "txtFirstName", @class = "form-control", @placeholder = "Person First Name" })
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-3">Last Name</div>
+                <div class="col-sm-9">
+                    @Html.TextBox("LastName", Model.LastName, new { @id = "txtLastName", @class = "form-control", @placeholder = "Person Last Name" })
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <button id="btnSearchServer" type="submit" class="btn btn-primary">Search (Server-Side)</button>
+            <button id="btnSearchClient" type="button" class="btn btn-primary">Search (Client-Side)</button>
+        </form>
+        <div id="divSearch">
+            @await Html.PartialAsync(PersonSearchController.SearchResultsView, Model.Results)
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        $('#btnSearchClient').on('click', function () {
+            $.ajax({
+                url: '@Url.Action(PersonSearchController.SearchResultsAction, PersonSearchController.ControllerName)',
+                type: 'POST',
+                dataType: 'text',
+                data: { id: $("#txtId").val(), firstName: $("#txtFirstName").val(), lastName: $("#txtLastName").val() },
+                success: function (data) {
+                    $('#divSearch').html(data);
+                }
+            })
+        });
+    </script>
+}
