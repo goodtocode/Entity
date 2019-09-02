@@ -24,8 +24,6 @@ using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Configuration;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Person
@@ -38,14 +36,14 @@ namespace GoodToCode.Entity.Person
     {
         public const string ControllerName = "Person";
         public const string SummaryAction = "Summary";
-        public const string SummaryView = "PersonSummary.cshtml";
+        public const string SummaryView = "~/Pages/Person/PersonSummary.cshtml";
         public const string CreateAction = "Create";
         public const string CreateActionText = CreateAction;
-        public const string CreateView = "PersonCreate.cshtml";
+        public const string CreateView = "~/Pages/Person/PersonCreate.cshtml";
         public const string EditAction = "Edit";
-        public const string EditView = "PersonEdit.cshtml";
+        public const string EditView = "~/Pages/Person/PersonEdit.cshtml";
         public const string DeleteAction = "Delete";
-        public const string DeleteView = "PersonDelete.cshtml";
+        public const string DeleteView = "~/Pages/Person/PersonDelete.cshtml";
         public const string ResultMessage = "ResultMessage";
 
         private IHttpCrudService<PersonModel> crudService;
@@ -74,37 +72,15 @@ namespace GoodToCode.Entity.Person
         /// </summary>
         /// <returns>View rendered with model data</returns>
         [HttpGet, AllowAnonymous]
-        public ActionResult Summary(string id)
+        public async Task<ActionResult> Summary(string id)
         {
-            // Change to Web API call to resource server
+            var person = await crudService.Read(id.TryParseInt32());
+            if (person.IsNew)
+                TempData[ResultMessage] = "Person not found";
 
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = (id.IsInteger() ?
-            //    reader.GetById(id.TryParseInt32()) :
-            //    reader.GetByKey(id.TryParseGuid()));
-            //if (Person.IsNew)
-            //    TempData[ResultMessage] = "Person not found";
-
-            //return View(PersonController.SummaryView, Person.CastOrFill<PersonModel>());
-            return null;
+            return View(PersonController.SummaryView, person);
         }
 
-        /// <summary>
-        /// Person Summary with Edit/Delete functionality
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [AllowAnonymous]
-        [HttpPost()]
-        public ActionResult Summary(PersonModel model)
-        {
-            // Change to Web API call to resource server
-
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = reader.GetById(model.Id);
-            //return View(PersonController.EditView, Person.CastOrFill<PersonModel>());
-            return null;
-        }
         /// <summary>
         /// Displays entity for editing
         /// </summary>
@@ -123,20 +99,15 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public ActionResult Create(PersonModel model)
+        public async Task<ActionResult> Create(PersonModel model)
         {
-            // Change to Web API call to resource server
+            var person = await crudService.Create(model);
+            if (!person.IsNew)
+                TempData[ResultMessage] = "Successfully created";
+            else
+                TempData[ResultMessage] = "Failed to create";
 
-            //var Person = model.CastOrFill<PersonInfo>();
-
-            //Person = Person.Save();
-            //if (!Person.IsNew)
-            //    TempData[ResultMessage] = "Successfully created";
-            //else
-            //    TempData[ResultMessage] = "Failed to create";
-
-            //return View(PersonController.SummaryView, Person.CastOrFill<PersonModel>());
-            return null;
+            return View(PersonController.SummaryView, person);
         }
 
         /// <summary>
@@ -145,19 +116,13 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpGet()]
-        public ActionResult Edit(string id)
+        public async Task<ActionResult> Edit(string id)
         {
-            // Change to Web API call to resource server
-            // Change Edit to Update
+            var person = await crudService.Read(id.TryParseInt32());
+            if (person.IsNew)
+                TempData[ResultMessage] = "Person not found";
 
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = reader.GetById(id.TryParseInt32());
-
-            //if (Person.IsNew)
-            //    TempData[ResultMessage] = "No Person found";
-
-            //return View(PersonController.EditView, Person.CastOrFill<PersonModel>());
-            return null;
+            return View(PersonController.EditView, person);
         }
 
         /// <summary>
@@ -167,22 +132,15 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public ActionResult Edit(PersonModel model)
+        public async Task<ActionResult> Edit(PersonModel model)
         {
-            // Change to Web API call to resource server
-            // Change Edit to Update
+            var person = await crudService.Create(model);
+            if (!person.IsNew)
+                TempData[ResultMessage] = "Successfully saved";
+            else
+                TempData[ResultMessage] = "Failed to save";
 
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = model.CastOrFill<PersonInfo>();
-
-            //Person = Person.Save();
-            //if (!Person.IsNew)
-            //    TempData[ResultMessage] = "Successfully saved";
-            //else
-            //    TempData[ResultMessage] = "Failed to save";
-
-            //return View(PersonController.SummaryView, Person.CastOrFill<PersonModel>());
-            return null;
+            return View(PersonController.SummaryView, person);
         }
 
         /// <summary>
@@ -191,18 +149,13 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpGet()]
-        public ActionResult Delete(string id)
+        public async Task<ActionResult> Delete(string id)
         {
-            // Change to Web API call to resource server
+            var person = await crudService.Read(id.TryParseInt32());
+            if (person.IsNew)
+                TempData[ResultMessage] = "Person not found";
 
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = reader.GetById(id.TryParseInt32());
-
-            //if (Person.IsNew)
-            //    TempData[ResultMessage] = "No Person found";                
-
-            //return View(PersonController.DeleteView, Person.CastOrFill<PersonModel>());
-            return null;
+            return View(PersonController.DeleteView, person);
         }
 
         /// <summary>
@@ -212,21 +165,15 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public ActionResult Delete(PersonModel model)
+        public async Task<ActionResult> Delete(PersonModel model)
         {
-            // Change to Web API call to resource server
+            var person = await crudService.Create(model);
+            if (person.IsNew)
+                TempData[ResultMessage] = "Successfully deleted";
+            else
+                TempData[ResultMessage] = "Failed to delete";
 
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = reader.GetByKey(model.Key);
-
-            //Person = Person.Delete();
-            //if (Person.IsNew)
-            //    TempData[ResultMessage] = "Successfully deleted";
-            //else
-            //    TempData[ResultMessage] = "Failed to delete";
-
-            //return View(PersonSearchController.SearchView, Person.CastOrFill<PersonSearchModel>());
-            return null;
+            return View(PersonController.SummaryView, person);
         }
 
         /// <summary>
