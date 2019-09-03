@@ -1,5 +1,9 @@
 ﻿@using GoodToCode.Entity.Person;
 
+@{
+    var canConnect = false;// = await PersonController.CanConnect();
+}
+
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
@@ -29,7 +33,7 @@
                             <button class="btn btn-outline-primary" type="submit">Search</button>
                         </span>
                     </form>
-                    <small class="padding-xs">Database: @Html.Raw(await PersonController.CanConnect() ? "<span class='text-success'>[&#x2714;] Connected</span>" : "<strong><span class='text-danger'>[&#x2718;] Not connected</span></strong>")</small>
+                    <small class="padding-xs">Database: @Html.Raw(canConnect ? "<span class='text-success'>[&#x2714;] Connected</span>" : "<strong><span class='text-danger'>[&#x2718;] Not connected</span></strong>")</small>
                 </div>
             </div>
         </div>

@@ -183,13 +183,13 @@ namespace GoodToCode.Entity.Person
         public async static Task<bool> CanConnect()
         {
             var returnValue = Defaults.Boolean;
-            //var configuration = new ConfigurationManagerCore(ApplicationTypes.Native);
+            var configuration = new ConfigurationManagerCore(ApplicationTypes.Native);
 
-            //using (var client = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi"))
-            //{
-            //    await client.SendAsync();
-            //    returnValue = client.Response.IsSuccessStatusCode;
-            //}
+            using (var client = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi"))
+            {
+                await client.SendAsync();
+                returnValue = client.Response.IsSuccessStatusCode;
+            }
             return returnValue;
         }
     }
