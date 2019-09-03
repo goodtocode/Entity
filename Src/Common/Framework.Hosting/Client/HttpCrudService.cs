@@ -69,7 +69,7 @@ namespace GoodToCode.Framework.Hosting
         public async Task<TDto> Read(int id)
         {
             TDto returnData;
-            var uriId = new Uri($"{Uri.ToString().RemoveLast("/")}?Id={id.ToString()}");
+            var uriId = new Uri($"{Uri.ToString().RemoveLast("/")}/{id.ToString()}");
             using (var client = new HttpRequestGet<TDto>(uriId))
             {
                 returnData = await client.SendAsync();
@@ -80,7 +80,7 @@ namespace GoodToCode.Framework.Hosting
         public async Task<TDto> Read(Guid key)
         {
             TDto returnData;
-            var uriKey = new Uri($"{Uri.ToString().RemoveLast("/")}?Key={key.ToString()}");
+            var uriKey = new Uri($"{Uri.ToString().RemoveLast("/")}/{key.ToString()}");
             using (var client = new HttpRequestGet<TDto>(uriKey))
             {
                 returnData = await client.SendAsync();
