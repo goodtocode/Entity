@@ -43,7 +43,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpGet()]        
         public string Get()
         {
-            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}] {WebApiController.MessageUpAndRunning}";
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpPost()]
         public string Post()
         {
-            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}] {WebApiController.MessageUpAndRunning}";
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpPut()]
         public string Put()
         {
-            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}] {WebApiController.MessageUpAndRunning}";
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpDelete()]
         public string Delete()
         {
-            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}] {WebApiController.MessageUpAndRunning}";
+            return $"[{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development"}] {WebApiController.MessageUpAndRunning}";
         }
     }
 }
