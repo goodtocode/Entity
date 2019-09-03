@@ -18,6 +18,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using GoodToCode.Extensions;
+using GoodToCode.Extras.Text.Encoding;
 using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -96,16 +97,12 @@ namespace GoodToCode.Entity.Person
         /// <returns>Partial view of only the search results region</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public ActionResult SearchResults(string id, string firstName, string lastName)
+        public async Task<ActionResult> SearchResults(string id, string firstName, string lastName)
         {
-            var model = new PersonSearchModel() { Id = id.TryParseInt32(), Key = id.TryParseGuid(), FirstName = firstName, LastName = lastName };
-            //var searchResults = PersonInfo.GetByAny(model).Take(25);
-
-            //if (searchResults.Any())
-            //    model.Results.FillRange(searchResults);
-            //TempData[ResultMessage] = $"{model.Results.Count} matches found";
-
-            return PartialView(PersonSearchController.SearchResultsView, model.Results);
+            var query = $"{id}/{System.Web.HttpUtility.UrlEncode(firstName ?? " ")}/{System.Web.HttpUtility.UrlEncode(lastName ?? " ")}";
+            var searchResults = await crudService.Read(query);
+            TempData[ResultMessage] = $"{searchResults.Results.Count} matches found";
+            return PartialView(PersonSearchController.SearchResultsView, searchResults.Results);
         }
     }
 }

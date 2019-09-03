@@ -58,6 +58,7 @@ namespace GoodToCode.Framework.Hosting
         public async Task<TDto> Read(string query)
         {
             TDto returnData;
+            query = query.Replace("//", "/ /");
             var uriQuery = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
             using (var client = new HttpRequestGet<TDto>(uriQuery))
             {
