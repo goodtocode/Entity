@@ -1,7 +1,7 @@
 ﻿@using GoodToCode.Entity.Person;
 
 @{
-    var canConnect = false;// = await PersonController.CanConnect();
+    var canConnect = await PersonController.CanConnect();
 }
 
 <header>
