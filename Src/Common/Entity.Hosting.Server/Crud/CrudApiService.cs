@@ -5,7 +5,7 @@
 //using Microsoft.Extensions.DependencyInjection;
 //using System;
 
-//namespace GoodToCode.Framework.Hosting
+//namespace GoodToCode.Entity.Hosting
 //{
 //    /// <summary>
 //    /// Extension methods for setting up MVC services in an <see cref="IServiceCollection" />.

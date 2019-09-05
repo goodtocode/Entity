@@ -2,7 +2,7 @@
 //using Microsoft.AspNetCore.Routing;
 //using System;
 
-//namespace GoodToCode.Framework.Hosting
+//namespace GoodToCode.Entity.Hosting
 //{
 //    /// <summary>
 //    /// Extension methods for <see cref="IApplicationBuilder"/> to add Mvc to the request execution pipeline.

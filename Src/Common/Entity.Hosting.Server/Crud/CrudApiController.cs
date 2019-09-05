@@ -6,7 +6,7 @@
 //using Microsoft.AspNetCore.Mvc;
 //using System.Web.Http;
 
-//namespace GoodToCode.Framework.Hosting.Server
+//namespace GoodToCode.Entity.Hosting.Server
 //{
 
 //    /// <summary>

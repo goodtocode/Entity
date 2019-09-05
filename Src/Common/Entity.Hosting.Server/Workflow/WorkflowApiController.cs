@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GoodToCode.Framework.Hosting.Server
+namespace GoodToCode.Entity.Hosting.Server
 {
     class WorkflowApiController
     {

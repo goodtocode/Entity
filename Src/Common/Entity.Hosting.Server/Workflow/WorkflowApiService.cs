@@ -9,7 +9,7 @@
 //using Microsoft.AspNetCore.Mvc;
 //using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
-//namespace GoodToCode.Framework.Hosting
+//namespace GoodToCode.Entity.Hosting
 //{
 //    /// <summary>
 //    /// Extension methods for setting up MVC services in an <see cref="IServiceCollection" />.

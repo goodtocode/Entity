@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace GoodToCode.Framework.Hosting
+namespace GoodToCode.Entity.Hosting
 {
     public static partial class ServicesExtensions
     {

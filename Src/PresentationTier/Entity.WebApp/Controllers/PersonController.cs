@@ -20,7 +20,7 @@
 using GoodToCode.Extensions;
 using GoodToCode.Extras.Configuration;
 using GoodToCode.Extras.Net;
-using GoodToCode.Framework.Hosting;
+using GoodToCode.Entity.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
