@@ -1,8 +1,12 @@
 ﻿@using GoodToCode.Entity.Person;
 
+@{
+    var canConnect = await PersonController.CanConnect();
+}
+
 <header>
     <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
+        <div class="container">F
             <a class="navbar-brand" asp-area="" asp-page="/Index">GoodToCode Entities</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -29,7 +33,7 @@
                             <button class="btn btn-outline-primary" type="submit">Search</button>
                         </span>
                     </form>
-                    <small class="padding-xs">Database: @Html.Raw(await PersonController.CanConnect() ? "<span class='text-success'>[&#x2714;] Connected</span>" : "<strong><span class='text-danger'>[&#x2718;] Not connected</span></strong>")</small>
+                    <small class="padding-xs">Database: @Html.Raw(canConnect ? "<span class='text-success'>[&#x2714;] Connected</span>" : "<strong><span class='text-danger'>[&#x2718;] Not connected</span></strong>")</small>
                 </div>
             </div>
         </div>

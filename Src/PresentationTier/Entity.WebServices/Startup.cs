@@ -37,6 +37,11 @@ namespace GoodToCode.Entity.WebServices
                         .AllowCredentials());
             });
 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
+            });
+
             services
                 .AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
@@ -45,11 +50,6 @@ namespace GoodToCode.Entity.WebServices
                     options.SerializerSettings.ContractResolver
                         = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                 });
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -57,10 +57,6 @@ namespace GoodToCode.Entity.WebServices
         {
             if (env.IsDevelopment())
             {
-                // 1. Set "Development" environment vairable:
-                //  setx.exe ASPNETCORE_ENVIRONMENT "Development"
-                //  setx.exe ASPNETCORE_ENVIRONMENT "Development" /M
-                // 2. Add ?throw=true to URL
                 app.UseDeveloperExceptionPage();
             }
             else
