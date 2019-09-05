@@ -18,7 +18,6 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Text.Encoding;
 using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

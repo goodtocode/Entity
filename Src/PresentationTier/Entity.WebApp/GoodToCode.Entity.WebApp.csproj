@@ -14,7 +14,7 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Common\Framework.Hosting\GoodToCode.Framework.Hosting.csproj" />
+    <ProjectReference Include="..\..\Common\Entities.Hosting.Client\GoodToCode.Entities.Hosting.csproj" />
     <ProjectReference Include="..\..\MiddleTier\Entity.Models\GoodToCode.Entity.Models.csproj" />
   </ItemGroup>
 
