@@ -55,8 +55,8 @@
   <ItemGroup>
     <Content Include="Admin\app_offline.htm" />
     <Content Include="NuGet\Entity.DataAccess.Core.nuspec" />
-    <Content Include="NuGet\Entity.Abstractions.Standard.nuspec" />
-    <Content Include="NuGet\Entity.Models.Standard.nuspec" />
+    <Content Include="NuGet\Entity.Abstractions.nuspec" />
+    <Content Include="NuGet\Entity.Dto.nuspec" />
     <Content Include="NuGet\Entity.Web.Core.nuspec" />
     <Content Include="Keys\GoodToCodeEntity.snk" />
     <Content Include="Utility\GacUtil\gacutil.exe" />
@@ -127,6 +127,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NuGet\Entity.All.PresentationTier.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NuGet\Entity.Hosting.nuspec" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="NuGet\Entity.Hosting.Server.nuspec" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
