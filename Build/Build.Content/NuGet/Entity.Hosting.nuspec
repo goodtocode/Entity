@@ -18,6 +18,9 @@
       <group>
         <dependency id="GoodToCode.Extensions" version="4.0.0" />
         <dependency id="GoodToCode.Framework.Hosting" version="4.0.0" />
+        <dependency id="Microsoft.AspNetCore.Hosting.Abstractions" version="2.2.0" />
+        <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="2.2.0" />
+        <dependency id="Microsoft.Extensions.DependencyInjection.Abstractions" version="2.2.0" />
       </group>
     </dependencies>
   </metadata>
