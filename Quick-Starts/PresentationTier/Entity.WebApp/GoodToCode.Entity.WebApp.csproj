@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingDto>InProcess</AspNetCoreHostingDto>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19250.6" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19250.1" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19250.6" />
+    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.18.19250.6" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PreBuild.$(ConfigurationName).bat&quot; &quot;$(MSBuildProjectDirectory)&quot; &quot;$(ConfigurationName)&quot; &quot;$(ProjectName)&quot;" />
+  </Target>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PostBuild.$(ConfigurationName).bat&quot; &quot;$(MSBuildProjectDirectory)\$(OutDir)&quot; &quot;$(ConfigurationName)&quot; &quot;$(ProjectName)&quot;" />
+  </Target>
+</Project>

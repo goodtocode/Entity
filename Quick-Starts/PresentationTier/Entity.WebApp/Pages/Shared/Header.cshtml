@@ -1,0 +1,38 @@
+﻿@using GoodToCode.Extensions;
+@using GoodToCode.Entity.Person;
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <div class="container">F
+            <a class="navbar-brand" asp-area="" asp-page="/Index">GoodToCode Entities</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <ul class="navbar-nav flex-grow-1">
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="~/@(PersonSearchController.ControllerName)/@(PersonSearchController.SearchAction)">@(PersonSearchController.SearchActionText)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-dark" href="~/@(PersonController.ControllerName)/@(PersonController.CreateAction)">@(PersonController.CreateActionText)</a>
+                    </li>
+                </ul>
+                <div class="text-right">
+                    <form action="~/@(PersonSearchController.ControllerName)/@(PersonSearchController.SearchAction)" method="post" class="form-inline input-group-sm btn-group-sm">
+                        <span>
+                            <input name="Id" id="txtIdHeader" type="hidden" placeholder="Customer Id" value="-1">
+                            <input name="FirstName" id="txtFirstNameHeader" type="text" placeholder="First" value="" class="form-control col-md-2 mr-1">
+                            <input name="LastName" id="txtLastNameHeader" type="text" placeholder="Last" value="" class="form-control col-md-2 mr-1">
+                            <button class="btn btn-outline-primary" type="submit">Search</button>
+                        </span>
+                    </form>
+                    <small class="padding-xs">Database: @Html.Raw(TempData[PersonController.CanConnectAction].ToString().TryParseBoolean() ? "<span class='text-success'>[&#x2714;] Connected</span>" : "<strong><span class='text-danger'>[&#x2718;] Not connected</span></strong>")</small>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
