@@ -7,9 +7,9 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Collections;
-using GoodToCode.Extras.Data;
-using GoodToCode.Extras.Serialization;
+using GoodToCode.Extensions.Collections;
+using GoodToCode.Extensions.Data;
+using GoodToCode.Extensions.Serialization;
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Repository;
 using GoodToCode.Framework.Validation;

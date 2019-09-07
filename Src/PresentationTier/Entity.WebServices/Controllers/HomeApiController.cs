@@ -17,7 +17,7 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Extras.Web.Http;
+using GoodToCode.Extensions.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 
@@ -27,7 +27,7 @@ namespace GoodToCode.Entity.WebServices
     /// Default WebApi controller
     /// </summary>
     [Route(ControllerRoute)]
-    public class HomeApiController : WebApiController
+    public class HomeApiController : Controller
     {
         public const string ControllerName = "HomeApi";
         public const string ControllerRoute = "v4/HomeApi";

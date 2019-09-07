@@ -9,7 +9,7 @@
 using System;
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Data;
-using GoodToCode.Extras.Data;
+using GoodToCode.Extensions.Data;
 using GoodToCode.Framework.Name;
 
 namespace GoodToCode.Entity.Flow

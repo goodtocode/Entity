@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Event;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Data;
+using GoodToCode.Extensions.Data;
 using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Repository;

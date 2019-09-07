@@ -6,9 +6,6 @@
 //      without the prior written consent of the copyright owner.
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Extensions;
-using GoodToCode.Extras.Data;
-using GoodToCode.Framework.Data;
 using System;
 
 namespace GoodToCode.Entity.Application

@@ -173,11 +173,11 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Extensions.Core" Version="4.18.19241.8" />
-    <PackageReference Include="GoodToCode.Extensions.Standard" Version="4.18.19241.8" />
-    <PackageReference Include="GoodToCode.Framework.DataAccess.Core" Version="4.18.19241.5" />
-    <PackageReference Include="GoodToCode.Framework.Interop.Standard" Version="4.18.19241.5" />
-    <PackageReference Include="GoodToCode.Framework.Models.Standard" Version="4.18.19241.5" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19249.4" />
+    <PackageReference Include="GoodToCode.Extensions.Data" Version="4.18.19249.4" />
+    <PackageReference Include="GoodToCode.Extensions.Net" Version="4.18.19249.4" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19250.5" />
+    <PackageReference Include="GoodToCode.Framework.Data" Version="4.18.19250.5" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.6" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.1.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
@@ -185,7 +185,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\..\DataTier\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj" />
-    <ProjectReference Include="..\..\MiddleTier\Entity.Models\GoodToCode.Entity.Models.csproj" />
+    <ProjectReference Include="..\Entity.Dto\GoodToCode.Entity.Dto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

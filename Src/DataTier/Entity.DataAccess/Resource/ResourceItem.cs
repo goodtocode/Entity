@@ -8,8 +8,8 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Item;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Data;
-using GoodToCode.Extras.Text.Cleansing;
+using GoodToCode.Extensions.Data;
+using GoodToCode.Extensions.Text.Cleansing;
 using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Repository;

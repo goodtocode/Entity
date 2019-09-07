@@ -40,7 +40,7 @@ namespace GoodToCode.Entity.Person
         public const string SearchResultsView = "~/Pages/PersonSearch/PersonSearchResults.cshtml";
         public const string ResultMessage = "ResultMessage";
 
-        private IHttpCrudService<PersonSearchModel> crudService;
+        private IHttpCrudService<PersonSearchDto> crudService;
         
         /// <summary>
         /// Called right before action methods executed
@@ -56,7 +56,7 @@ namespace GoodToCode.Entity.Person
         /// Constructor
         /// </summary>
         /// <param name="crud"></param>
-        public PersonSearchController(IHttpCrudService<PersonSearchModel> crud)
+        public PersonSearchController(IHttpCrudService<PersonSearchDto> crud)
         {
             crudService = crud;
         }
@@ -69,7 +69,7 @@ namespace GoodToCode.Entity.Person
         [HttpGet()]
         public ActionResult Search()
         {            
-            return View(PersonSearchController.SearchView, new PersonSearchModel());
+            return View(PersonSearchController.SearchView, new PersonSearchDto());
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace GoodToCode.Entity.Person
         /// <returns>View of search parameters and any found results</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public async Task<ActionResult> Search(PersonModel data)
+        public async Task<ActionResult> Search(PersonDto data)
         {
             var query = $"{data.Key}/{data.FirstName}/{data.LastName}";
             var searchResults = await crudService.Read(query);

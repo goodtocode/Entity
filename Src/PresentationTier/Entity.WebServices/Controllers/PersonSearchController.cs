@@ -19,7 +19,7 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Web.Http;
+using GoodToCode.Extensions.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace GoodToCode.Entity.WebServices
     /// <summary>
     /// Searches for Person records    
     /// </summary>
-    public class PersonSearchController : WebApiController
+    public class PersonSearchController : Controller
     {
         public const string ControllerName = "PersonSearch";
         public const string ControllerRoute = "v4/PersonSearch";
@@ -50,7 +50,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpGet(ControllerRoute + "/{key}/{firstName}/{lastName}")]
         public IActionResult Get(string key = "-1", string firstName = "", string lastName = "")
         {
-            var returnValue = new PersonSearchModel() { Id = key.TryParseInt32(), Key = key.TryParseGuid(), FirstName = firstName, LastName = lastName };
+            var returnValue = new PersonSearchDto() { Id = key.TryParseInt32(), Key = key.TryParseGuid(), FirstName = firstName, LastName = lastName };
             var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(returnValue.FirstName) || x.LastName.Contains(returnValue.LastName) || x.Key == returnValue.Key).Take(100);
 
             if (searchResults.Any())
@@ -65,9 +65,9 @@ namespace GoodToCode.Entity.WebServices
         /// <param name="data">Model of type IPerson with results list</param>
         /// <returns>JSON of search parameters and any found results</returns>
         [HttpPost(ControllerRoute)]
-        public IActionResult Post([FromBody]PersonModel data)
+        public IActionResult Post([FromBody]PersonDto data)
         {
-            var model = new PersonSearchModel();
+            var model = new PersonSearchDto();
             var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(model.FirstName) || x.LastName.Contains(model.LastName) || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);
             var form = Request.ReadFormAsync();
             model.Fill(data);

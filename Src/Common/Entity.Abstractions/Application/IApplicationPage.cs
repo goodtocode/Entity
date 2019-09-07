@@ -8,7 +8,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using GoodToCode.Extras.Net;
+using GoodToCode.Extensions.Net;
 using GoodToCode.Entity.Device;
 
 namespace GoodToCode.Entity.Application

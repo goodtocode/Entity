@@ -19,8 +19,8 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Configuration;
-using GoodToCode.Extras.Web.Http;
+using GoodToCode.Extensions.Configuration;
+using GoodToCode.Extensions.Web.Http;
 using GoodToCode.Framework.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -30,7 +30,7 @@ namespace GoodToCode.Entity.WebServices
     /// <summary>
     /// Accepts HttpGet, HttpPut, HttpPost and HttpDelete operations on a Person
     /// </summary>
-    public class PersonController : WebApiController
+    public class PersonController : Controller
     {
         public const string ControllerName = "Person";
         public const string ControllerRoute = "v4/Person";
@@ -43,7 +43,7 @@ namespace GoodToCode.Entity.WebServices
         /// <summary>
         /// Retrieves Person by Id
         /// </summary>
-        /// <returns>Person that matches the Id, or initialized PersonModel for not found condition</returns>
+        /// <returns>Person that matches the Id, or initialized PersonDto for not found condition</returns>
         [HttpGet(ControllerRoute + "/{key}")]
         public IActionResult Get(string key)
         {
@@ -55,7 +55,7 @@ namespace GoodToCode.Entity.WebServices
             else
                 Person = reader.GetByKey(key.TryParseGuid());
 
-            return Ok(Person.CastOrFill<PersonModel>());
+            return Ok(Person.CastOrFill<PersonDto>());
         }
 
         /// <summary>
@@ -63,24 +63,24 @@ namespace GoodToCode.Entity.WebServices
         /// </summary>
         /// <returns></returns>
         [HttpPut(ControllerRoute)]
-        public IActionResult Put([FromBody]PersonModel model)
+        public IActionResult Put([FromBody]PersonDto model)
         {
             var Person = model.CastOrFill<PersonInfo>();
             Person = Person.Save();
-            return Ok(Person.CastOrFill<PersonModel>());
+            return Ok(Person.CastOrFill<PersonDto>());
         }
 
         /// <summary>
         /// Saves changes to a Person
         /// </summary>
         /// <param name="model">Full Person model worth of data with user changes</param>
-        /// <returns>PersonModel containing Person data</returns>
+        /// <returns>PersonDto containing Person data</returns>
         [HttpPost(ControllerRoute)]
-        public IActionResult Post([FromBody]PersonModel model)
+        public IActionResult Post([FromBody]PersonDto model)
         {
             var Person = model.CastOrFill<PersonInfo>();
             Person = Person.Save();
-            return Ok(Person.CastOrFill<PersonModel>());
+            return Ok(Person.CastOrFill<PersonDto>());
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace GoodToCode.Entity.WebServices
                 Person = reader.GetByKey(key.TryParseGuid());            
             Person = Person.Delete();
 
-            return Ok(Person.CastOrFill<PersonModel>());
+            return Ok(Person.CastOrFill<PersonDto>());
         }
 
         /// <summary>

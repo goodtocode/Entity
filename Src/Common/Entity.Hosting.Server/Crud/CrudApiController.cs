@@ -1,6 +1,6 @@
 ﻿//using System;
-//using GoodToCode.Extras.Configuration;
-//using GoodToCode.Extras.Net;
+//using GoodToCode.Extensions.Configuration;
+//using GoodToCode.Extensions.Net;
 //using System.Threading.Tasks;
 //using Microsoft.Extensions.Configuration;
 //using Microsoft.AspNetCore.Mvc;
@@ -18,7 +18,7 @@
 //    ///   U - HttpPost(TDto item)
 //    ///   D - HttpDelete(string idOrKey)
 //    /// </summary>
-//    public abstract class CrudApiController<TDto> : ApiController
+//    public abstract class CrudApiController<TDto> : Controller
 //    {
 //        public const string ControllerName = "Person";
 //        public const string ControllerRoute = "v4/Person";
@@ -31,7 +31,7 @@
 //        /// <summary>
 //        /// Retrieves Person by Id
 //        /// </summary>
-//        /// <returns>Person that matches the Id, or initialized PersonModel for not found condition</returns>
+//        /// <returns>Person that matches the Id, or initialized PersonDto for not found condition</returns>
 //        [HttpGet(ControllerRoute + "/{key}")]
 //        public IActionResult Get(string key)
 //        {
@@ -43,7 +43,7 @@
 //            else
 //                Person = reader.GetByKey(key.TryParseGuid());
 
-//            return Ok(Person.CastOrFill<PersonModel>());
+//            return Ok(Person.CastOrFill<PersonDto>());
 //        }
 
 //        /// <summary>
@@ -51,24 +51,24 @@
 //        /// </summary>
 //        /// <returns></returns>
 //        [HttpPut(ControllerRoute)]
-//        public IActionResult Put([FromBody]PersonModel model)
+//        public IActionResult Put([FromBody]PersonDto model)
 //        {
 //            var Person = model.CastOrFill<PersonInfo>();
 //            Person = Person.Save();
-//            return Ok(Person.CastOrFill<PersonModel>());
+//            return Ok(Person.CastOrFill<PersonDto>());
 //        }
 
 //        /// <summary>
 //        /// Saves changes to a Person
 //        /// </summary>
 //        /// <param name="model">Full Person model worth of data with user changes</param>
-//        /// <returns>PersonModel containing Person data</returns>
+//        /// <returns>PersonDto containing Person data</returns>
 //        [HttpPost(ControllerRoute)]
-//        public IActionResult Post([FromBody]PersonModel model)
+//        public IActionResult Post([FromBody]PersonDto model)
 //        {
 //            var Person = model.CastOrFill<PersonInfo>();
 //            Person = Person.Save();
-//            return Ok(Person.CastOrFill<PersonModel>());
+//            return Ok(Person.CastOrFill<PersonDto>());
 //        }
 
 //        /// <summary>
@@ -88,7 +88,7 @@
 //                Person = reader.GetByKey(key.TryParseGuid());
 //            Person = Person.Delete();
 
-//            return Ok(Person.CastOrFill<PersonModel>());
+//            return Ok(Person.CastOrFill<PersonDto>());
 //        }
 //    }
 //}

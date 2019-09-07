@@ -8,7 +8,7 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using System;
-using GoodToCode.Extras.Configuration;
+using GoodToCode.Extensions.Configuration;
 
 namespace GoodToCode.Entity.Common
 {

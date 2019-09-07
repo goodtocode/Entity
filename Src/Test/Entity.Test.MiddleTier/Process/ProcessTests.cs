@@ -10,7 +10,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Serialization;
+using GoodToCode.Extensions.Serialization;
 using GoodToCode.Entity.Application;
 using GoodToCode.Entity.Person;
 using GoodToCode.Framework.Worker;
@@ -34,13 +34,12 @@ namespace GoodToCode.Entity.Process
         [TestMethod()]
         public void Process_SessionContextKnownType()
         {
+            var Context = new SessionContext(Environment.MachineName, Applications.Sandbox.ToString(), Environment.UserName);
+            var Person = new PersonDto() { FirstName = "First", MiddleName = "Middle", LastName = "Last", BirthDate = DateTime.UtcNow.AddYears(-41) };
+            var Item2 = new WorkerParameter<PersonDto>() { Context = Context, DataIn = Person };
+            var Serializer2 = new JsonSerializer<WorkerParameter<PersonDto>>();
             // Initialize
-            String DataToSendSerialized2 = Defaults.String;
-            SessionContext Context = new SessionContext(Environment.MachineName, Applications.Sandbox.ToString(), Environment.UserName);
-            PersonModel Person = new PersonModel() { FirstName = "First", MiddleName = "Middle", LastName = "Last", BirthDate = DateTime.UtcNow.AddYears(-41) };
-            WorkerParameter<PersonModel> Item2 = new WorkerParameter<PersonModel>() { Context = Context, DataIn = Person };
-            ISerializer<WorkerParameter<PersonModel>> Serializer2 = new JsonSerializer<WorkerParameter<PersonModel>>();
-            DataToSendSerialized2 = Serializer2.Serialize(Item2);
+            var DataToSendSerialized2 = Serializer2.Serialize(Item2);
 
             // Test Serialization            
             Assert.IsTrue(DataToSendSerialized2 != Defaults.String, "Did not work");
@@ -53,19 +52,18 @@ namespace GoodToCode.Entity.Process
         [TestMethod()]
         public void Process_WorkerParameterSerialize()
         {
-            // Initialize
-            String dataToSendSerialized = Defaults.String;
-            SessionContext context = new SessionContext(Environment.MachineName, Applications.Sandbox.ToString(), Environment.UserName);
-            PersonModel person = new PersonModel() { FirstName = "First", MiddleName = "Middle", LastName = "Last", BirthDate = DateTime.UtcNow.AddYears(-41) };
-            WorkerParameter<PersonModel> item = new WorkerParameter<PersonModel>() { Context = context, DataIn = person };
-            ISerializer<WorkerParameter<PersonModel>> Serializer = new JsonSerializer<WorkerParameter<PersonModel>>
+            var context = new SessionContext(Environment.MachineName, Applications.Sandbox.ToString(), Environment.UserName);
+            var person = new PersonDto() { FirstName = "First", MiddleName = "Middle", LastName = "Last", BirthDate = DateTime.UtcNow.AddYears(-41) };
+            var item = new WorkerParameter<PersonDto>() { Context = context, DataIn = person };
+            var Serializer = new JsonSerializer<WorkerParameter<PersonDto>>
             {
                 // Disable deserialization exceptions, we want mismatches to be empty string
                 ThrowException = false
             };
 
+            // Initialize
             // Test Item2 Serialization
-            dataToSendSerialized = Serializer.Serialize(item);
+            var dataToSendSerialized = Serializer.Serialize(item);
             Assert.IsTrue(dataToSendSerialized != Defaults.String, "Did not work");
             item = Serializer.Deserialize(dataToSendSerialized);
             Assert.IsTrue(item != null, "Did not work.");
@@ -78,14 +76,13 @@ namespace GoodToCode.Entity.Process
         [TestMethod()]
         public void Process_WorkerResultSerialize()
         {
-            // Initialize
-            String DataToSendSerialized = Defaults.String;
-            SessionContext Item1 = new SessionContext(Environment.MachineName, Applications.Sandbox.ToString(), Environment.UserName);
-            ISerializer<ISessionContext> Serializer1 = new JsonSerializer<ISessionContext>();
-            ISerializer<SessionContext> Serializer2 = new JsonSerializer<SessionContext>();
+            var Item1 = new SessionContext(Environment.MachineName, Applications.Sandbox.ToString(), Environment.UserName);
+            var Serializer1 = new JsonSerializer<ISessionContext>();
+            var Serializer2 = new JsonSerializer<SessionContext>();
 
+            // Initialize
             // Test Serialization
-            DataToSendSerialized = Serializer1.Serialize(Item1);
+            var DataToSendSerialized = Serializer1.Serialize(Item1);
             Assert.IsTrue(DataToSendSerialized != Defaults.String, "Did not work");
 
             // Test Serialization

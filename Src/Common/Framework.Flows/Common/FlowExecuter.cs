@@ -9,7 +9,7 @@
 //using GoodToCode.Entity.Activity;
 //using GoodToCode.Framework.Flow;
 //using GoodToCode.Extensions;
-//using GoodToCode.Extras.Collections;
+//using GoodToCode.Extensions.Collections;
 //using GoodToCode.Framework.Session;
 //using GoodToCode.Framework.Worker;
 //using System;

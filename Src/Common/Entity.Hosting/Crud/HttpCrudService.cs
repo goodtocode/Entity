@@ -1,5 +1,5 @@
 ﻿using GoodToCode.Extensions;
-using GoodToCode.Extras.Net;
+using GoodToCode.Extensions.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

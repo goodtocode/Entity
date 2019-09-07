@@ -8,8 +8,8 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Configuration;
-using GoodToCode.Extras.Mathematics;
+using GoodToCode.Extensions.Configuration;
+using GoodToCode.Extensions.Mathematics;
 using GoodToCode.Framework.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;

@@ -18,13 +18,13 @@
 // </copyright>
 //-----------------------------------------------------------------------
 using GoodToCode.Extensions;
-using GoodToCode.Extras.Configuration;
-using GoodToCode.Extras.Net;
+using GoodToCode.Extensions.Net;
 using GoodToCode.Entity.Hosting;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace GoodToCode.Entity.Person
 {
@@ -45,8 +45,10 @@ namespace GoodToCode.Entity.Person
         public const string DeleteAction = "Delete";
         public const string DeleteView = "~/Pages/Person/PersonDelete.cshtml";
         public const string ResultMessage = "ResultMessage";
+        public const string CanConnectAction = "CanConnect";
 
-        private IHttpCrudService<PersonModel> crudService;
+        private IHttpCrudService<PersonDto> crudService;
+        private IConfiguration configuration;
 
         /// <summary>
         /// Called right before action methods executed
@@ -62,9 +64,10 @@ namespace GoodToCode.Entity.Person
         /// Constructor
         /// </summary>
         /// <param name="crud"></param>
-        public PersonController(IHttpCrudService<PersonModel> crud)
+        public PersonController(IHttpCrudService<PersonDto> crud, IConfiguration config)
         {
             crudService = crud;
+            configuration = config;
         }
 
         /// <summary>
@@ -89,7 +92,7 @@ namespace GoodToCode.Entity.Person
         [HttpGet()]
         public ActionResult Create()
         {
-            return View(PersonController.CreateView, new PersonModel());
+            return View(PersonController.CreateView, new PersonDto());
         }
 
         /// <summary>
@@ -99,7 +102,7 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public async Task<ActionResult> Create(PersonModel model)
+        public async Task<ActionResult> Create(PersonDto model)
         {
             var person = await crudService.Create(model);
             if (!person.IsNew)
@@ -132,7 +135,7 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public async Task<ActionResult> Edit(PersonModel model)
+        public async Task<ActionResult> Edit(PersonDto model)
         {
             var person = await crudService.Create(model);
             if (!person.IsNew)
@@ -165,7 +168,7 @@ namespace GoodToCode.Entity.Person
         /// <returns>View rendered with model data</returns>
         [AllowAnonymous]
         [HttpPost()]
-        public async Task<ActionResult> Delete(PersonModel model)
+        public async Task<ActionResult> Delete(PersonDto model)
         {
             var person = await crudService.Create(model);
             if (person.IsNew)
@@ -180,16 +183,18 @@ namespace GoodToCode.Entity.Person
         /// Can connect to the database?
         /// </summary>
         /// <returns></returns>
-        public async static Task<bool> CanConnect()
+        public async Task<bool> CanConnect()
         {
             var returnValue = Defaults.Boolean;
-            var configuration = new ConfigurationManagerCore(ApplicationTypes.Native);
+            var url = configuration["AppSettings:MyWebService"];
 
-            using (var client = new HttpRequestGetString(configuration.AppSettingValue("MyWebService") + "/HomeApi"))
+            using (var client = new HttpRequestGetString($"{url}/HomeApi"))
             {
                 await client.SendAsync();
                 returnValue = client.Response.IsSuccessStatusCode;
             }
+            TempData[CanConnectAction] = returnValue.ToString();
+
             return returnValue;
         }
     }

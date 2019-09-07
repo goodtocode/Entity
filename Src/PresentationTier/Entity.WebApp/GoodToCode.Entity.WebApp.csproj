@@ -2,12 +2,14 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <AspNetCoreHostingDto>InProcess</AspNetCoreHostingDto>
   </PropertyGroup>
 
 
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Extensions.Core" Version="4.18.19241.8" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19249.4" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19250.5" />
+    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.18.19250.5" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
@@ -15,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Entity.Hosting\GoodToCode.Entity.Hosting.csproj" />
-    <ProjectReference Include="..\..\MiddleTier\Entity.Models\GoodToCode.Entity.Models.csproj" />
+    <ProjectReference Include="..\Entity.Dto\GoodToCode.Entity.Dto.csproj" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

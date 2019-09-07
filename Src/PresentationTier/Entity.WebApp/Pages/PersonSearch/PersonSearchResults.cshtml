@@ -1,4 +1,4 @@
-﻿@model System.Collections.Generic.IEnumerable<GoodToCode.Entity.Person.PersonModel>
+﻿@model System.Collections.Generic.IEnumerable<GoodToCode.Entity.Person.PersonDto>
 
 @using GoodToCode.Entity.Person
 
@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (PersonModel item in Model)
+                @foreach (PersonDto item in Model)
                 {
                     var url = Url.Action(PersonController.SummaryAction, PersonController.ControllerName, new { id = item.Id });
                     <tr>
