@@ -63,9 +63,9 @@ Restore-Solution -Path $Solution -Configuration Debug -DevEnv $True
 # Update version
 Update-ContentsByTag -Path $Nuget -Value (Get-Version -Major 4) -Open '<version>' -Close '</version>' -Include *.nuspec
 
-# NuGet: Abstractions.Standard
+# NuGet: Abstractions
 $AssemblyPath=[String]::Format("{0}\*.Abstractions.*", $Lib)
-$NuGetSpecFile = [String]::Format("{0}\{1}.Abstractions.Standard.nuspec", $Nuget, $ProductName)
+$NuGetSpecFile = [String]::Format("{0}\{1}.Abstractions.nuspec", $Nuget, $ProductName)
 Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
 Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
@@ -77,9 +77,9 @@ Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overw
 Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
 
-# NuGet: Models.Standard
+# NuGet: Dto
 $AssemblyPath=[String]::Format("{0}\*.Models.*", $Lib)
-$NuGetSpecFile = [String]::Format("{0}\{1}.Models.Standard.nuspec", $Nuget, $ProductName)
+$NuGetSpecFile = [String]::Format("{0}\{1}.Dto.nuspec", $Nuget, $ProductName)
 Copy-Recurse -Path $AssemblyPath -Destination $BuildFull -Include *.nupkg -Overwrite $false
 Copy-Recurse -Path $AssemblyPath -Destination $PathFull -Include *.nupkg -Overwrite $false
 Add-NuGet -Path $Lib -NuSpec $NuGetSpecFile
