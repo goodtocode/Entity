@@ -19,7 +19,6 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
-using GoodToCode.Extensions.Web.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
