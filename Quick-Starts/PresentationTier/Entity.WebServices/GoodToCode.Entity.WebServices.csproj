@@ -173,7 +173,9 @@
   </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19250.6" />
+    <PackageReference Include="GoodToCode.Entity.DataAccess.Core" Version="4.18.19250.7" />
+    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19250.7" />
+    <PackageReference Include="GoodToCode.Entity.Hosting.Server" Version="4.18.19250.8" />
     <PackageReference Include="GoodToCode.Extensions" Version="4.18.19250.1" />
     <PackageReference Include="GoodToCode.Extensions.Data" Version="4.18.19250.1" />
     <PackageReference Include="GoodToCode.Extensions.Net" Version="4.18.19250.1" />
