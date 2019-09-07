@@ -11,13 +11,13 @@
     <Version>3.18.2</Version>
     <Authors>Robert J. Good</Authors>
     <Company>GoodToCode</Company>
-    <Product>GoodToCode.Entity.Abstractions.Standard</Product>
+    <Product>GoodToCode.Entity.Abstractions</Product>
     <RootNamespace>GoodToCode.Entity</RootNamespace>
     <AssemblyName>GoodToCode.Entity.Abstractions</AssemblyName>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\GoodToCode.Entity.Abstractions.Standard.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\netstandard2.0\GoodToCode.Entity.Abstractions.xml</DocumentationFile>
   </PropertyGroup>
   
   <ItemGroup>
