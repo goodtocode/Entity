@@ -1,11 +1,22 @@
-﻿////-----------------------------------------------------------------------
-//// <copyright file="FlowInteropManager.cs" company="GoodToCode">
-////      Copyright (c) GoodToCode. All rights reserved.
-////      All rights are reserved. Reproduction or transmission in whole or in part, in
-////      any form or by any means, electronic, mechanical or otherwise, is prohibited
-////      without the prior written consent of the copyright owner.
-//// </copyright>
-////-----------------------------------------------------------------------
+﻿//-----------------------------------------------------------------------
+// <copyright file="" company="GoodToCode">
+//      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
+// </copyright>
+//-----------------------------------------------------------------------
 //using System;
 //using GoodToCode.Extensions;
 //using GoodToCode.Entity.Activity;
@@ -18,7 +29,7 @@
 //    /// Handles workflow interop of data and types across tiers
 //    /// </summary>
 //    /// <typeparam name="TDataInInterface">Type of the data to be sent to the workflow</typeparam>
-    
+
 //    public abstract class FlowInteropManager<TDataInInterface> : IFlowInteropManager<TDataInInterface>, IActivitySessionflowId
 //    {
 //        /// <summary>
@@ -31,7 +42,7 @@
 //        /// </summary>
 //        protected WorkerParameter<TDataInInterface> parameterField = new WorkerParameter<TDataInInterface>();
 //        private WorkerResult result = new WorkerResult();
-        
+
 //        /// <summary>
 //        /// Sessionflow activity is the Id of activity of all user experience elements (screen flows, queue messages, etc.)
 //        /// </summary>
@@ -93,7 +104,7 @@
 //        {
 //            ActivitySessionflowId = sessionActivityFlowId;
 //        }
-        
+
 //        /// <summary>
 //        /// Sets the url and propagates changes through object
 //        /// </summary>

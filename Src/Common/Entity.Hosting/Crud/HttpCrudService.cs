@@ -1,4 +1,23 @@
-﻿using GoodToCode.Extensions;
+﻿//-----------------------------------------------------------------------
+// <copyright file="HttpRequestDelete.cs" company="GoodToCode">
+//      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
+//      Licensed to the Apache Software Foundation (ASF) under one or more 
+//      contributor license agreements.  See the NOTICE file distributed with 
+//      this work for additional information regarding copyright ownership.
+//      The ASF licenses this file to You under the Apache License, Version 2.0 
+//      (the 'License'); you may not use this file except in compliance with 
+//      the License.  You may obtain a copy of the License at 
+//       
+//        http://www.apache.org/licenses/LICENSE-2.0 
+//       
+//       Unless required by applicable law or agreed to in writing, software  
+//       distributed under the License is distributed on an 'AS IS' BASIS, 
+//       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  
+//       See the License for the specific language governing permissions and  
+//       limitations under the License. 
+// </copyright>
+//-----------------------------------------------------------------------
+using GoodToCode.Extensions;
 using GoodToCode.Extensions.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +29,12 @@ namespace GoodToCode.Entity.Hosting
 {
     public static partial class ServicesExtensions
     {
+        /// <summary>
+        /// Adds Http-based CRUD services to .NET Core Dependency Injection
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
         public static IServiceCollection AddHttpCrud<TDto>(this IServiceCollection services) where TDto : new()
         {
             if (services == null)
@@ -19,16 +44,12 @@ namespace GoodToCode.Entity.Hosting
         }
     }
 
-    public interface IHttpCrudService<TDto>
-    {
-        Task<TDto> Create(TDto item);
-        Task<TDto> Read(string query);
-        Task<TDto> Read(int id);
-        Task<TDto> Read(Guid key);
-        Task<TDto> Update(TDto item);
-        Task<string> Delete(TDto item);
-    }
-
+    /// <summary>
+    /// Provides Http-based CRUD services based on:
+    ///  1. A single set of RESTful endpoints (i.e. configuration["AppSettings:MyWebService"])
+    ///  2. A single Type of Dto in requests/responses
+    /// </summary>
+    /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
     public class HttpCrudService<TDto> : IHttpCrudService<TDto> where TDto : new()
     {
         private readonly IHostingEnvironment hostingEnvironment;
@@ -36,8 +57,17 @@ namespace GoodToCode.Entity.Hosting
 
         private string uriRoot => configuration["AppSettings:MyWebService"];
         private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
+
+        /// <summary>
+        /// Uri of the CRUD RESTful endpoint
+        /// </summary>
         public Uri Uri { get; set; }
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="environment"></param>
+        /// <param name="config"></param>
         public HttpCrudService(IHostingEnvironment environment, IConfiguration config)
         {
             hostingEnvironment = environment;
@@ -45,6 +75,11 @@ namespace GoodToCode.Entity.Hosting
             Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
         }
 
+        /// <summary>
+        /// Creates an item in the system
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Created item, with updated Id/Key (if applicable)</returns>
         public async Task<TDto> Create(TDto item)
         {
             TDto returnData;
@@ -55,6 +90,12 @@ namespace GoodToCode.Entity.Hosting
             return await Task.Run(() => returnData);
         }
 
+        /// <summary>
+        /// Reads an item from the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="query">Querystring parameters that will result in one item returned</param>
+        /// <returns>Item from the system</returns>
         public async Task<TDto> Read(string query)
         {
             TDto returnData;
@@ -67,6 +108,12 @@ namespace GoodToCode.Entity.Hosting
             return await Task.Run(() => returnData);
         }
 
+        /// <summary>
+        /// Reads an item from the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="id">Id of the item to return</param>
+        /// <returns>Item from the system</returns>
         public async Task<TDto> Read(int id)
         {
             TDto returnData;
@@ -78,6 +125,12 @@ namespace GoodToCode.Entity.Hosting
             return await Task.Run(() => returnData);
         }
 
+        /// <summary>
+        /// Reads an item from the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="key">Key of the item to return</param>
+        /// <returns>Item from the system</returns>
         public async Task<TDto> Read(Guid key)
         {
             TDto returnData;
@@ -89,6 +142,12 @@ namespace GoodToCode.Entity.Hosting
             return await Task.Run(() => returnData);
         }
 
+        /// <summary>
+        /// Reads an item from the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="item">item to update</param>
+        /// <returns>Item from the system</returns>
         public async Task<TDto> Update(TDto item)
         {
             TDto returnData;
@@ -99,6 +158,12 @@ namespace GoodToCode.Entity.Hosting
             return await Task.Run(() => returnData);
         }
 
+        /// <summary>
+        /// Deletes an item in the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="item">item to delete</param>
+        /// <returns>Item from the system</returns>
         public async Task<string> Delete(TDto item)
         {
             string returnData;
