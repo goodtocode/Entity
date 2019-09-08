@@ -78,6 +78,6 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item">item to delete</param>
         /// <returns>Item from the system</returns>
-        Task<string> Delete(TDto item);
+        Task<bool> Delete(TDto item);
     }
 }

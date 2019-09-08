@@ -164,12 +164,12 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item">item to delete</param>
         /// <returns>Item from the system</returns>
-        public async Task<string> Delete(TDto item)
+        public async Task<bool> Delete(TDto item)
         {
-            string returnData;
+            bool returnData;
             using (var client = new HttpRequestDelete(Uri))
             {
-                returnData = await client.SendAsync();
+                returnData = await client.DeleteAsync();
             }
             return await Task.Run(() => returnData);
         }

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19249.4" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19251.1" />
   </ItemGroup>
 
 </Project>
