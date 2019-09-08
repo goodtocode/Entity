@@ -38,7 +38,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item"></param>
         /// <returns>Created item, with updated Id/Key (if applicable)</returns>
-        Task<TDto> Create(TDto item);
+        Task<TDto> CreateAsync(TDto item);
 
         /// <summary>
         /// Reads an item from the system
@@ -46,7 +46,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="query">Querystring parameters that will result in one item returned</param>
         /// <returns>Item from the system</returns>
-        Task<TDto> Read(string query);
+        Task<TDto> ReadAsync(string query);
 
         /// <summary>
         /// Reads an item from the system
@@ -54,7 +54,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="id">Id of the item to return</param>
         /// <returns>Item from the system</returns>
-        Task<TDto> Read(int id);
+        Task<TDto> ReadAsync(int id);
 
         /// <summary>
         /// Reads an item from the system
@@ -62,7 +62,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="key">Key of the item to return</param>
         /// <returns>Item from the system</returns>
-        Task<TDto> Read(Guid key);
+        Task<TDto> ReadAsync(Guid key);
 
         /// <summary>
         /// Updates an item in the system
@@ -70,7 +70,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item">item to update</param>
         /// <returns>Item from the system</returns>
-        Task<TDto> Update(TDto item);
+        Task<TDto> UpdateAsync(TDto item);
 
         /// <summary>
         /// Deletes an item in the system
@@ -78,6 +78,6 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item">item to delete</param>
         /// <returns>Item from the system</returns>
-        Task<bool> Delete(TDto item);
+        Task<bool> DeleteAsync(TDto item);
     }
 }

@@ -39,7 +39,7 @@ namespace GoodToCode.Entity.Hosting
 
     public interface IFileService
     {
-        Task<bool> Save(string path, string file, byte[] content);
+        Task<bool> SaveAsync(string path, string file, byte[] content);
     }
 
     public class FileService : IFileService
@@ -51,7 +51,7 @@ namespace GoodToCode.Entity.Hosting
             hostingEnvironment = environment;
         }
 
-        public async Task<bool> Save(string path, string file, byte[] content)
+        public async Task<bool> SaveAsync(string path, string file, byte[] content)
         {
             Directory.CreateDirectory(Path.Combine(path));
             File.AppendAllText(Path.Combine(path, file), content.ToString());

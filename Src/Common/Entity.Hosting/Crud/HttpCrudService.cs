@@ -80,7 +80,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item"></param>
         /// <returns>Created item, with updated Id/Key (if applicable)</returns>
-        public async Task<TDto> Create(TDto item)
+        public async Task<TDto> CreateAsync(TDto item)
         {
             TDto returnData;
             using (var client = new HttpRequestPut<TDto>(Uri, item))
@@ -96,7 +96,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="query">Querystring parameters that will result in one item returned</param>
         /// <returns>Item from the system</returns>
-        public async Task<TDto> Read(string query)
+        public async Task<TDto> ReadAsync(string query)
         {
             TDto returnData;
             query = query.Replace("//", "/ /");
@@ -114,7 +114,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="id">Id of the item to return</param>
         /// <returns>Item from the system</returns>
-        public async Task<TDto> Read(int id)
+        public async Task<TDto> ReadAsync(int id)
         {
             TDto returnData;
             var uriId = new Uri($"{Uri.ToString().RemoveLast("/")}/{id.ToString()}");
@@ -131,7 +131,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="key">Key of the item to return</param>
         /// <returns>Item from the system</returns>
-        public async Task<TDto> Read(Guid key)
+        public async Task<TDto> ReadAsync(Guid key)
         {
             TDto returnData;
             var uriKey = new Uri($"{Uri.ToString().RemoveLast("/")}/{key.ToString()}");
@@ -148,7 +148,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item">item to update</param>
         /// <returns>Item from the system</returns>
-        public async Task<TDto> Update(TDto item)
+        public async Task<TDto> UpdateAsync(TDto item)
         {
             TDto returnData;
             using (var client = new HttpRequestPost<TDto>(Uri, item))
@@ -164,7 +164,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="item">item to delete</param>
         /// <returns>Item from the system</returns>
-        public async Task<bool> Delete(TDto item)
+        public async Task<bool> DeleteAsync(TDto item)
         {
             bool returnData;
             using (var client = new HttpRequestDelete(Uri))

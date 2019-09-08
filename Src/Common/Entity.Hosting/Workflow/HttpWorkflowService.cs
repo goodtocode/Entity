@@ -37,7 +37,7 @@ namespace GoodToCode.Entity.Hosting
 
     public interface IHttpWorkflowService
     {
-        Task<bool> Process(string path, string file, byte[] content);
+        Task<bool> ProcessAsync(string path, string file, byte[] content);
     }
 
     public class HttpWorkflowService : IHttpWorkflowService
@@ -49,7 +49,7 @@ namespace GoodToCode.Entity.Hosting
             this.hostingEnvironment = environment;
         }
 
-        public async Task<bool> Process(string path, string file, byte[] content)
+        public async Task<bool> ProcessAsync(string path, string file, byte[] content)
         {
             return await Task.Run(() => true);
         }
