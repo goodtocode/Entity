@@ -70,80 +70,93 @@ namespace GoodToCode.Entity.Hosting
             return builder.UseMiddleware<HealthCheckMiddleware>(path, connectString);
         }
     }
-    public interface IHttpQueryService1<TDto>
-    {
-        /// <summary>
-        /// Reads an item from the system
-        /// Constrained to 1 item. Search using Queryflow
-        /// </summary>
-        /// <param name="query">Querystring parameters that will result in one item returned</param>
-        /// <returns>Item from the system</returns>
-        Task<List<TDto>> QueryAsync(string query);
-    }
-    public static partial class ServicesExtensions
-    {
-        /// <summary>
-        /// Adds Http-based Query services to .NET Core Dependency Injection
-        /// </summary>
-        /// <typeparam name="TDto"></typeparam>
-        /// <param name="services"></param>
-        /// <returns></returns>
-        public static IServiceCollection AddHttpQuery1<TDto>(this IServiceCollection services) where TDto : new()
-        {
-            if (services == null)
-                throw new ArgumentNullException(nameof(services));
 
-            return services.AddTransient<IHttpQueryService1<TDto>, HttpQueryService1<TDto>>();
-        }
-    }
 
-    /// <summary>
-    /// Provides Http-based Query services based on:
-    ///  1. A single set of RESTful endpoints (i.e. configuration["AppSettings:MyWebService"])
-    ///  2. A single Type of Dto in requests/responses
-    /// </summary>
-    /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
-    public class HttpQueryService1<TDto> : IHttpQueryService1<TDto> where TDto : new()
-    {
-        private readonly IHostingEnvironment hostingEnvironment;
-        private readonly IConfiguration configuration;
 
-        private string uriRoot => configuration["AppSettings:MyWebService"];
-        private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
+    ///// <summary>
+    ///// HttpSearchService contract
+    ///// </summary>
+    ///// <typeparam name="TDto"></typeparam>
+    //public interface IHttpSearchService<TDto>
+    //{
+    //    /// <summary>
+    //    /// Reads an item from the system
+    //    /// Constrained to 1 item. Search using Queryflow
+    //    /// </summary>
+    //    /// <param name="query">Querystring parameters that will result in one item returned</param>
+    //    /// <returns>Item from the system</returns>
+    //    Task<List<TDto>> QueryAsync(string query);
+    //}
+    //public static partial class ServicesExtensions
+    //{
+    //    /// <summary>
+    //    /// Adds Http-based Query services to .NET Core Dependency Injection
+    //    /// </summary>
+    //    /// <typeparam name="TDto"></typeparam>
+    //    /// <param name="services"></param>
+    //    /// <returns></returns>
+    //    public static IServiceCollection AddHttpSearch<TDto>(this IServiceCollection services) where TDto : new()
+    //    {
+    //        if (services == null)
+    //            throw new ArgumentNullException(nameof(services));
 
-        /// <summary>
-        /// Uri of the Query RESTful endpoint
-        /// </summary>
-        public Uri Uri { get; set; }
+    //        return services.AddTransient<IHttpSearchService<TDto>, HttpSearchService<TDto>>();
+    //    }
+    //}
 
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="environment"></param>
-        /// <param name="config"></param>
-        public HttpQueryService1(IHostingEnvironment environment, IConfiguration config)
-        {
-            hostingEnvironment = environment;
-            configuration = config;
-            Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
-        }
+    ///// <summary>
+    ///// Provides Http-based Query services based on:
+    /////  1. A single set of RESTful endpoints. Default is: configuration["AppSettings:MyWebService"]
+    /////  2. A single Type of Dto in requests/responses. TDto
+    ///// </summary>
+    ///// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
+    //public class HttpSearchService<TDto> : IHttpSearchService<TDto> where TDto : new()
+    //{
+    //    private readonly IConfiguration configuration;
 
-        /// <summary>
-        /// Reads an item from the system
-        /// Constrained to 1 item. Search using Queryflow
-        /// </summary>
-        /// <param name="query">Querystring parameters that will result in one item returned</param>
-        /// <returns>Item from the system</returns>
-        public async Task<List<TDto>> QueryAsync(string query)
-        {
-            List<TDto> returnData;
-            query = query.Replace("//", "/ /");
-            var uriQuery = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
-            using (var client = new HttpRequestGet<List<TDto>>(uriQuery))
-            {
-                returnData = await client.SendAsync();
-            }
-            return await Task.Run(() => returnData);
-        }
-    }
+    //    private string uriRoot => configuration["AppSettings:MyWebService"];
+    //    private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
+
+    //    /// <summary>
+    //    /// Uri of the Query RESTful endpoint
+    //    /// </summary>
+    //    public Uri Uri { get; set; }
+
+    //    /// <summary>
+    //    /// Constructor
+    //    /// </summary>
+    //    /// <param name="optionSearch"></param>
+    //    public HttpSearchService(IOptions<UriOption> optionSearch)
+    //    {
+    //        Uri = optionSearch.Value.Url;
+    //    }
+
+    //    /// <summary>
+    //    /// Constructor
+    //    /// </summary>
+    //    /// <param name="config"></param>
+    //    public HttpSearchService(IConfiguration config)
+    //    {
+    //        configuration = config;
+    //        Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
+    //    }
+
+    //    /// <summary>
+    //    /// Reads an item from the system
+    //    /// Constrained to 1 item. Search using Queryflow
+    //    /// </summary>
+    //    /// <param name="query">Querystring parameters that will result in one item returned</param>
+    //    /// <returns>Item from the system</returns>
+    //    public async Task<List<TDto>> QueryAsync(string query)
+    //    {
+    //        List<TDto> returnData;
+    //        query = query.Replace("//", "/ /");
+    //        var uriQuery = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
+    //        using (var client = new HttpRequestGet<List<TDto>>(uriQuery))
+    //        {
+    //            returnData = await client.SendAsync();
+    //        }
+    //        return await Task.Run(() => returnData);
+    //    }
+    //}
 }

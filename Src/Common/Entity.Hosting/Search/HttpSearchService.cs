@@ -29,7 +29,7 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
-    public static partial class ServicesExtensions
+    public static partial class HttpSearchServicesExtensions
     {
         /// <summary>
         /// Adds Http-based Query services to .NET Core Dependency Injection

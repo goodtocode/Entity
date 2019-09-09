@@ -28,7 +28,7 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
-    public static partial class ServicesExtensions
+    public static partial class HttpCrudServicesExtensions
     {
         /// <summary>
         /// Adds Http-based CRUD services to .NET Core Dependency Injection

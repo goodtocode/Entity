@@ -26,7 +26,7 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
-    public static partial class ServicesExtensions
+    public static partial class FileServicesExtensions
     {
         public static IServiceCollection AddFileIo(this IServiceCollection services)
         {
