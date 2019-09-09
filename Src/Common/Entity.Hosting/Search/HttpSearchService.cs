@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="HttpQueryService.cs" company="GoodToCode">
+// <copyright file="HttpSearchService.cs" company="GoodToCode">
 //      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
 //      Licensed to the Apache Software Foundation (ASF) under one or more 
 //      contributor license agreements.  See the NOTICE file distributed with 
@@ -36,12 +36,12 @@ namespace GoodToCode.Entity.Hosting
         /// <typeparam name="TDto"></typeparam>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddHttpQuery<TDto>(this IServiceCollection services) where TDto : new()
+        public static IServiceCollection AddHttpSearch<TDto>(this IServiceCollection services) where TDto : new()
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            return services.AddTransient<IHttpQueryService<TDto>, HttpQueryService<TDto>>();
+            return services.AddTransient<IHttpSearchService<TDto>, HttpSearchService<TDto>>();
         }
     }
 
@@ -51,7 +51,7 @@ namespace GoodToCode.Entity.Hosting
     ///  2. A single Type of Dto in requests/responses
     /// </summary>
     /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
-    public class HttpQueryService<TDto> : IHttpQueryService<TDto> where TDto : new()
+    public class HttpSearchService<TDto> : IHttpSearchService<TDto> where TDto : new()
     {
         private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration configuration;
@@ -69,7 +69,7 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="environment"></param>
         /// <param name="config"></param>
-        public HttpQueryService(IHostingEnvironment environment, IConfiguration config)
+        public HttpSearchService(IHostingEnvironment environment, IConfiguration config)
         {
             hostingEnvironment = environment;
             configuration = config;

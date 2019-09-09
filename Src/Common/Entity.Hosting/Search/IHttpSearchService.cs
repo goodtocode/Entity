@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IHttpQueryService.cs" company="GoodToCode">
+// <copyright file="IHttpSearchService.cs" company="GoodToCode">
 //      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
 //      Licensed to the Apache Software Foundation (ASF) under one or more 
 //      contributor license agreements.  See the NOTICE file distributed with 
@@ -23,10 +23,10 @@ using System.Threading.Tasks;
 namespace GoodToCode.Entity.Hosting
 {
     /// <summary>
-    /// HttpQueryService contract
+    /// HttpSearchService contract
     /// </summary>
     /// <typeparam name="TDto"></typeparam>
-    public interface IHttpQueryService<TDto>
+    public interface IHttpSearchService<TDto>
     {        
         /// <summary>
         /// Reads an item from the system
