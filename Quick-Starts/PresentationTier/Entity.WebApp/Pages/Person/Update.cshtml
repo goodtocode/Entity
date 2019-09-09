@@ -1,0 +1,62 @@
+﻿@page
+@model GoodToCode.Entity.Person.UpdateModel
+
+@using GoodToCode.Extensions
+@using GoodToCode.Entity.Person
+
+@{
+    ViewData["Title"] = "Person Update";
+}
+<h1>Update</h1>
+
+<h4>Update a new Person</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Person.FirstName" class="control-label"></label>
+                <input asp-for="Person.FirstName" class="form-control" />
+                <span asp-validation-for="Person.FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.LastName" class="control-label"></label>
+                <input asp-for="Person.LastName" class="form-control" />
+                <span asp-validation-for="Person.LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.BirthDate" class="control-label"></label>
+                <input type="date" asp-for="Person.BirthDate" placeholder="YYYY-MM-DD" value="@(Model.Person.BirthDate == Defaults.Date ? Defaults.String : Model.Person.BirthDate.ToString("yyyy-MM-dd"))" class="form-control" />
+                <span asp-validation-for="Person.BirthDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Person.GenderId" class="control-label"></label>
+                <select asp-for="Person.GenderId" class="form-control" asp-items="@(new SelectList(GenderList.GetAll(), "Key", "Value", Model.Person.GenderId))"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-10 ">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    @Html.ValidationSummary(false, UpdateModel.ValidationSummaryMessage, new { @class = "text-danger" })
+                }
+                else
+                {
+                    <p class="text-info">@TempData[UpdateModel.ResultMessage]</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

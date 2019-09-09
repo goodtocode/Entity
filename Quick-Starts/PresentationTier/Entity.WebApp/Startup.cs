@@ -29,8 +29,10 @@ namespace GoodToCode.Entity.WebApp
             });
 
             // Add Get, Put, Post, Delete calls as CRUD-aligned requests
-            services.AddHttpCrud<PersonDto>()
-                .AddHttpCrud<PersonSearchDto>();
+            services.AddHttpCrud<PersonDto>();
+            services.AddHttpQuery1<PersonSearchDto>();
+
+            // Mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 

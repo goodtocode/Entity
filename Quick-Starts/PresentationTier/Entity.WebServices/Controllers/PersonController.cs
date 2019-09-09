@@ -20,7 +20,6 @@
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
 using GoodToCode.Extensions.Configuration;
-using GoodToCode.Extensions.Web.Http;
 using GoodToCode.Framework.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
@@ -47,13 +46,14 @@ namespace GoodToCode.Entity.WebServices
         [HttpGet(ControllerRoute + "/{key}")]
         public IActionResult Get(string key)
         {
-            var reader = new EntityReader<PersonInfo>();
             var Person = new PersonInfo();
-
-            if (key.IsInteger())
-                Person = reader.GetById(key.TryParseInt32());
-            else
-                Person = reader.GetByKey(key.TryParseGuid());
+            using (var reader = new EntityReader<PersonInfo>())
+            {
+                if (key.IsInteger())
+                    Person = reader.GetById(key.TryParseInt32());
+                else
+                    Person = reader.GetByKey(key.TryParseGuid());
+            }
 
             return Ok(Person.CastOrFill<PersonDto>());
         }
@@ -91,13 +91,14 @@ namespace GoodToCode.Entity.WebServices
         [HttpDelete(ControllerRoute + "/{key}")]
         public IActionResult Delete(string key)
         {
-            var reader = new EntityReader<PersonInfo>();
             var Person = new PersonInfo();
-            
-            if(key.IsInteger())
-                Person = reader.GetById(key.TryParseInt32());
-            else
-                Person = reader.GetByKey(key.TryParseGuid());            
+            using (var reader = new EntityReader<PersonInfo>())
+            {
+                if (key.IsInteger())
+                    Person = reader.GetById(key.TryParseInt32());
+                else
+                    Person = reader.GetByKey(key.TryParseGuid());
+            }
             Person = Person.Delete();
 
             return Ok(Person.CastOrFill<PersonDto>());
