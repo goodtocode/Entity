@@ -29,6 +29,9 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
+    /// <summary>
+    /// Extensions for Services
+    /// </summary>
     public static partial class HttpSearchServicesExtensions
     {
         /// <summary>
@@ -54,11 +57,6 @@ namespace GoodToCode.Entity.Hosting
     /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
     public class HttpSearchService<TDto> : IHttpSearchService<TDto> where TDto : new()
     {
-        private readonly IConfiguration configuration;
-
-        private string uriRoot => configuration["AppSettings:MyWebService"];
-        private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
-
         /// <summary>
         /// Uri of the Query RESTful endpoint
         /// </summary>
@@ -71,16 +69,6 @@ namespace GoodToCode.Entity.Hosting
         public HttpSearchService(IOptions<UriOption> optionSearch)
         {
             Uri = optionSearch.Value.Url;
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="config"></param>
-        public HttpSearchService(IConfiguration config)
-        {
-            configuration = config;
-            Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
         }
 
         /// <summary>
