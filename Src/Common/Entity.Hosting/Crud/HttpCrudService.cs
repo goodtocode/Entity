@@ -22,6 +22,7 @@ using GoodToCode.Extensions.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Threading.Tasks;
 
@@ -66,13 +67,20 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="environment"></param>
         /// <param name="config"></param>
-        public HttpCrudService(IHostingEnvironment environment, IConfiguration config)
+        public HttpCrudService(IConfiguration config)
         {
-            hostingEnvironment = environment;
             configuration = config;
             Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="optionSearch"></param>
+        public HttpCrudService(IOptions<UriOption> optionSearch)
+        {
+            Uri = optionSearch.Value.Url;
         }
 
         /// <summary>

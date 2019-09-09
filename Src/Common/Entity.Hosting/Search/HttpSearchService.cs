@@ -22,6 +22,7 @@ using GoodToCode.Extensions.Net;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -47,13 +48,12 @@ namespace GoodToCode.Entity.Hosting
 
     /// <summary>
     /// Provides Http-based Query services based on:
-    ///  1. A single set of RESTful endpoints (i.e. configuration["AppSettings:MyWebService"])
-    ///  2. A single Type of Dto in requests/responses
+    ///  1. A single set of RESTful endpoints. Default is: configuration["AppSettings:MyWebService"]
+    ///  2. A single Type of Dto in requests/responses. TDto
     /// </summary>
     /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
     public class HttpSearchService<TDto> : IHttpSearchService<TDto> where TDto : new()
     {
-        private readonly IHostingEnvironment hostingEnvironment;
         private readonly IConfiguration configuration;
 
         private string uriRoot => configuration["AppSettings:MyWebService"];
@@ -67,11 +67,18 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="environment"></param>
-        /// <param name="config"></param>
-        public HttpSearchService(IHostingEnvironment environment, IConfiguration config)
+        /// <param name="optionSearch"></param>
+        public HttpSearchService(IOptions<UriOption> optionSearch)
         {
-            hostingEnvironment = environment;
+            Uri = optionSearch.Value.Url;
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="config"></param>
+        public HttpSearchService(IConfiguration config)
+        {
             configuration = config;
             Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
         }
