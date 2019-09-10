@@ -65,10 +65,10 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="optionSearch"></param>
-        public HttpSearchService(IOptions<UriOption> optionSearch)
+        /// <param name="optionUrl"></param>
+        public HttpSearchService(IOptions<UriOption> optionUrl)
         {
-            Uri = optionSearch.Value.Url;
+            Uri = optionUrl.Value.Url;
         }
 
         /// <summary>

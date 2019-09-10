@@ -1,18 +1,18 @@
 ﻿using GoodToCode.Extensions;
 using GoodToCode.Extensions.Net;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
+
+    #region HealthCheck
     public class HealthCheckMiddleware
     {
         private readonly RequestDelegate next;
@@ -70,93 +70,122 @@ namespace GoodToCode.Entity.Hosting
             return builder.UseMiddleware<HealthCheckMiddleware>(path, connectString);
         }
     }
+    #endregion
 
+    #region UriOptions
+    public interface IUriOption
+    {
+        Uri Url { get; set; }
+    }
+    public class UriOption : IUriOption
+    {
+        public Uri Url { get; set; }
+    }
+    #endregion
 
+    #region IHttpService
+    public interface IHttpService
+    {
+        /// <summary>
+        /// Response from the request
+        /// </summary>
+        HttpResponseMessage Response { get; set; }
+    }
+    #endregion
 
-    ///// <summary>
-    ///// HttpSearchService contract
-    ///// </summary>
-    ///// <typeparam name="TDto"></typeparam>
-    //public interface IHttpSearchService<TDto>
-    //{
-    //    /// <summary>
-    //    /// Reads an item from the system
-    //    /// Constrained to 1 item. Search using Queryflow
-    //    /// </summary>
-    //    /// <param name="query">Querystring parameters that will result in one item returned</param>
-    //    /// <returns>Item from the system</returns>
-    //    Task<List<TDto>> QueryAsync(string query);
-    //}
-    //public static partial class ServicesExtensions
-    //{
-    //    /// <summary>
-    //    /// Adds Http-based Query services to .NET Core Dependency Injection
-    //    /// </summary>
-    //    /// <typeparam name="TDto"></typeparam>
-    //    /// <param name="services"></param>
-    //    /// <returns></returns>
-    //    public static IServiceCollection AddHttpSearch<TDto>(this IServiceCollection services) where TDto : new()
-    //    {
-    //        if (services == null)
-    //            throw new ArgumentNullException(nameof(services));
+    #region HttpSearch
+    public interface IHttpSearchService<TDto> : IHttpService
+    {
+        /// <summary>
+        /// Uri of the Query RESTful endpoint
+        /// </summary>
+        Uri Uri { get; set; }
 
-    //        return services.AddTransient<IHttpSearchService<TDto>, HttpSearchService<TDto>>();
-    //    }
-    //}
+        /// <summary>
+        /// Querystring parameters, well formed
+        /// </summary>
+        Uri FullUri { get; set; }
 
-    ///// <summary>
-    ///// Provides Http-based Query services based on:
-    /////  1. A single set of RESTful endpoints. Default is: configuration["AppSettings:MyWebService"]
-    /////  2. A single Type of Dto in requests/responses. TDto
-    ///// </summary>
-    ///// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
-    //public class HttpSearchService<TDto> : IHttpSearchService<TDto> where TDto : new()
-    //{
-    //    private readonly IConfiguration configuration;
+        /// <summary>
+        /// Reads an item from the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="query">Querystring parameters that will result in one item returned</param>
+        /// <returns>Item from the system</returns>
+        Task<List<TDto>> QueryAsync(string query);
+    }
 
-    //    private string uriRoot => configuration["AppSettings:MyWebService"];
-    //    private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
+    /// <summary>
+    /// Extensions for Services
+    /// </summary>
+    public static partial class HttpSearchServicesExtensions
+    {
+        /// <summary>
+        /// Adds Http-based Query services to .NET Core Dependency Injection
+        /// </summary>
+        /// <typeparam name="TDto"></typeparam>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddHttpSearch<TDto>(this IServiceCollection services) where TDto : new()
+        {
+            if (services == null)
+                throw new ArgumentNullException(nameof(services));
 
-    //    /// <summary>
-    //    /// Uri of the Query RESTful endpoint
-    //    /// </summary>
-    //    public Uri Uri { get; set; }
+            return services.AddTransient<IHttpSearchService<TDto>, HttpSearchService<TDto>>();
+        }
+    }
 
-    //    /// <summary>
-    //    /// Constructor
-    //    /// </summary>
-    //    /// <param name="optionSearch"></param>
-    //    public HttpSearchService(IOptions<UriOption> optionSearch)
-    //    {
-    //        Uri = optionSearch.Value.Url;
-    //    }
+    /// <summary>
+    /// Provides Http-based Query services based on:
+    ///  1. A single set of RESTful endpoints. Default is: configuration["AppSettings:MyWebService"]
+    ///  2. A single Type of Dto in requests/responses. TDto
+    /// </summary>
+    /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
+    public class HttpSearchService<TDto> :  IHttpSearchService<TDto> where TDto : new()
+    {
+        /// <summary>
+        /// Uri of the Query RESTful endpoint
+        /// </summary>
+        public Uri Uri { get; set; } = Defaults.Uri;
 
-    //    /// <summary>
-    //    /// Constructor
-    //    /// </summary>
-    //    /// <param name="config"></param>
-    //    public HttpSearchService(IConfiguration config)
-    //    {
-    //        configuration = config;
-    //        Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
-    //    }
+        /// <summary>
+        /// RESTful endpoint Uri + Querystring parameters, well formed
+        /// </summary>
+        public Uri FullUri { get; set; } = Defaults.Uri;
 
-    //    /// <summary>
-    //    /// Reads an item from the system
-    //    /// Constrained to 1 item. Search using Queryflow
-    //    /// </summary>
-    //    /// <param name="query">Querystring parameters that will result in one item returned</param>
-    //    /// <returns>Item from the system</returns>
-    //    public async Task<List<TDto>> QueryAsync(string query)
-    //    {
-    //        List<TDto> returnData;
-    //        query = query.Replace("//", "/ /");
-    //        var uriQuery = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
-    //        using (var client = new HttpRequestGet<List<TDto>>(uriQuery))
-    //        {
-    //            returnData = await client.SendAsync();
-    //        }
-    //        return await Task.Run(() => returnData);
-    //    }
-    //}
+        /// <summary>
+        /// Response from the request
+        /// </summary>
+        public HttpResponseMessage Response { get; set; }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="optionUrl"></param>
+        public HttpSearchService(IOptions<UriOption> optionUrl)
+        {
+            if(optionUrl.Value.Url != null)
+                Uri = optionUrl.Value.Url;
+        }
+
+        /// <summary>
+        /// Reads an item from the system
+        /// Constrained to 1 item. Search using Queryflow
+        /// </summary>
+        /// <param name="query">Querystring parameters that will result in one item returned</param>
+        /// <returns>Item from the system</returns>
+        public async Task<List<TDto>> QueryAsync(string query)
+        {
+            List<TDto> returnData;
+            query = query.Replace("//", "/ /");
+            FullUri = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
+            using (var client = new HttpRequestGet<List<TDto>>(FullUri))
+            {
+                returnData = await client.SendAsync();
+                Response = client.Response;
+            }
+            return await Task.Run(() => returnData);
+        }
+    }
+    #endregion
 }

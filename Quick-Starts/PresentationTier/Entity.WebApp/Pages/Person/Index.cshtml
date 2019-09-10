@@ -28,54 +28,55 @@
     </div>
 </form>
 
-<table class="table">
-    @*Markup removed for brevity.*@
-
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Results[0].FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Results[0].LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Results[0].GenderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Results[0].BirthDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Results[0].Key)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.Results)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GenderId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BirthDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Key)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Key">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Key">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Key">Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+@if (Model.Results?.Count > 0)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Results[0].FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Results[0].LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Results[0].GenderId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Results[0].BirthDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Results[0].Key)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Results)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GenderId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BirthDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Key)
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Key">Edit</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Key">Details</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Key">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -53,12 +53,6 @@ namespace GoodToCode.Entity.Hosting
     /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
     public class HttpCrudService<TDto> : IHttpCrudService<TDto> where TDto : new()
     {
-        private readonly IHostingEnvironment hostingEnvironment;
-        private readonly IConfiguration configuration;
-
-        private string uriRoot => configuration["AppSettings:MyWebService"];
-        private string controllerPath => typeof(TDto).Name.RemoveLast("Model").RemoveLast("Info");
-
         /// <summary>
         /// Uri of the CRUD RESTful endpoint
         /// </summary>
@@ -67,20 +61,10 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="config"></param>
-        public HttpCrudService(IConfiguration config)
+        /// <param name="optionUrl"></param>
+        public HttpCrudService(IOptions<UriOption> optionUrl)
         {
-            configuration = config;
-            Uri = new Uri(uriRoot.AddLast("/") + controllerPath.RemoveFirst("/").RemoveLast("/"));
-        }
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="optionSearch"></param>
-        public HttpCrudService(IOptions<UriOption> optionSearch)
-        {
-            Uri = optionSearch.Value.Url;
+            Uri = optionUrl.Value.Url;
         }
 
         /// <summary>

@@ -66,12 +66,12 @@ namespace GoodToCode.Entity.WebServices
         [HttpPost(ControllerRoute)]
         public IActionResult Post([FromBody]PersonDto data)
         {
-            var model = new PersonSearchDto();
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(model.FirstName) || x.LastName.Contains(model.LastName) || x.BirthDate == model.BirthDate || x.Key == model.Key || x.Id == model.Id).Take(25);
+            var model = new List<PersonDto>();
+            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(25);
             var form = Request.ReadFormAsync();
             model.Fill(data);
             if (searchResults.Any())
-                model.Results.FillRange(searchResults);
+                model.FillRange(searchResults);
 
             return Ok(model);
         }     
