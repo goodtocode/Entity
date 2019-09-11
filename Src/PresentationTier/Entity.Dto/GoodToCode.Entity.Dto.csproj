@@ -13,7 +13,7 @@
     <Version>3.18.2</Version>
     <Authors>Robert J. Good</Authors>
     <Company>GoodToCode</Company>
-    <Product>GoodToCode.Entity.Models.Standard</Product>
+    <Product>GoodToCode.Entity.Dto</Product>
     <RootNamespace>GoodToCode.Entity</RootNamespace>
     <AssemblyName>GoodToCode.Entity.Dto</AssemblyName>
   </PropertyGroup>
