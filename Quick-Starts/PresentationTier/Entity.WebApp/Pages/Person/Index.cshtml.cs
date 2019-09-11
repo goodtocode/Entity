@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Person
     {
         public const string ResultMessage = "Result";
         public const string ValidationSummaryMessage = "ValidationSummary";
-        private IHttpSearchService<PersonDto> queryService;
+        private readonly IHttpSearchService<PersonDto> queryService;
 
         [BindProperty]
         public PersonDto Criteria { get; set; }
@@ -42,7 +42,7 @@ namespace GoodToCode.Entity.Person
             Results = await queryService.QueryAsync(query);
             TempData[ResultMessage] = $"{Results.Count} matches found";
 
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

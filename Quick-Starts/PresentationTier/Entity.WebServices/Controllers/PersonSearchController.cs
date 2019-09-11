@@ -28,6 +28,7 @@ namespace GoodToCode.Entity.WebServices
     /// <summary>
     /// Searches for Person records    
     /// </summary>
+    [Produces("application/json")]
     public class PersonSearchController : Controller
     {
         public const string ControllerName = "PersonSearch";
@@ -35,6 +36,7 @@ namespace GoodToCode.Entity.WebServices
         public const string GetActionText = "Search";
         public const string GetAction = "Get";
         public const string PostAction = "Post";
+        public const int MaxRecords = 500;
 
         /// <summary>
         /// Parameterized HttpGet search, refreshing only the results region
@@ -46,16 +48,18 @@ namespace GoodToCode.Entity.WebServices
         /// <param name="firstName">String - Text to search in first name</param>
         /// <param name="lastName">String - Text to search in the last name field</param>
         /// <returns>Partial view of only the search results region</returns>
-        [HttpGet(ControllerRoute + "/{key}/{firstName}/{lastName}")]
-        public IActionResult Get(string key = "-1", string firstName = "", string lastName = "")
+        [HttpGet(ControllerRoute + "/{idOrKey}/{firstName}/{lastName}")]
+        public IEnumerable<IPerson> Get(string idOrKey = "", string firstName = "", string lastName = "")
         {
-            var returnValue = new PersonSearchDto() { Id = key.TryParseInt32(), Key = key.TryParseGuid(), FirstName = firstName, LastName = lastName };
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(returnValue.FirstName) || x.LastName.Contains(returnValue.LastName) || x.Key == returnValue.Key).Take(100);
+            var returnValue = new List<PersonDto>();
+            var id = idOrKey.TryParseInt32();
+            var key = idOrKey.TryParseGuid();
+            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(firstName) || x.LastName.Contains(lastName) || x.Key == key || x.Id == id).Take(MaxRecords);
 
             if (searchResults.Any())
-                returnValue.Results.FillRange(searchResults);
+                returnValue.FillRange(searchResults);
 
-            return Ok(returnValue);
+            return returnValue;
         }
 
         /// <summary>
@@ -64,16 +68,10 @@ namespace GoodToCode.Entity.WebServices
         /// <param name="data">Model of type IPerson with results list</param>
         /// <returns>JSON of search parameters and any found results</returns>
         [HttpPost(ControllerRoute)]
-        public IActionResult Post([FromBody]PersonDto data)
+        public IEnumerable<IPerson> Post([FromBody]PersonDto data)
         {
-            var model = new List<PersonDto>();
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(25);
-            var form = Request.ReadFormAsync();
-            model.Fill(data);
-            if (searchResults.Any())
-                model.FillRange(searchResults);
-
-            return Ok(model);
+            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(MaxRecords);
+            return searchResults;
         }     
     }
 }

@@ -1,6 +1,8 @@
 ﻿@page
 @model GoodToCode.Entity.Person.IndexModel
 
+@using  GoodToCode.Entity.Person;
+
 @{
     ViewData["Title"] = "Index";
 }
@@ -27,7 +29,18 @@
         <input type="submit" value="Search" class="btn btn-primary" />
     </div>
 </form>
-
+<div class="row">
+    <div class="col-xs-offset-1 col-xs-10 ">
+        @if (!ViewData.ModelState.IsValid)
+        {
+            @Html.ValidationSummary(false, "Action resulted in...", new { @class = "text-danger" })
+        }
+        else
+        {
+            <p class="text-info">@TempData[IndexModel.ResultMessage]</p>
+        }
+    </div>
+</div>
 @if (Model.Results?.Count > 0)
 {
     <table class="table">
