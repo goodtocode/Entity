@@ -19,12 +19,11 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Extensions;
 using GoodToCode.Extensions.Net;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
@@ -60,7 +59,17 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Uri of the Query RESTful endpoint
         /// </summary>
-        public Uri Uri { get; set; }
+        public Uri Uri { get; set; } = Defaults.Uri;
+
+        /// <summary>
+        /// RESTful endpoint Uri + Querystring parameters, well formed
+        /// </summary>
+        public Uri FullUri { get; set; } = Defaults.Uri;
+
+        /// <summary>
+        /// Response from the request
+        /// </summary>
+        public HttpResponseMessage Response { get; set; }
 
         /// <summary>
         /// Constructor
@@ -68,7 +77,8 @@ namespace GoodToCode.Entity.Hosting
         /// <param name="optionUrl"></param>
         public HttpSearchService(IOptions<UriOption> optionUrl)
         {
-            Uri = optionUrl.Value.Url;
+            if (optionUrl.Value.Url != null)
+                Uri = optionUrl.Value.Url;
         }
 
         /// <summary>
@@ -81,10 +91,11 @@ namespace GoodToCode.Entity.Hosting
         {
             List<TDto> returnData;
             query = query.Replace("//", "/ /");
-            var uriQuery = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
-            using (var client = new HttpRequestGet<List<TDto>>(uriQuery))
+            FullUri = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
+            using (var client = new HttpRequestGet<List<TDto>>(FullUri))
             {
                 returnData = await client.SendAsync();
+                Response = client.Response;
             }
             return await Task.Run(() => returnData);
         }

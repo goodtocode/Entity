@@ -17,9 +17,7 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Threading.Tasks;
+using System.Net.Http;
 
 namespace GoodToCode.Entity.Hosting
 {
