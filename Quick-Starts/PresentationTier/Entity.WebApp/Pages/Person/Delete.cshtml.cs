@@ -44,7 +44,7 @@ namespace GoodToCode.Entity.Person
             else
                 TempData[ResultMessage] = "Failed to Delete";
 
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

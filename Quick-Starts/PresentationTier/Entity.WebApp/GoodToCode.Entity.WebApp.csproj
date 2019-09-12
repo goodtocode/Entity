@@ -5,18 +5,6 @@
     <AspNetCoreHostingDto>InProcess</AspNetCoreHostingDto>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Pages\Person\Create.cshtml.cs" />
-    <Compile Remove="Pages\Person\Delete.cshtml.cs" />
-    <Compile Remove="Pages\Person\Update.cshtml.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Pages\Person\Create.cshtml" />
-    <Content Remove="Pages\Person\Delete.cshtml" />
-    <Content Remove="Pages\Person\Update.cshtml" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="GoodToCode.Entity.Abstractions" Version="4.18.19252.4" />

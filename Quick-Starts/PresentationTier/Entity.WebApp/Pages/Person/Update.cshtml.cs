@@ -43,7 +43,7 @@ namespace GoodToCode.Entity.Person
             else
                 TempData[ResultMessage] = "Failed to Update";
 
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

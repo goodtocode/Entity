@@ -29,13 +29,8 @@ namespace GoodToCode.Entity.Hosting
     public interface IHttpService
     {
         /// <summary>
-        /// Request made as part of this service
-        /// </summary>
-        HttpRequest Request { get; set; }
-
-        /// <summary>
         /// Response from the request
         /// </summary>
-        HttpResponse Response { get; set; }
+        HttpResponseMessage Response { get; set; }
     }
 }

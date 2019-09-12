@@ -12,5 +12,4 @@ namespace GoodToCode.Entity.Hosting
     {
         public Uri Url { get; set; }
     }
-
 }

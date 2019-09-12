@@ -28,6 +28,9 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
+    /// <summary>
+    /// Extensions to IServiceCollection
+    /// </summary>
     public static partial class HttpCrudServicesExtensions
     {
         /// <summary>

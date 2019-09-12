@@ -38,7 +38,7 @@ namespace GoodToCode.Entity.Person
             else
                 TempData[ResultMessage] = "Failed to create";
 
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }
