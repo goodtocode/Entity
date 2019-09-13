@@ -26,7 +26,7 @@ namespace GoodToCode.Entity.Hosting
     /// HttpCrudService contract
     /// </summary>
     /// <typeparam name="TDto"></typeparam>
-    public interface IHttpCrudService<TDto>
+    public interface IHttpCrudService<TDto> : IHttpService
     {
         /// <summary>
         /// Creates an item in the system

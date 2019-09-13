@@ -2,6 +2,7 @@
 using GoodToCode.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Person
@@ -15,8 +16,9 @@ namespace GoodToCode.Entity.Person
         [BindProperty]
         public PersonDto Person { get; set; }
 
-        public UpdateModel(IHttpCrudService<PersonDto> crud)
+        public UpdateModel(IConfiguration configuration, IHttpCrudService<PersonDto> crud)
         {
+            crud.Uri = new System.Uri($@"{configuration["AppSettings:MyWebService"]}\PersonSearch");
             crudService = crud;
         }
 

@@ -24,6 +24,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
@@ -60,6 +61,11 @@ namespace GoodToCode.Entity.Hosting
         /// Uri of the CRUD RESTful endpoint
         /// </summary>
         public Uri Uri { get; set; }
+
+        /// <summary>
+        /// Response from the request
+        /// </summary>
+        public HttpResponseMessage Response { get; set; }
 
         /// <summary>
         /// Constructor

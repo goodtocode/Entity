@@ -17,6 +17,7 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Net.Http;
 
 namespace GoodToCode.Entity.Hosting
@@ -26,6 +27,11 @@ namespace GoodToCode.Entity.Hosting
     /// </summary>
     public interface IHttpService
     {
+        /// <summary>
+        /// Uri of the Query RESTful endpoint
+        /// </summary>
+        Uri Uri { get; set; }
+
         /// <summary>
         /// Response from the request
         /// </summary>

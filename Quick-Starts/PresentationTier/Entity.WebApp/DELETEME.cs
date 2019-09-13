@@ -87,6 +87,11 @@ namespace GoodToCode.Entity.Hosting
     public interface IHttpService
     {
         /// <summary>
+        /// Uri of the Query RESTful endpoint
+        /// </summary>
+        Uri Uri { get; set; }
+
+        /// <summary>
         /// Response from the request
         /// </summary>
         HttpResponseMessage Response { get; set; }
@@ -96,11 +101,6 @@ namespace GoodToCode.Entity.Hosting
     #region HttpSearch
     public interface IHttpSearchService<TDto> : IHttpService
     {
-        /// <summary>
-        /// Uri of the Query RESTful endpoint
-        /// </summary>
-        Uri Uri { get; set; }
-
         /// <summary>
         /// Querystring parameters, well formed
         /// </summary>
@@ -190,7 +190,7 @@ namespace GoodToCode.Entity.Hosting
     #endregion
 
     #region HttpCrud
-    public interface IHttpCrudService<TDto>
+    public interface IHttpCrudService<TDto> : IHttpService
     {
         /// <summary>
         /// Creates an item in the system
@@ -269,6 +269,11 @@ namespace GoodToCode.Entity.Hosting
         /// Uri of the CRUD RESTful endpoint
         /// </summary>
         public Uri Uri { get; set; }
+
+        /// <summary>
+        /// Response from the request
+        /// </summary>
+        public HttpResponseMessage Response { get; set; }
 
         /// <summary>
         /// Constructor
