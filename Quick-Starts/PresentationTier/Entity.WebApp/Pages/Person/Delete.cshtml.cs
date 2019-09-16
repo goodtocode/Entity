@@ -18,7 +18,7 @@ namespace GoodToCode.Entity.Person
 
         public DeleteModel(IConfiguration configuration, IHttpCrudService<PersonDto> crud)
         {
-            crud.Uri = new System.Uri($@"{configuration["AppSettings:MyWebService"]}\PersonSearch");
+            crud.Uri = new System.Uri($@"{configuration["AppSettings:MyWebService"]}/Person");
             crudService = crud;
         }
 
