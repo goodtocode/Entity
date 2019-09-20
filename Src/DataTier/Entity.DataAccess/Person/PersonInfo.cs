@@ -35,7 +35,7 @@ namespace GoodToCode.Entity.Person
     /// EntityPerson
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class PersonInfo : ActiveRecordEntity<PersonInfo>, IFormattable, IPerson, IGenderId, IEntity
+    public class PersonInfo : ActiveRecordEntity<PersonInfo>, IFormattable, IPerson, IEntity
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure
@@ -52,7 +52,7 @@ namespace GoodToCode.Entity.Person
                 new SqlParameter("@MiddleName", MiddleName),
                 new SqlParameter("@LastName", LastName),
                 new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderId", GenderId),
+                new SqlParameter("@GenderCode", GenderCode),
                 new SqlParameter("@ActivityContextKey", ActivityContextKey)
             }
         };
@@ -72,7 +72,7 @@ namespace GoodToCode.Entity.Person
                 new SqlParameter("@MiddleName", MiddleName),
                 new SqlParameter("@LastName", LastName),
                 new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderId", GenderId),
+                new SqlParameter("@GenderCode", GenderCode),
                 new SqlParameter("@ActivityContextKey", ActivityContextKey)
             }
         };
@@ -126,7 +126,7 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// Gender Id (ISO/IEC 5218)
         /// </summary>
-        public int GenderId { get; set; } = Defaults.Integer;
+        public string GenderCode { get; set; } = Defaults.String;
 
         /// <summary>
         /// Constructor

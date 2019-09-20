@@ -5,12 +5,13 @@
 	@MiddleName			nvarchar(50),
 	@LastName			nvarchar(50),
 	@BirthDate			datetime,
-	@GenderId			int,
+	@GenderCode			nvarchar(10),
 	@ActivityContextKey	Uniqueidentifier
 AS
 	-- Local variables
     Declare @ResourceKey As Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
     Declare @PersonKey As Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
+	Declare @GenderId as Int = -1
 	-- Initialize
 	Select	@Key			= IsNull(@Key, '00000000-0000-0000-0000-000000000000')
 	Select 	@FirstName		= RTRIM(LTRIM(@FirstName))
@@ -23,8 +24,9 @@ AS
 		-- Id and Key are both valid. Sync now.
         If (@Id <> -1) Select Top 1 @Key = IsNull(ResourcePersonKey, @Key), @ResourceKey = ResourceKey, @PersonKey = PersonKey From [Entity].[ResourcePerson] P Where [ResourcePersonId] = @Id
 		If (@Id = -1 AND @Key <> '00000000-0000-0000-0000-000000000000') Select Top 1 @Id = IsNull(ResourcePersonId, -1), @ResourceKey = ResourceKey, @PersonKey = PersonKey From [Entity].[ResourcePerson] P Where [ResourcePersonKey] = @Key
-		-- Insert vs Update
-		
+		-- Get extra data
+		Select @GenderId = IsNull(GenderId, -1) From [Entity].[Gender] Where GenderCode = @GenderCode
+		-- Insert vs Update		
 		Begin Try
 			If (@Id Is Null) Or (@Id = -1)
 			Begin
@@ -52,7 +54,7 @@ AS
 					P.MiddleName			= @MiddleName, 
 					P.LastName				= @LastName, 
 					P.BirthDate				= @BirthDate, 
-					P.GenderId			= @GenderId,
+					P.GenderId				= @GenderId,
 					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Person] P

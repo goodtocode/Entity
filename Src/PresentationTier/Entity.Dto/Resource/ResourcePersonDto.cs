@@ -29,7 +29,7 @@ namespace GoodToCode.Entity.Resource
     /// <summary>
     /// EntityPerson
     /// </summary>
-    public class ResourcePersonDto : EntityDto<ResourcePersonDto>, IFormattable, IPerson, IGenderId, IEntity
+    public class ResourcePersonDto : EntityDto<ResourcePersonDto>, IFormattable, IPerson, IEntity
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
@@ -75,7 +75,7 @@ namespace GoodToCode.Entity.Resource
         /// <summary>
         /// Gender Id (ISO/IEC 5218)
         /// </summary>
-        public int GenderId { get; set; } = Defaults.Integer;
+        public string GenderCode { get; set; } = Defaults.String;
 
         /// <summary>
         /// Constructor

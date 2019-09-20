@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="" company="GoodToCode">
+// <copyright file="IGenderCode.cs" company="GoodToCode">
 //      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
 //      Licensed to the Apache Software Foundation (ASF) under one or more 
 //      contributor license agreements.  See the NOTICE file distributed with 
@@ -17,34 +17,17 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
-using GoodToCode.Framework.Data;
-using System;
 
 namespace GoodToCode.Entity.Person
 {
     /// <summary>
-    /// Person
+    /// Gender Code
     /// </summary>        
-    public interface IPerson : IGenderCode
+    public interface IGenderCode
     {
         /// <summary>
-        /// FirstName
+        /// Gender Code (ISO/IEC 5218)
         /// </summary>
-        string FirstName { get; set; }
-
-        /// <summary>
-        /// MiddleName
-        /// </summary>
-        string MiddleName { get; set; }
-
-        /// <summary>
-        /// LastName
-        /// </summary>
-        string LastName { get; set; }
-
-        /// <summary>
-        /// BirthDate
-        /// </summary>
-        DateTime BirthDate { get; set; }
+        string GenderCode { get; set; }
     }
 }

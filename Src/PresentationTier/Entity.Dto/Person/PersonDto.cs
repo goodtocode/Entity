@@ -53,7 +53,7 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// Gender Id (ISO/IEC 5218)
         /// </summary>
-        public int GenderId { get; set; } = Defaults.Int32;
+        public string GenderCode { get; set; } = Defaults.String;
 
         /// <summary>
         /// Constructor
