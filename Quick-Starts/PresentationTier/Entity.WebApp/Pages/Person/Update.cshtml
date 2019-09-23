@@ -31,8 +31,8 @@
                 <span asp-validation-for="Person.BirthDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Person.GenderId" class="control-label"></label>
-                <select asp-for="Person.GenderId" class="form-control" asp-items="@(new SelectList(GenderList.GetAll(), "Key", "Value", Model.Person.GenderId))"></select>
+                <label asp-for="Person.GenderCode" class="control-label"></label>
+                <select asp-for="Person.GenderCode" class="form-control" asp-items="@(new SelectList(GenderList.GetAll(), "Key", "Value", Model.Person.GenderCode))"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Update" class="btn btn-primary" />

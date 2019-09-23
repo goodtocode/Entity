@@ -17,6 +17,7 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 
 namespace GoodToCode.Entity.Person
@@ -31,7 +32,7 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// List of Genders, bindable to int Id and string Name
         /// </summary>
-        public List<KeyValuePair<int, string>> Genders
+        public List<Tuple<int, string, string>> Genders
         {
             get
             {
@@ -42,9 +43,9 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// List of Genders, bindable to int Id and string Name
         /// </summary>
-        public static List<KeyValuePair<int, string>> GetAll()
+        public static List<Tuple<int, string, string>> GetAll()
         {
-            return new List<KeyValuePair<int, string>>() { Person.Genders.NotSet, Person.Genders.Male, Person.Genders.Female };
+            return new List<Tuple<int, string, string>>() { Person.Genders.NotSet, Person.Genders.Male, Person.Genders.Female };
         }
     }
 }

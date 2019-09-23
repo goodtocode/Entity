@@ -17,6 +17,7 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 
 namespace GoodToCode.Entity.Person
@@ -29,6 +30,6 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// FirstName of customer entity
         /// </summary>
-        List<KeyValuePair<int, string>> Genders { get; }
+        List<Tuple<int, string, string>> Genders { get; }
     }
 }

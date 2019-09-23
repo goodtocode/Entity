@@ -33,9 +33,9 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// List of Genders, bindable to int Id and string Name
         /// </summary>
-        public List<KeyValuePair<int, string>> GenderSelections()
+        public List<Tuple<int, string, string>> GenderSelections()
         {
-            return new List<KeyValuePair<int, string>>() { Person.Genders.NotSet, Person.Genders.Male, Person.Genders.Female };
+            return new List<Tuple<int, string, string>>() { Person.Genders.NotSet, Person.Genders.Male, Person.Genders.Female };
         }
 
         /// <summary>

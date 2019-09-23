@@ -17,6 +17,7 @@
 //       limitations under the License. 
 // </copyright>
 //-----------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
 
 namespace GoodToCode.Entity.Person
@@ -29,26 +30,26 @@ namespace GoodToCode.Entity.Person
         /// <summary>
         /// Default. Not set
         /// </summary>
-        public static KeyValuePair<int, string> NotSet { get; } = new KeyValuePair<int, string>(-1, "Not Set");
+        public static Tuple<int, string, string> NotSet { get; } = new Tuple<int, string, string>(-1, "", "Not Set");
 
         /// <summary>
         /// Unknown gender
         /// </summary>
-        public static KeyValuePair<int, string> NotKnown { get; } = new KeyValuePair<int, string>(0, "Not Known");
+        public static Tuple<int, string, string> NotKnown { get; } = new Tuple<int, string, string>(0, "U", "Not Known");
 
         /// <summary>
         /// Male gender
         /// </summary>
-        public static KeyValuePair<int, string> Male { get; } = new KeyValuePair<int, string>(1, "Male");
+        public static Tuple<int, string, string> Male { get; } = new Tuple<int, string, string>(1, "M", "Male");
 
         /// <summary>
         /// Femal Gender
         /// </summary>
-        public static KeyValuePair<int, string> Female { get; } = new KeyValuePair<int, string>(2, "Female");
+        public static Tuple<int, string, string> Female { get; } = new Tuple<int, string, string>(2, "F", "Female");
 
         /// <summary>
         /// Not applicable or do not want to specify
         /// </summary>
-        public static KeyValuePair<int, string> NotApplicable { get; } = new KeyValuePair<int, string>(9, "Not Applicable");
+        public static Tuple<int, string, string> NotApplicable { get; } = new Tuple<int, string, string>(9, "N", "Not Applicable");
     }
 }
