@@ -1,14 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup Label="Globals">
-    <SccProjectName>SAK</SccProjectName>
-    <SccProvider>SAK</SccProvider>
-    <SccAuxPath>SAK</SccAuxPath>
-    <SccLocalPath>SAK</SccLocalPath>
-  </PropertyGroup>
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingDto>InProcess</AspNetCoreHostingDto>
     <PackageId>GoodToCode.Entity.WebServices.Core</PackageId>
     <Version>4.18.9</Version>
     <Authors>GoodToCode</Authors>
@@ -23,173 +17,19 @@
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>GoodToCode Framework cross-platform open-source full-stack entity Web API mvc universal core</PackageTags>
   </PropertyGroup>
-
-  <PropertyGroup>
-    <ProjectPath Condition=" '$(ProjectPath)' == '' ">..</ProjectPath>
-    <AssemblyName>GoodToCode.Entity.WebServices.Core</AssemblyName>
-    <RootNamespace>GoodToCode.Entity.WebServices</RootNamespace>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <None Remove="GoodToCode.Entity.WebServices.Core.csproj.vspscc" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Partials\GoodToCode\" />
-    <Folder Include="Partials\Shared\" />
-    <Folder Include="Properties\" />
-    <Folder Include="Properties\PublishProfiles\" />
-    <Folder Include="Views\" />
-    <Folder Include="Views\Home\" />
-    <Folder Include="Views\Shared\" />
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\images\GoodToCode\" />
-    <Folder Include="wwwroot\images\Social\" />
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\lib\bootstrap\dist\css\" />
-    <Folder Include="wwwroot\lib\bootstrap\dist\css\themes\base\" />
-    <Folder Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\" />
-    <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
-    <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
-    <Folder Include="wwwroot\lib\jquery-validation\dist\" />
-    <Folder Include="wwwroot\lib\jquery\dist\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Properties\launchSettings.json" />
-    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
-    <None Include="Controllers\PersonController.cs" />
-    <None Include="Controllers\PersonSearchController.cs" />
-    <None Include="Controllers\HomeController.cs" />
-    <None Include="Models\ErrorViewModel.cs" />
-    <None Include="Program.cs" />
-    <None Include="Startup.cs" />
-    <None Include="appsettings.Development.json" />
-    <None Include="appsettings.json" />
-    <None Include="App_Data\AppSettings.Debug.json" />
-    <None Include="App_Data\AppSettings.json" />
-    <None Include="App_Data\AppSettings.Release.json" />
-    <None Include="App_Data\ConnectionStrings.Debug.json" />
-    <None Include="App_Data\ConnectionStrings.json" />
-    <None Include="App_Data\ConnectionStrings.Release.json" />
-    <None Include="bundleconfig.json" />
-    <None Include="Partials\GoodToCode\GoodToCode-Contact.cshtml" />
-    <None Include="Partials\Shared\Footer.cshtml" />
-    <None Include="Partials\Shared\Header.cshtml" />
-    <None Include="Views\Home\About.cshtml" />
-    <None Include="Views\Home\Contact.cshtml" />
-    <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Shared\Error.cshtml" />
-    <None Include="Views\Shared\_Layout.cshtml" />
-    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
-    <None Include="Views\_ViewImports.cshtml" />
-    <None Include="Views\_ViewStart.cshtml" />
-    <None Include="wwwroot\css\GoodToCode.css" />
-    <None Include="wwwroot\css\GoodToCode.min.css" />
-    <None Include="wwwroot\favicon.ico" />
-    <None Include="wwwroot\images\GoodToCode\favicon.ico" />
-    <None Include="wwwroot\images\GoodToCode\GoodToCode-Logo-Square.png" />
-    <None Include="wwwroot\images\GoodToCode\GoodToCode-Logo-Transparent.png" />
-    <None Include="wwwroot\images\GoodToCode\GoodToCode-Logo-White.png" />
-    <None Include="wwwroot\images\GoodToCode\GoodToCode-Logo.png" />
-    <None Include="wwwroot\images\GoodToCode\Map-of-the-GoodToCode-Framework.png" />
-    <None Include="wwwroot\images\Social\social-blog.png" />
-    <None Include="wwwroot\images\Social\social-facebook.png" />
-    <None Include="wwwroot\images\Social\social-rss.png" />
-    <None Include="wwwroot\images\Social\social-twitter.png" />
-    <None Include="wwwroot\js\site.js" />
-    <None Include="wwwroot\js\site.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-grid.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap-reboot.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\bootstrap.min.css.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\accordion.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\all.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\autocomplete.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\base.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\button.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\core.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\datepicker.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\dialog.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\draggable.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_222222_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_2e83ff_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_444444_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_454545_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_555555_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_777620_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_777777_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_888888_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_cc0000_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\images\ui-icons_ffffff_256x240.png" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\jquery-ui.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\jquery-ui.min.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\menu.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\progressbar.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\resizable.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\selectable.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\selectmenu.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\slider.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\sortable.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\spinner.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\tabs.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\theme.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\css\themes\base\tooltip.css" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.js.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.bundle.min.js.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.js.map" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js" />
-    <None Include="wwwroot\lib\bootstrap\dist\js\bootstrap.min.js.map" />
-    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.js" />
-    <None Include="wwwroot\lib\jquery-validation-unobtrusive\jquery.validate.unobtrusive.min.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\additional-methods.min.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.js" />
-    <None Include="wwwroot\lib\jquery-validation\dist\jquery.validate.min.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
-    <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
-  </ItemGroup>
   
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Entity.Abstractions" Version="4.18.19263.1" />
-    <PackageReference Include="GoodToCode.Entity.DataAccess.Core" Version="4.18.19263.1" />
-    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19263.1" />
-    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19251.1" />
-    <PackageReference Include="GoodToCode.Extensions.Data" Version="4.18.19251.1" />
-    <PackageReference Include="GoodToCode.Extensions.Net" Version="4.18.19251.1" />
+    <PackageReference Include="GoodToCode.Entity.Abstractions" Version="4.18.19267.1" />
+    <PackageReference Include="GoodToCode.Entity.DataAccess.Core" Version="4.18.19267.1" />
+    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19267.1" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19267.2" />
+    <PackageReference Include="GoodToCode.Extensions.Data" Version="4.18.19267.2" />
     <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19250.6" />
     <PackageReference Include="GoodToCode.Framework.Data" Version="4.18.19250.6" />
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.7" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="wwwroot\favicon.ico">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
   </ItemGroup>
 
 

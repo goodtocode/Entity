@@ -30,7 +30,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Person.GenderCode" class="control-label"></label>
-                <select asp-for="Person.GenderCode" class="form-control" asp-items="@(new SelectList(GenderList.GetAll(), "Key", "Value", Model.Person.GenderCode))"></select>
+                <select asp-for="Person.GenderCode" class="form-control" asp-items="@(new SelectList(GenderList.GetAll(), "Item2", "Item3", Model.Person.GenderCode))"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
