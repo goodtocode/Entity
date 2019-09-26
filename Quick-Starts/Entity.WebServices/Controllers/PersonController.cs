@@ -51,10 +51,7 @@ namespace GoodToCode.Entity.WebServices
             var Person = new PersonInfo();
             using (var reader = new EntityReader<PersonInfo>())
             {
-                if (key.IsInteger())
-                    Person = reader.GetById(key.TryParseInt32());
-                else
-                    Person = reader.GetByKey(key.TryParseGuid());
+                Person = reader.GetByIdOrKey(key);
             }
 
             return Person;
