@@ -38,10 +38,7 @@
 //            var reader = new EntityReader<PersonInfo>();
 //            var Person = new PersonInfo();
 
-//            if (key.IsInteger())
-//                Person = reader.GetById(key.TryParseInt32());
-//            else
-//                Person = reader.GetByKey(key.TryParseGuid());
+//            Person = reader.GetByIdOrKey(key);
 
 //            return Ok(Person.CastOrFill<PersonDto>());
 //        }

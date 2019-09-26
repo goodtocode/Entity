@@ -29,8 +29,8 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GoodToCode.Extensions" Version="4.18.19267.2" />
-    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19267.1" />
-    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.18.19267.1" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19269.1" />
+    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.18.19269.1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
@@ -58,8 +58,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataTier\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj" />
-    <ProjectReference Include="..\..\Common\Entity.Abstractions\GoodToCode.Entity.Abstractions.csproj" />
+    <ProjectReference Include="..\Entity.DataAccess\GoodToCode.Entity.DataAccess.csproj" />
+    <ProjectReference Include="..\Entity.Abstractions\GoodToCode.Entity.Abstractions.csproj" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PreBuild.$(Configuration).bat&quot; &quot;$(MSBuildProjectDirectory)&quot; &quot;$(Configuration)&quot; &quot;$(ProjectName)&quot;" />
