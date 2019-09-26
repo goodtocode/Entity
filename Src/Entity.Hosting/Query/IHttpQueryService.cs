@@ -27,7 +27,7 @@ namespace GoodToCode.Entity.Hosting
     /// HttpSearchService contract
     /// </summary>
     /// <typeparam name="TDto"></typeparam>
-    public interface IHttpSearchService<TDto> : IHttpService
+    public interface IHttpQueryService<TDto> : IHttpService
     {
         /// <summary>
         /// Uri of the Query RESTful endpoint

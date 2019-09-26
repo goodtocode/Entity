@@ -9,9 +9,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace GoodToCode.Entity.Hosting
+namespace GoodToCode.Entity.Hosting.DELETEME
 {
-
     #region HealthCheck
     public class HealthCheckMiddleware
     {
@@ -99,7 +98,7 @@ namespace GoodToCode.Entity.Hosting
     #endregion
 
     #region HttpSearch
-    public interface IHttpSearchService<TDto> : IHttpService
+    public interface IHttpQueryService<TDto> : IHttpService
     {
         /// <summary>
         /// Querystring parameters, well formed
@@ -118,7 +117,7 @@ namespace GoodToCode.Entity.Hosting
     /// <summary>
     /// Extensions for Services
     /// </summary>
-    public static partial class HttpSearchServicesExtensions
+    public static partial class HttpQueryServicesExtensions
     {
         /// <summary>
         /// Adds Http-based Query services to .NET Core Dependency Injection
@@ -126,12 +125,12 @@ namespace GoodToCode.Entity.Hosting
         /// <typeparam name="TDto"></typeparam>
         /// <param name="services"></param>
         /// <returns></returns>
-        public static IServiceCollection AddHttpSearch<TDto>(this IServiceCollection services) where TDto : new()
+        public static IServiceCollection AddHttpQuery<TDto>(this IServiceCollection services) where TDto : new()
         {
             if (services == null)
                 throw new ArgumentNullException(nameof(services));
 
-            return services.AddTransient<IHttpSearchService<TDto>, HttpSearchService<TDto>>();
+            return services.AddTransient<IHttpQueryService<TDto>, HttpQueryService<TDto>>();
         }
     }
 
@@ -141,7 +140,7 @@ namespace GoodToCode.Entity.Hosting
     ///  2. A single Type of Dto in requests/responses. TDto
     /// </summary>
     /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
-    public class HttpSearchService<TDto> :  IHttpSearchService<TDto> where TDto : new()
+    public class HttpQueryService<TDto> :  IHttpQueryService<TDto> where TDto : new()
     {
         /// <summary>
         /// Uri of the Query RESTful endpoint
@@ -162,7 +161,7 @@ namespace GoodToCode.Entity.Hosting
         /// Constructor
         /// </summary>
         /// <param name="optionUrl"></param>
-        public HttpSearchService(IOptions<UriOption> optionUrl)
+        public HttpQueryService(IOptions<UriOption> optionUrl)
         {
             if(optionUrl.Value.Url != null)
                 Uri = optionUrl.Value.Url;

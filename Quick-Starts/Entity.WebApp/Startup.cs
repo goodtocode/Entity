@@ -1,5 +1,5 @@
 using GoodToCode.Entity.Person;
-using GoodToCode.Entity.Hosting;
+using GoodToCode.Entity.Hosting.DELETEME;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +30,7 @@ namespace GoodToCode.Entity.WebApp
 
             // Add Get, Put, Post, Delete calls as CRUD-aligned requests
             services.AddHttpCrud<PersonDto>();
-            services.AddHttpSearch<PersonDto>();
+            services.AddHttpQuery<PersonDto>();
 
             // Mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -1,4 +1,4 @@
-﻿using GoodToCode.Entity.Hosting;
+﻿using GoodToCode.Entity.Hosting.DELETEME;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -11,14 +11,14 @@ namespace GoodToCode.Entity.Person
     {
         public const string ResultMessage = "Result";
         public const string ValidationSummaryMessage = "ValidationSummary";
-        private readonly IHttpSearchService<PersonDto> queryService;
+        private readonly IHttpQueryService<PersonDto> queryService;
 
         [BindProperty]
         public PersonDto Criteria { get; set; }
         [BindProperty]
         public List<PersonDto> Results { get; set; }
 
-        public IndexModel(IConfiguration configuration, IHttpSearchService<PersonDto> query)
+        public IndexModel(IConfiguration configuration, IHttpQueryService<PersonDto> query)
         {
             query.Uri = new System.Uri($@"{configuration["AppSettings:MyWebService"]}/PersonSearch");
             queryService = query;
