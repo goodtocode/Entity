@@ -1,4 +1,4 @@
-﻿using GoodToCode.Entity.Hosting.DELETEME;
+﻿using GoodToCode.Entity.Hosting;
 using GoodToCode.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -35,11 +35,10 @@ namespace GoodToCode.Entity.Person
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
-            {
                 return Page();
-            }
 
             Person = await crudService.UpdateAsync(Person);
+
             if (!Person.IsNew)
                 TempData[ResultMessage] = "Successfully Updated";
             else

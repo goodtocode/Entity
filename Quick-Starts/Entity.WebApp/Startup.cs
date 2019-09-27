@@ -1,5 +1,5 @@
 using GoodToCode.Entity.Person;
-using GoodToCode.Entity.Hosting.DELETEME;
+using GoodToCode.Entity.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -27,7 +27,7 @@ namespace GoodToCode.Entity.WebApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
+            services.Configure<HttpQueryOption>(Configuration.GetSection("PersonSearch:Url"));
             // Add Get, Put, Post, Delete calls as CRUD-aligned requests
             services.AddHttpCrud<PersonDto>();
             services.AddHttpQuery<PersonDto>();

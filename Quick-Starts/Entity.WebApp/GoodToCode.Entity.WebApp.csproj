@@ -7,10 +7,10 @@
 
 
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Entity.Abstractions" Version="4.18.19269.1" />
-    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19269.1" />
-    <PackageReference Include="GoodToCode.Entity.Hosting" Version="4.18.19269.1" />
-    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19267.2" />
+    <PackageReference Include="GoodToCode.Entity.Abstractions" Version="4.18.19269.3" />
+    <PackageReference Include="GoodToCode.Entity.Dto" Version="4.18.19269.3" />
+    <PackageReference Include="GoodToCode.Entity.Hosting" Version="4.18.19269.3" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19269.2" />
     <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.18.19269.1" />
     <PackageReference Include="GoodToCode.Framework.Dto" Version="4.18.19269.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
