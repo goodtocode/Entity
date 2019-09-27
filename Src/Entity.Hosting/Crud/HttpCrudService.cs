@@ -72,7 +72,7 @@ namespace GoodToCode.Entity.Hosting
         /// Constructor
         /// </summary>
         /// <param name="endpoints"></param>
-        public HttpCrudService(IOptions<List<HttpEndpointOptions>> endpoints)
+        public HttpCrudService(IOptions<List<HttpCrudOptions>> endpoints)
         {
             var typeName = typeof(TDto).Name;
             if (endpoints.Value?.Count > 0)

@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="HttpEndpointOptions.cs" company="GoodToCode">
+// <copyright file="HttpCrudOptions.cs" company="GoodToCode">
 //      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
 //      Licensed to the Apache Software Foundation (ASF) under one or more 
 //      contributor license agreements.  See the NOTICE file distributed with 
@@ -23,7 +23,7 @@ namespace GoodToCode.Entity.Hosting
     /// <summary>
     /// HttpSearchService contract
     /// </summary>
-    public class HttpEndpointOptions
+    public class HttpCrudOptions
     {
         /// <summary>
         /// Url of the query

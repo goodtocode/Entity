@@ -75,7 +75,7 @@ namespace GoodToCode.Entity.Hosting
         /// Constructor
         /// </summary>
         /// <param name="endpoints"></param>
-        public HttpQueryService(IOptions<List<HttpEndpointOptions>> endpoints)
+        public HttpQueryService(IOptions<List<HttpQueryOptions>> endpoints)
         {
             var typeName = typeof(TDto).Name;
             if (endpoints.Value?.Count > 0)

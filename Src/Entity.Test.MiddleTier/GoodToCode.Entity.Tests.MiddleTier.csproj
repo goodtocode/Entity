@@ -62,6 +62,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Appointment\" />
+    <Folder Include="Flows\" />
   </ItemGroup>
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PreBuild.$(Configuration).bat&quot; &quot;$(MSBuildProjectDirectory)&quot; &quot;$(Configuration)&quot; &quot;$(ProjectName)&quot;" />
