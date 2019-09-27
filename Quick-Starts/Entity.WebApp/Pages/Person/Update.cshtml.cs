@@ -18,7 +18,6 @@ namespace GoodToCode.Entity.Person
 
         public UpdateModel(IConfiguration configuration, IHttpCrudService<PersonDto> crud)
         {
-            crud.Uri = new System.Uri($@"{configuration["AppSettings:MyWebService"]}/Person");
             crudService = crud;
         }
 

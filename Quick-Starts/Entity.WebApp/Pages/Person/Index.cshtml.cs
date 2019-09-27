@@ -20,9 +20,7 @@ namespace GoodToCode.Entity.Person
 
         public IndexModel(IConfiguration configuration, IHttpQueryService<PersonDto> query)
         {
-            query.Uri = new System.Uri($@"{configuration["AppSettings:MyWebService"]}/PersonSearch");
             queryService = query;
-
         }
 
         public IActionResult OnGet()

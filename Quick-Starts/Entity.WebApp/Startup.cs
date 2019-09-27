@@ -27,10 +27,10 @@ namespace GoodToCode.Entity.WebApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.Configure<HttpQueryOption>(Configuration.GetSection("PersonSearch:Url"));
-            // Add Get, Put, Post, Delete calls as CRUD-aligned requests
-            services.AddHttpCrud<PersonDto>();
-            services.AddHttpQuery<PersonDto>();
+            services.Configure<HttpEndpointOptions>(Configuration.GetSection("HttpEndpoints"));
+                        
+            services.AddHttpCrud<PersonDto>(); // Add Get, Put, Post, Delete calls as CRUD-aligned requests
+            services.AddHttpQuery<PersonDto>(); // Add Url Query based calls that return lists
 
             // Mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
