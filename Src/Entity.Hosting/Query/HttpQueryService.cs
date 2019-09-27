@@ -74,11 +74,12 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="optionUrl"></param>
-        public HttpQueryService(IOptions<UriOption> optionUrl)
+        /// <param name="endpoints"></param>
+        public HttpQueryService(IOptions<List<HttpEndpointOptions>> endpoints)
         {
-            if (optionUrl.Value.Url != null)
-                Uri = optionUrl.Value.Url;
+            var typeName = typeof(TDto).Name;
+            if (endpoints.Value?.Count > 0)
+                Uri = endpoints.Value.Find(x => x.Type == typeName).Url.TryParseUri();
         }
 
         /// <summary>

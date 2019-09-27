@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="IHttpSearchService.cs" company="GoodToCode">
+// <copyright file="HttpEndpointOptions.cs" company="GoodToCode">
 //      Copyright (c) 2017-2020 GoodToCode. All rights reserved.
 //      Licensed to the Apache Software Foundation (ASF) under one or more 
 //      contributor license agreements.  See the NOTICE file distributed with 
@@ -23,8 +23,13 @@ namespace GoodToCode.Entity.Hosting
     /// <summary>
     /// HttpSearchService contract
     /// </summary>
-    public class HttpQueryOptions
+    public class HttpEndpointOptions
     {
+        /// <summary>
+        /// Url of the query
+        /// </summary>
+        public string Type { get; set; } = default(string);
+
         /// <summary>
         /// Url of the query
         /// </summary>

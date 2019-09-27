@@ -24,6 +24,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -70,10 +71,12 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="optionUrl"></param>
-        public HttpCrudService(IOptions<UriOption> optionUrl)
+        /// <param name="endpoints"></param>
+        public HttpCrudService(IOptions<List<HttpEndpointOptions>> endpoints)
         {
-            Uri = optionUrl.Value.Url;
+            var typeName = typeof(TDto).Name;
+            if (endpoints.Value?.Count > 0)
+                Uri = endpoints.Value.Find(x => x.Type == typeName).Url.TryParseUri();
         }
 
         /// <summary>
