@@ -27,8 +27,9 @@ namespace GoodToCode.Entity.WebApp
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.Configure<HttpEndpointOptions>(Configuration.GetSection("HttpEndpoints"));
-                        
+            services.Configure<HttpCrudOptions>(Configuration.GetSection("HttpCrudEndpoints"));
+            services.Configure<HttpQueryOptions>(Configuration.GetSection("HttpQueryEndpoints"));
+
             services.AddHttpCrud<PersonDto>(); // Add Get, Put, Post, Delete calls as CRUD-aligned requests
             services.AddHttpQuery<PersonDto>(); // Add Url Query based calls that return lists
 
