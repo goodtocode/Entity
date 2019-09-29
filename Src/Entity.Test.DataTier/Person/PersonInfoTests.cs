@@ -214,29 +214,26 @@ namespace GoodToCode.Entity.Person
         [TestMethod()]
         public void Person_PersonInfo_Update()
         {
-            var resultEntity = new PersonInfo();
-            var testItem = new PersonInfo();
-            var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
-            var lastKey = Defaults.Guid;
-            var originalId = Defaults.Integer;
-            var originalKey = Defaults.Guid;
-
             Person_PersonInfo_Create();
-            lastKey = PersonInfoTests.RecycleBin.LastOrDefault();
-
-            testItem = PersonInfo.GetByKey(lastKey);
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
+            Guid lastKey = RecycleBin.LastOrDefault();            
+            
+            PersonInfo testItem = PersonInfo.GetByKey(lastKey);            
+            var originalId = testItem.Id;
+            var originalKey = testItem.Key;
+            var originalGender = testItem.GenderCode;
             Assert.IsTrue(!testItem.IsNew);
             Assert.IsTrue(testItem.Id != Defaults.Integer);
             Assert.IsTrue(testItem.Key != Defaults.Guid);
             Assert.IsTrue(!testItem.FailedRules.Any());
 
+            var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             testItem.FirstName = uniqueValue;
-            resultEntity = testItem.Save();
+            testItem.GenderCode = GenderList.GetAll().Where(x => x.Item2 != originalGender).Select(y => y.Item2).FirstOrDefault();
+            var resultEntity = testItem.Save();
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
+            Assert.IsTrue(resultEntity.GenderCode != originalGender);
             Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
             Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
             Assert.IsTrue(!testItem.FailedRules.Any());
@@ -245,6 +242,7 @@ namespace GoodToCode.Entity.Person
             Assert.IsTrue(!testItem.IsNew);
             Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
             Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testItem.GenderCode == resultEntity.GenderCode);
             Assert.IsTrue(testItem.Id != Defaults.Integer);
             Assert.IsTrue(testItem.Key != Defaults.Guid);
             Assert.IsTrue(!testItem.FailedRules.Any());
