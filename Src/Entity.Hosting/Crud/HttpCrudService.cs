@@ -56,7 +56,7 @@ namespace GoodToCode.Entity.Hosting
         /// Constructor
         /// </summary>
         /// <param name="endpoints"></param>
-        public HttpCrudService(IOptions<List<HttpCrudOptions>> endpoints)
+        public HttpCrudService(IOptions<HttpCrudOptions> endpoints)
         {
             if (endpoints.Value?.Count > 0)
                 Uri = endpoints.Value.Find(x => x.Type == TypeName).Url.TryParseUri();

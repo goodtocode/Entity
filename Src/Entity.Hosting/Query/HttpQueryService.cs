@@ -68,7 +68,7 @@ namespace GoodToCode.Entity.Hosting
         /// Constructor
         /// </summary>
         /// <param name="endpoints"></param>
-        public HttpQueryService(IOptions<List<HttpQueryOptions>> endpoints)
+        public HttpQueryService(IOptions<HttpQueryOptions> endpoints)
         {
             if (endpoints.Value?.Count > 0)
                 Uri = endpoints.Value.Find(x => x.Type == TypeName).Url.TryParseUri();

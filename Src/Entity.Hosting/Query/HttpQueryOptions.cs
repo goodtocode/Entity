@@ -1,10 +1,17 @@
 ﻿
+using System.Collections.Generic;
+
 namespace GoodToCode.Entity.Hosting
 {
     /// <summary>
     /// HttpSearchService contract
     /// </summary>
-    public class HttpQueryOptions
+    public class HttpQueryOptions : List<HttpQueryOption> { }
+
+    /// <summary>
+    /// HttpSearchService contract
+    /// </summary>
+    public class HttpQueryOption
     {
         /// <summary>
         /// Url of the query

@@ -13,7 +13,7 @@ namespace GoodToCode.Entity.Test
     [TestClass]
     public class HttpQueryTests
     {
-        private static IOptions<List<HttpQueryOptions>> _options;
+        private static IOptions<HttpQueryOptions> _options;
 
         [ClassInitialize()]
         public static void ClassInit(TestContext context)
@@ -23,9 +23,8 @@ namespace GoodToCode.Entity.Test
             //    .AddJsonFile("appsettings.json", false)
             //    .Build();
             // configuration.GetSection("HttpCrudEndpoints").Bind(optionsData);
-            var optionsData = new List<HttpQueryOptions>() { new HttpQueryOptions() { Type = "PersonDto", Url = "https://entities-for-webapi.azurewebsites.net/v4/PersonSearch" } };            
-            _options = Options.Create<List<HttpQueryOptions>>(optionsData);
-            
+            var optionsData = new HttpQueryOptions() { new HttpQueryOption() { Type = "PersonDto", Url = "https://entities-for-webapi.azurewebsites.net/v4/PersonSearch" } };            
+            _options = Options.Create<HttpQueryOptions>(optionsData);            
         }
 
         [TestMethod]
