@@ -11,9 +11,14 @@ namespace GoodToCode.Entity.Hosting
     public interface IHttpQueryService<TDto> : IHttpService
     {
         /// <summary>
+        /// Name of the type that is mapped to the query
+        /// </summary>
+        string TypeName { get; }
+
+        /// <summary>
         /// Querystring parameters, well formed
         /// </summary>
-        Uri FullUri { get; set; }
+        Uri FullUri { get; }
 
         /// <summary>
         /// Reads an item from the system

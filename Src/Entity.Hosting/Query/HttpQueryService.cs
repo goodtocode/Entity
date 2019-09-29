@@ -37,6 +37,13 @@ namespace GoodToCode.Entity.Hosting
     /// <typeparam name="TDto">Type of Dto in requests/responses</typeparam>
     public class HttpQueryService<TDto> : IHttpQueryService<TDto> where TDto : new()
     {
+        private string _query = Defaults.String;
+
+        /// <summary>
+        /// Name of the type that is mapped to the query
+        /// </summary>
+        public string TypeName { get { return typeof(TDto).Name; } }
+
         /// <summary>
         /// Uri of the Query RESTful endpoint
         /// </summary>
@@ -45,7 +52,12 @@ namespace GoodToCode.Entity.Hosting
         /// <summary>
         /// RESTful endpoint Uri + Querystring parameters, well formed
         /// </summary>
-        public Uri FullUri { get; set; } = Defaults.Uri;
+        public Uri FullUri => new Uri($"{Uri.ToString().RemoveLast("/")}{Query.AddFirst("/")}");
+
+        /// <summary>
+        /// Query for this request
+        /// </summary>
+        public string Query { get => _query; set => _query = value.Replace("//", "/ /"); }
 
         /// <summary>
         /// Response from the request
@@ -58,9 +70,8 @@ namespace GoodToCode.Entity.Hosting
         /// <param name="endpoints"></param>
         public HttpQueryService(IOptions<List<HttpQueryOptions>> endpoints)
         {
-            var typeName = typeof(TDto).Name;
             if (endpoints.Value?.Count > 0)
-                Uri = endpoints.Value.Find(x => x.Type == typeName).Url.TryParseUri();
+                Uri = endpoints.Value.Find(x => x.Type == TypeName).Url.TryParseUri();
         }
 
         /// <summary>
@@ -72,8 +83,7 @@ namespace GoodToCode.Entity.Hosting
         public async Task<List<TDto>> QueryAsync(string query)
         {
             List<TDto> returnData;
-            query = query.Replace("//", "/ /");
-            FullUri = new Uri($"{Uri.ToString().RemoveLast("/")}{query.AddFirst("/")}");
+            Query = query;            
             using (var client = new HttpRequestGet<List<TDto>>(FullUri))
             {
                 returnData = await client.SendAsync();

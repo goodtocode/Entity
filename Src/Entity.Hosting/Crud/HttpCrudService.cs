@@ -38,6 +38,11 @@ namespace GoodToCode.Entity.Hosting
     public class HttpCrudService<TDto> : IHttpCrudService<TDto> where TDto : new()
     {
         /// <summary>
+        /// Name of the type that is mapped to the query
+        /// </summary>
+        public string TypeName { get { return typeof(TDto).Name; } }
+
+        /// <summary>
         /// Uri of the CRUD RESTful endpoint
         /// </summary>
         public Uri Uri { get; set; }
@@ -53,9 +58,8 @@ namespace GoodToCode.Entity.Hosting
         /// <param name="endpoints"></param>
         public HttpCrudService(IOptions<List<HttpCrudOptions>> endpoints)
         {
-            var typeName = typeof(TDto).Name;
             if (endpoints.Value?.Count > 0)
-                Uri = endpoints.Value.Find(x => x.Type == typeName).Url.TryParseUri();
+                Uri = endpoints.Value.Find(x => x.Type == TypeName).Url.TryParseUri();
         }
 
         /// <summary>

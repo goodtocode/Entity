@@ -10,6 +10,11 @@ namespace GoodToCode.Entity.Hosting
     public interface IHttpCrudService<TDto> : IHttpService
     {
         /// <summary>
+        /// Name of the type that is mapped to the query
+        /// </summary>
+        string TypeName { get; }
+
+        /// <summary>
         /// Creates an item in the system
         /// </summary>
         /// <param name="item"></param>
