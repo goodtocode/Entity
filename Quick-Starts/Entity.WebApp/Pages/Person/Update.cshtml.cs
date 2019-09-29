@@ -23,11 +23,7 @@ namespace GoodToCode.Entity.Person
 
         public async Task<IActionResult> OnGet(string id)
         {
-            if (id.TryParseGuid() != Defaults.Guid)
-                Person = await crudService.ReadAsync(id.TryParseGuid());
-            else
-                Person = await crudService.ReadAsync(id.TryParseInt32());
-
+            Person = await crudService.ReadAsync(id);
             return Page();
         }
 
