@@ -9,3 +9,5 @@ ALTER ROLE [db_executor] ADD MEMBER [TestUser];
 GO
 GRANT CONNECT TO [TestUser]
 GO
+--GRANT CONNECT TO [Publish@goodtocode.com]
+--GO
