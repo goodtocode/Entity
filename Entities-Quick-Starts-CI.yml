@@ -15,6 +15,14 @@ variables:
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
+pool:
+  name: Hosted Windows 2019 with VS2019
+  demands: msbuild
+
+#Your build pipeline references the ‘BuildPlatform’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+#Your build pipeline references the ‘BuildConfiguration’ variable, which you’ve selected to be settable at queue time. Create or edit the build pipeline for this YAML file, define the variable on the Variables tab, and then select the option to make it settable at queue time. See https://go.microsoft.com/fwlink/?linkid=865971
+
 steps:
 - task: DeleteFiles@1
   displayName: 'Delete files from Build'
@@ -27,12 +35,6 @@ steps:
   inputs:
     SourceFolder: Src
     Contents: '**/*.csproj'
-
-- task: PowerShell@2
-  displayName: 'PowerShell Script ApplyVersionToAssemblies.ps1'
-  inputs:
-    targetType: filePath
-    filePath: ./Build/Build.Scripts.Modules/CI/ApplyVersionToAssemblies.ps1
 
 - task: PowerShell@2
   displayName: 'PowerShell Script Set-Version.ps1'
@@ -78,3 +80,4 @@ steps:
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
+
