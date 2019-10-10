@@ -1,92 +1,119 @@
-﻿//using System;
-//using GoodToCode.Extensions.Configuration;
-//using GoodToCode.Extensions.Net;
-//using System.Threading.Tasks;
-//using Microsoft.Extensions.Configuration;
-//using Microsoft.AspNetCore.Mvc;
-//using System.Web.Http;
+﻿using GoodToCode.Framework.Data;
+using Microsoft.AspNetCore.Mvc;
 
-//namespace GoodToCode.Entity.Hosting.Server
-//{
+namespace GoodToCode.Entity.Hosting.Server
+{
+    /// <summary>
+    /// WebAPI CRUD controller to receive CRUD requests.
+    /// Complimented by HttpCrudService loaded into MVC IServiceCollection
+    /// Expects the following action/endpoint calls
+    ///   C - HttpPut(TDto item)
+    ///   R - HttpGet(string idOrKey)
+    ///   U - HttpPost(TDto item)
+    ///   D - HttpDelete(string idOrKey)
+    /// </summary>
+    [Route("crud/[Controller]")]
+    public abstract class CrudApiController<TEntity> : ControllerBase where TEntity : ActiveRecordEntity<TEntity>, new()
+    {
+        //https://www.strathweb.com/2018/04/generic-and-dynamically-generated-controllers-in-asp-net-core-mvc/
 
-//    /// <summary>
-//    /// WebAPI CRUD controller to receive CRUD requests.
-//    /// Complimented by HttpCrudService loaded into MVC IServiceCollection
-//    /// Expects the following action/endpoint calls
-//    ///   C - HttpPut(TDto item)
-//    ///   R - HttpGet(string idOrKey)
-//    ///   U - HttpPost(TDto item)
-//    ///   D - HttpDelete(string idOrKey)
-//    /// </summary>
-//    public abstract class CrudApiController<TDto> : Controller
-//    {
-//        public const string ControllerName = "Person";
-//        public const string ControllerRoute = "v4/Person";
-//        public const string GetActionText = "Get Person";
-//        public const string GetAction = "Get";
-//        public const string PutAction = "Put";
-//        public const string PostAction = "Post";
-//        public const string DeleteAction = "Delete";
 
-//        /// <summary>
-//        /// Retrieves Person by Id
-//        /// </summary>
-//        /// <returns>Person that matches the Id, or initialized PersonDto for not found condition</returns>
-//        [HttpGet(ControllerRoute + "/{key}")]
-//        public IActionResult Get(string key)
-//        {
-//            var reader = new EntityReader<PersonInfo>();
-//            var Person = new PersonInfo();
+        /// <summary>
+        /// Name of the controller and path part
+        /// </summary>
+        public string ControllerName  => typeof(TEntity).Name;
 
-//            Person = reader.GetByIdOrKey(key);
+        /// <summary>
+        /// Path part inbetween domain and controller name
+        /// I.e. http:/www.domain.com/RootPathPart/ControllerName
+        /// </summary>
+        public string RootPathPart = "api";
 
-//            return Ok(Person.CastOrFill<PersonDto>());
-//        }
+        /// <summary>
+        /// Path part to the controller
+        /// </summary>
+        public string ControllerRoute => $"{RootPathPart}/{ControllerName}";
 
-//        /// <summary>
-//        /// Creates a new Person
-//        /// </summary>
-//        /// <returns></returns>
-//        [HttpPut(ControllerRoute)]
-//        public IActionResult Put([FromBody]PersonDto model)
-//        {
-//            var Person = model.CastOrFill<PersonInfo>();
-//            Person = Person.Save();
-//            return Ok(Person.CastOrFill<PersonDto>());
-//        }
+        /// <summary>
+        /// Exposed endpoint name for HTTP_GET
+        /// </summary>
+        public const string GetAction = "Get";
 
-//        /// <summary>
-//        /// Saves changes to a Person
-//        /// </summary>
-//        /// <param name="model">Full Person model worth of data with user changes</param>
-//        /// <returns>PersonDto containing Person data</returns>
-//        [HttpPost(ControllerRoute)]
-//        public IActionResult Post([FromBody]PersonDto model)
-//        {
-//            var Person = model.CastOrFill<PersonInfo>();
-//            Person = Person.Save();
-//            return Ok(Person.CastOrFill<PersonDto>());
-//        }
+        /// <summary>
+        /// Exposed endpoint name for HTTP_PUT
+        /// </summary>
+        public const string PutAction = "Put";
 
-//        /// <summary>
-//        /// Saves changes to a Person
-//        /// </summary>
-//        /// <param name="model"></param>
-//        /// <returns></returns>
-//        [HttpDelete(ControllerRoute + "/{key}")]
-//        public IActionResult Delete(string key)
-//        {
-//            var reader = new EntityReader<PersonInfo>();
-//            var Person = new PersonInfo();
+        /// <summary>
+        /// Exposed endpoint name for HTTP_POST
+        /// </summary>
+        public const string PostAction = "Post";
 
-//            if (key.IsInteger())
-//                Person = reader.GetById(key.TryParseInt32());
-//            else
-//                Person = reader.GetByKey(key.TryParseGuid());
-//            Person = Person.Delete();
+        /// <summary>
+        /// Exposed endpoint name for HTTP_DELETE
+        /// </summary>
+        public const string DeleteAction = "Delete";
 
-//            return Ok(Person.CastOrFill<PersonDto>());
-//        }
-//    }
-//}
+        /// <summary>
+        /// Retrieves Person by Id
+        /// </summary>
+        /// <returns>Person that matches the Id, or initialized PersonDto for not found condition</returns>
+        [HttpGet("{key}")]
+        public IActionResult Get(string key)
+        {
+            //var reader = new EntityReader<PersonInfo>();
+            //var Person = new PersonInfo();
+
+            //Person = reader.GetByIdOrKey(key);
+
+            //return Ok(Person.CastOrFill<PersonDto>());
+            return Ok();
+        }
+
+        /// <summary>
+        /// Creates a new Person
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        public IActionResult Put([FromBody]TEntity model)
+        {
+            //var Person = model.CastOrFill<PersonInfo>();
+            //Person = Person.Save();
+            //return Ok(Person.CastOrFill<PersonDto>());
+            return Ok();
+        }
+
+        /// <summary>
+        /// Saves changes to a Person
+        /// </summary>
+        /// <param name="model">Full Person model worth of data with user changes</param>
+        /// <returns>PersonDto containing Person data</returns>
+        [HttpPost]
+        public IActionResult Post([FromBody]TEntity model)
+        {
+            //var Person = model.CastOrFill<PersonInfo>();
+            //Person = Person.Save();
+            //return Ok(Person.CastOrFill<PersonDto>());
+            return Ok();
+        }
+
+        /// <summary>
+        /// Saves changes to a Person
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        [HttpDelete("{key}")]
+        public IActionResult Delete(string key)
+        {
+            //var reader = new EntityReader<PersonInfo>();
+            //var Person = new PersonInfo();
+
+            //Person = reader.GetByIdOrKey(key);
+            //Person = Person.Delete();
+
+            //return Ok(Person.CastOrFill<PersonDto>());
+            return Ok();
+        }
+    }
+}
 
