@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Routing;
 using System;
 
-namespace GoodToCode.Entity.Hosting
+namespace GoodToCode.Entity.Hosting.Server
 {
     /// <summary>
     /// Extension methods for <see cref="IApplicationBuilder"/> to add Mvc to the request execution pipeline.
@@ -15,13 +15,13 @@ namespace GoodToCode.Entity.Hosting
         /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
         /// <returns>The <paramref name="app"/>.</returns>
         /// <remarks>This method only supports attribute routing. To add conventional routes use
-        /// <see cref="UseHttpCrudApi(IApplicationBuilder, Action{IRouteBuilder})"/>.</remarks>
-        public static IApplicationBuilder UseHttpCrudApi(this IApplicationBuilder app)
+        /// <see cref="UseCrudApi(IApplicationBuilder, Action{IRouteBuilder})"/>.</remarks>
+        public static IApplicationBuilder UseCrudApi(this IApplicationBuilder app)
         {
             if (app is null)
                 throw new ArgumentNullException(nameof(app));
 
-            return app.UseHttpCrudApi(routes =>
+            return app.UseCrudApi(routes =>
             {
             });
         }
@@ -32,14 +32,14 @@ namespace GoodToCode.Entity.Hosting
         /// </summary>
         /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
         /// <returns>The <paramref name="app"/>.</returns>
-        public static IApplicationBuilder UseHttpCrudApiWithDefaultRoute(this IApplicationBuilder app)
+        public static IApplicationBuilder UseCrudApiWithDefaultRoute(this IApplicationBuilder app)
         {
             if (app is null)
             {
                 throw new ArgumentNullException(nameof(app));
             }
 
-            return app.UseHttpCrudApi(routes =>
+            return app.UseCrudApi(routes =>
             {
                 routes.MapRoute(
                     name: "default",
@@ -53,7 +53,7 @@ namespace GoodToCode.Entity.Hosting
         /// <param name="app">The <see cref="IApplicationBuilder"/>.</param>
         /// <param name="configureRoutes">A callback to configure Mvc routes.</param>
         /// <returns>The <paramref name="app"/>.</returns>
-        public static IApplicationBuilder UseHttpCrudApi(
+        public static IApplicationBuilder UseCrudApi(
             this IApplicationBuilder app,
             Action<IRouteBuilder> configureRoutes)
         {
@@ -62,7 +62,7 @@ namespace GoodToCode.Entity.Hosting
             if (configureRoutes is null)
                 throw new ArgumentNullException(nameof(configureRoutes));
 
-            //// Verify if AddMvc was done before calling UseHttpCrudApi
+            //// Verify if AddMvc was done before calling UseCrudApi
             //// We use the MvcMarkerService to make sure if all the services were added.
             //MvcServicesHelper.ThrowIfMvcNotRegistered(app.ApplicationServices);
 
