@@ -1,10 +1,13 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using GoodToCode.Entity.Hosting.Server;
+using GoodToCode.Entity.Person;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Collections.Generic;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -41,8 +44,13 @@ namespace GoodToCode.Entity.WebServices
                 c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
             });
 
+            var crudControllers = new List<CrudApiInfo>() { new CrudApiInfo(typeof(PersonInfo), "api/Person") };
             services
-                .AddMvc()
+                .AddMvc(o => o.Conventions.Add(
+                  new CrudApiControllerRouteConvention(crudControllers)
+              )).ConfigureApplicationPartManager(m =>
+                  m.FeatureProviders.Add(new CrudApiControllerFeatureProvider(crudControllers)
+              ))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {

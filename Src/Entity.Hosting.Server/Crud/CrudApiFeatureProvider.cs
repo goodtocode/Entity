@@ -20,7 +20,12 @@ namespace GoodToCode.Entity.Hosting.Server
     /// </summary>
     public class CrudApiControllerFeatureProvider : IApplicationFeatureProvider<ControllerFeature>
     {
-        private List<KeyValuePair<Type, string>> typesAndRoutes = new List<KeyValuePair<Type, string>>();
+        private List<CrudApiInfo> typesAndRoutes = new List<CrudApiInfo>();
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CrudApiControllerFeatureProvider() { }
 
         /// <summary>
         /// Constructor
@@ -29,20 +34,20 @@ namespace GoodToCode.Entity.Hosting.Server
         /// <param name="routeToBind"></param>
         public CrudApiControllerFeatureProvider(Type entityType, string routeToBind)
         {
-            typesAndRoutes.Add(new KeyValuePair<Type, string>(entityType, routeToBind));
+            typesAndRoutes.Add(new CrudApiInfo(entityType, routeToBind));
         }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="controllerTypesAndRoutes"></param>
-        public CrudApiControllerFeatureProvider(List<KeyValuePair<Type, string>> controllerTypesAndRoutes)
+        public CrudApiControllerFeatureProvider(List<CrudApiInfo> controllerTypesAndRoutes)
         {
             typesAndRoutes.AddRange(controllerTypesAndRoutes);
         }
 
         /// <summary>
-        /// Adds the type and controller, without the Generic aspect of CrudApiController<>
+        /// Adds the type and controller, without the Generic aspect of CrudApiController
         /// </summary>
         /// <param name="parts"></param>
         /// <param name="feature"></param>
@@ -51,7 +56,7 @@ namespace GoodToCode.Entity.Hosting.Server
             foreach (var item in typesAndRoutes)
             {
                 feature.Controllers.Add(
-                    typeof(CrudApiController<>).MakeGenericType(item.Key).GetTypeInfo()
+                    typeof(CrudApiController<>).MakeGenericType(item.CrudType).GetTypeInfo()
                 );
             }
         }

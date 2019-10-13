@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationModels;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Collections.Generic;
 
@@ -18,7 +19,31 @@ namespace GoodToCode.Entity.Hosting.Server
     /// </summary>
     public class CrudApiControllerRouteConvention : IControllerModelConvention
     {
-        private List<KeyValuePair<Type, string>> typesAndRoutes = new List<KeyValuePair<Type, string>>();
+        private List<CrudApiInfo> typesAndRoutes = new List<CrudApiInfo>();
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CrudApiControllerRouteConvention() { }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="entityType"></param>
+        /// <param name="routeToBind"></param>
+        public CrudApiControllerRouteConvention(Type entityType, string routeToBind)
+        {
+            typesAndRoutes.Add(new CrudApiInfo(entityType, routeToBind));
+        }
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="controllerTypesAndRoutes"></param>
+        public CrudApiControllerRouteConvention(List<CrudApiInfo> controllerTypesAndRoutes)
+        {
+            typesAndRoutes.AddRange(controllerTypesAndRoutes);
+        }
 
         /// <summary>
         /// Applys the route convention
@@ -28,8 +53,15 @@ namespace GoodToCode.Entity.Hosting.Server
         {
             if (controller.ControllerType.IsGenericType)
             {
+                // Method 1 - Default
                 var genericType = controller.ControllerType.GenericTypeArguments[0];
                 controller.ControllerName = genericType.Name;
+
+                // Method 2 - Route["api/Entity"]
+                controller.Selectors.Add(new SelectorModel
+                {
+                    AttributeRouteModel = new AttributeRouteModel(new RouteAttribute($"api/{genericType.Name}")),
+                });
             }
         }
     }
