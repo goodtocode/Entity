@@ -30,7 +30,7 @@ namespace GoodToCode.Entity.WebServices
     /// Accepts HttpGet, HttpPut, HttpPost and HttpDelete operations on a Person
     /// </summary>
     [Produces("application/json")]
-    public class PersonController : Controller
+    public class PersonController : ControllerBase
     {
         public const string ControllerName = "Person";
         public const string ControllerRoute = "v4/Person";

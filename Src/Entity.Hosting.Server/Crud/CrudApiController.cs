@@ -1,4 +1,5 @@
 ﻿using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GoodToCode.Entity.Hosting.Server
@@ -15,9 +16,6 @@ namespace GoodToCode.Entity.Hosting.Server
     [Route("crud/[Controller]")]
     public abstract class CrudApiController<TEntity> : ControllerBase where TEntity : ActiveRecordEntity<TEntity>, new()
     {
-        //https://www.strathweb.com/2018/04/generic-and-dynamically-generated-controllers-in-asp-net-core-mvc/
-
-
         /// <summary>
         /// Name of the controller and path part
         /// </summary>
@@ -54,24 +52,22 @@ namespace GoodToCode.Entity.Hosting.Server
         /// </summary>
         public const string DeleteAction = "Delete";
 
+
         /// <summary>
-        /// Retrieves Person by Id
-        /// </summary>
+        /// Retrieves item by Id
+        /// </summary>        
+        /// <param name="key"></param>
         /// <returns>Person that matches the Id, or initialized PersonDto for not found condition</returns>
         [HttpGet("{key}")]
         public IActionResult Get(string key)
         {
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = new PersonInfo();
-
-            //Person = reader.GetByIdOrKey(key);
-
-            //return Ok(Person.CastOrFill<PersonDto>());
-            return Ok();
+            var reader = new EntityReader<TEntity>();
+            var item = reader.GetByIdOrKey(key);
+            return Ok(item);
         }
 
         /// <summary>
-        /// Creates a new Person
+        /// Creates a new item
         /// </summary>
         /// <returns></returns>
         [HttpPut]
@@ -84,7 +80,7 @@ namespace GoodToCode.Entity.Hosting.Server
         }
 
         /// <summary>
-        /// Saves changes to a Person
+        /// Saves changes to a item
         /// </summary>
         /// <param name="model">Full Person model worth of data with user changes</param>
         /// <returns>PersonDto containing Person data</returns>
@@ -98,7 +94,7 @@ namespace GoodToCode.Entity.Hosting.Server
         }
 
         /// <summary>
-        /// Saves changes to a Person
+        /// Saves changes to a item
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>

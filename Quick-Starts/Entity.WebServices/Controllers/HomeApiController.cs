@@ -26,7 +26,7 @@ namespace GoodToCode.Entity.WebServices
     /// Default WebApi controller
     /// </summary>
     [Route(ControllerRoute)]
-    public class HomeApiController : Controller
+    public class HomeApiController : ControllerBase
     {
         public const string ControllerName = "HomeApi";
         public const string ControllerRoute = "v4/HomeApi";

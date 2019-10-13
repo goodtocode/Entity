@@ -29,7 +29,7 @@ namespace GoodToCode.Entity.WebServices
     /// Searches for Person records    
     /// </summary>
     [Produces("application/json")]
-    public class PersonSearchController : Controller
+    public class PersonSearchController : ControllerBase
     {
         public const string ControllerName = "PersonSearch";
         public const string ControllerRoute = "v4/PersonSearch";
