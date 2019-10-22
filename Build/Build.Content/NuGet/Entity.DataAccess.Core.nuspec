@@ -16,11 +16,10 @@
     <tags>GoodToCode Framework cross-platform open-source full-stack entity Web API mvc universal core</tags>
     <dependencies>
       <group>
-        <dependency id="GoodToCode.Extensions" version="4.0.0" />
-        <dependency id="GoodToCode.Extensions.Data" version="4.0.0" />
-        <dependency id="GoodToCode.Framework.Data" version="4.0.0" />
-        <dependency id="GoodToCode.Framework.Abstractions" version="4.0.0" />
-        <dependency id="GoodToCode.Entity.Abstractions" version="4.0.0" />
+        <dependency id="GoodToCode.Extensions" version="[4,5)" />
+        <dependency id="GoodToCode.Framework.Data" version="[4,5)" />
+        <dependency id="GoodToCode.Framework.Abstractions" version="[4,5)" />
+        <dependency id="GoodToCode.Entity.Abstractions" version="[4,5)" />
         <dependency id="Microsoft.EntityFrameworkCore.SqlServer" version="2.2.6" />
         <dependency id="System.Drawing.Common" version="4.5.1" />
         <dependency id="System.IO.FileSystem" version="4.3.0" />
