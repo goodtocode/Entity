@@ -14,7 +14,7 @@
     <Product>GoodToCode Entities</Product>
     <Company>GoodToCode</Company>
     <Authors>GoodToCode</Authors>
-    <Version>3.18.03</Version>
+    <Version>4.18.03</Version>
     <Description>GoodToCode Framework for classes bring code reusability to your ASP.NET MVC web apps, ASP.NET Web Forms web apps, ASP.NET Web API web services, WPF desktop apps, PCL libraries, and UWP cross-platform mobile apps.</Description>
     <Copyright>Copyright (c) 2017-2018 GoodToCode</Copyright>
   </PropertyGroup>
@@ -29,11 +29,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="GoodToCode.Extensions" Version="4.19.19295.1" />
-    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19295.2" />
-    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19295.2" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19295.3" />
+    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19295.3" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.2.0" />
     <PackageReference Include="MSTest.TestAdapter" Version="2.0.0" />

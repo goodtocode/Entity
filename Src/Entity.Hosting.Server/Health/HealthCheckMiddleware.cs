@@ -8,12 +8,21 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting.Server
 { 
+    /// <summary>
+    /// Middleware for health checks
+    /// </summary>
     public class HealthCheckMiddleware
     {
         private readonly RequestDelegate next;
         private readonly string path;
         private readonly string connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="nextDelegate"></param>
+        /// <param name="pathEndpoint"></param>
+        /// <param name="connectString"></param>
         public HealthCheckMiddleware(RequestDelegate nextDelegate, string pathEndpoint, string connectString = "DefaultConnection")
         {
             next = nextDelegate;
@@ -21,6 +30,11 @@ namespace GoodToCode.Entity.Hosting.Server
             connectionString = connectString;
         }
 
+        /// <summary>
+        /// Invoke middleware
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
             if (context.Request.Path.Value == path)
@@ -51,6 +65,9 @@ namespace GoodToCode.Entity.Hosting.Server
         }
     }
 
+    /// <summary>
+    /// Extension method for middleware
+    /// </summary>
     public static class HealthCheckMiddlewareExtensions
     {
         /// <summary>

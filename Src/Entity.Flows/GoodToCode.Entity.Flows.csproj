@@ -9,7 +9,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <PackageId>GoodToCode.Entity.Flows.Core</PackageId>
-    <Version>3.18.2</Version>
+    <Version>4.18.2</Version>
     <Authors>Robert J. Good</Authors>
     <Company>GoodToCode</Company>
     <Product>GoodToCode.Entity.Flows.Core</Product>

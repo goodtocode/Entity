@@ -10,7 +10,7 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>GoodToCode.Entity</RootNamespace>
-    <Version>3.18.2</Version>
+    <Version>4.18.2</Version>
     <Authors>Robert J. Good</Authors>
     <Company>GoodToCode</Company>
     <Product>GoodToCode.Entity.Dto</Product>
@@ -28,8 +28,8 @@
 
   <ItemGroup>
     <PackageReference Include="GoodToCode.Extensions" Version="4.19.19295.1" />
-    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19295.2" />
-    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19295.2" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19295.3" />
+    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19295.3" />
   </ItemGroup>
 
   <ItemGroup>

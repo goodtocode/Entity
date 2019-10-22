@@ -107,8 +107,8 @@ namespace GoodToCode.Entity.Schedule
             // Recurring:Monthly Day of Week (7: 0-6)
             // I.e. Every 3 Tuesday (position, dayofweek)
             //
-            var dayNumberOfMonth = MoveToExtensions.GetDayOfWeekPosition(timeToCheck);
-            var datesForDayNumber = MoveToExtensions.GetDaysOfWeekInMonth(dayNumberOfMonth, timeToCheck);
+            var dayNumberOfMonth = GetDayOfWeekPosition(timeToCheck);
+            var datesForDayNumber = GetDaysOfWeekInMonth(dayNumberOfMonth, timeToCheck);
             returnValue.AddRange(datesForDayNumber
                 .Where(x => x.TimeOfDay <= timeToCheck.TimeOfDay && x.TimeOfDay >= timeToCheck.TimeOfDay));
             return returnValue;
@@ -177,35 +177,32 @@ namespace GoodToCode.Entity.Schedule
         {
             return Name;
         }
-    }
 
-    public class MoveToExtensions
-    {
-        public IEnumerable<DateTime> GetDatesForYear(int year)
+        private IEnumerable<DateTime> GetDatesForYear(int year)
         {
             return GetDates(new DateTime(year, 1, 1), new DateTime(year, 12, 31));
         }
 
-        public static IEnumerable<DateTime> GetDates(DateTime startDate, DateTime endDate)
+        private IEnumerable<DateTime> GetDates(DateTime startDate, DateTime endDate)
         {
             var returnValue = Enumerable.Range(0, (int)(endDate - startDate).TotalDays + 1)
                                   .Select(x => startDate.AddDays(x));
             return returnValue;
         }
 
-        public static IEnumerable<DateTime> GetDaysOfWeekInMonth(DateTime dateForDayAndMonth)
+        private IEnumerable<DateTime> GetDaysOfWeekInMonth(DateTime dateForDayAndMonth)
         {
             return GetDaysOfWeekInMonth(dateForDayAndMonth.DayOfWeek, dateForDayAndMonth);
         }
 
-        public static IEnumerable<DateTime> GetDaysOfWeekInMonth(DayOfWeek day, DateTime monthToCheck)
+        private IEnumerable<DateTime> GetDaysOfWeekInMonth(DayOfWeek day, DateTime monthToCheck)
         {
             var returnValue = GetDates(monthToCheck.FirstDayOfMonth(), monthToCheck.LastDayOfMonth())
                                 .Where(x => x.DayOfWeek == day);
             return returnValue;
         }
 
-        public static DayOfWeek GetDayOfWeekPosition(DateTime dateToGetPosition)
+        private DayOfWeek GetDayOfWeekPosition(DateTime dateToGetPosition)
         {
             var dates = GetDaysOfWeekInMonth(dateToGetPosition)
                 .Where(currRow => currRow.Date == dateToGetPosition)

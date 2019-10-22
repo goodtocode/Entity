@@ -67,9 +67,11 @@ namespace GoodToCode.Entity.Hosting.Server
         [HttpGet("{key}")]
         public IActionResult Get(string key)
         {
-            var reader = new EntityReader<TEntity>();
-            var entity = reader.GetByIdOrKey(key);
-            return Ok(entity);
+            using (var reader = new EntityReader<TEntity>())
+            {
+                var entity = reader.GetByIdOrKey(key);
+                return Ok(entity);
+            }
         }
 
         /// <summary>
@@ -103,13 +105,13 @@ namespace GoodToCode.Entity.Hosting.Server
         [HttpDelete("{key}")]
         public IActionResult Delete(string key)
         {
-            var reader = new EntityReader<TEntity>();
-            var entity = new TEntity();
+            using (var reader = new EntityReader<TEntity>())
+            {
+                var entity = reader.GetByIdOrKey(key);
+                entity = entity.Delete();
 
-            entity = reader.GetByIdOrKey(key);
-            entity = entity.Delete();
-
-            return Ok(entity);
+                return Ok(entity);
+            }
         }
     }
 }
