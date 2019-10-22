@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace GoodToCode.Entity.Hosting.Server
@@ -116,15 +117,17 @@ namespace GoodToCode.Entity.Hosting.Server
         public void Apply(ControllerModel controller)
         {
             if (controller.ControllerType.IsGenericType)
-            {
+            {                
                 // Method 1 - Default
                 var genericType = controller.ControllerType.GenericTypeArguments[0];
                 controller.ControllerName = genericType.Name;
 
                 // Method 2 - Route["api/Entity"]
+                var route = typesAndRoutes.Where(x => x.CrudType == genericType).Select(y => y.CrudRoute).FirstOrDefault() 
+                    ?? $"api/{genericType.Name}";
                 controller.Selectors.Add(new SelectorModel
                 {
-                    AttributeRouteModel = new AttributeRouteModel(new RouteAttribute($"api/{genericType.Name}")),
+                    AttributeRouteModel = new AttributeRouteModel(new RouteAttribute(route)),
                 });
             }
         }
@@ -142,7 +145,7 @@ namespace GoodToCode.Entity.Hosting.Server
     ///   U - HttpPost(TDto item)
     ///   D - HttpDelete(string idOrKey)
     /// </summary>
-    [Route("crud/[Controller]")]
+    [Route("api/[Controller]")]
     public class CrudApiController<TEntity> : ControllerBase where TEntity : ActiveRecordEntity<TEntity>, new()
     {
         /// <summary>
