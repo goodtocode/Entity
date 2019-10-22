@@ -4,12 +4,21 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
+    /// <summary>
+    /// Middleware database checks for health check
+    /// </summary>
     public class DbHealthCheckMiddleware
     {
         private readonly RequestDelegate next;
         private readonly string path;
         private readonly string connectionString;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="nextDelegate"></param>
+        /// <param name="pathEndpoint"></param>
+        /// <param name="connectString"></param>
         public DbHealthCheckMiddleware(RequestDelegate nextDelegate, string pathEndpoint, string connectString = "DefaultConnection")
         {
             next = nextDelegate;
@@ -17,6 +26,11 @@ namespace GoodToCode.Entity.Hosting
             connectionString = connectString;
         }
 
+        /// <summary>
+        /// Invokes middleware
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
             if (context.Request.Path.Value == path)
@@ -47,6 +61,9 @@ namespace GoodToCode.Entity.Hosting
         }
     }
 
+    /// <summary>
+    /// IApplicationBuilder extension for health check
+    /// </summary>
     public static class DbHealthCheckMiddlewareExtensions
     {
         /// <summary>

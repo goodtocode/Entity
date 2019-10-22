@@ -13,13 +13,13 @@ namespace GoodToCode.Entity.Hosting.Server
     ///   U - HttpPost(TDto item)
     ///   D - HttpDelete(string idOrKey)
     /// </summary>
-    [Route("crud/[Controller]")]
-    public abstract class CrudApiController<TEntity> : ControllerBase where TEntity : ActiveRecordEntity<TEntity>, new()
+    [Route("api/[Controller]")]
+    public class CrudApiController<TEntity> : ControllerBase where TEntity : ActiveRecordEntity<TEntity>, new()
     {
         /// <summary>
         /// Name of the controller and path part
         /// </summary>
-        public string ControllerName  => typeof(TEntity).Name;
+        public string ControllerName => typeof(TEntity).Name;
 
         /// <summary>
         /// Path part inbetween domain and controller name
@@ -52,6 +52,12 @@ namespace GoodToCode.Entity.Hosting.Server
         /// </summary>
         public const string DeleteAction = "Delete";
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public CrudApiController()
+        {
+        }
 
         /// <summary>
         /// Retrieves item by Id
@@ -62,8 +68,8 @@ namespace GoodToCode.Entity.Hosting.Server
         public IActionResult Get(string key)
         {
             var reader = new EntityReader<TEntity>();
-            var item = reader.GetByIdOrKey(key);
-            return Ok(item);
+            var entity = reader.GetByIdOrKey(key);
+            return Ok(entity);
         }
 
         /// <summary>
@@ -71,26 +77,22 @@ namespace GoodToCode.Entity.Hosting.Server
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult Put([FromBody]TEntity model)
+        public IActionResult Put([FromBody]TEntity entity)
         {
-            //var Person = model.CastOrFill<PersonInfo>();
-            //Person = Person.Save();
-            //return Ok(Person.CastOrFill<PersonDto>());
-            return Ok();
+            entity = entity.Save();
+            return Ok(entity);
         }
 
         /// <summary>
         /// Saves changes to a item
         /// </summary>
-        /// <param name="model">Full Person model worth of data with user changes</param>
+        /// <param name="entity">Full Person model worth of data with user changes</param>
         /// <returns>PersonDto containing Person data</returns>
         [HttpPost]
-        public IActionResult Post([FromBody]TEntity model)
+        public IActionResult Post([FromBody]TEntity entity)
         {
-            //var Person = model.CastOrFill<PersonInfo>();
-            //Person = Person.Save();
-            //return Ok(Person.CastOrFill<PersonDto>());
-            return Ok();
+            entity = entity.Save();
+            return Ok(entity);
         }
 
         /// <summary>
@@ -101,14 +103,13 @@ namespace GoodToCode.Entity.Hosting.Server
         [HttpDelete("{key}")]
         public IActionResult Delete(string key)
         {
-            //var reader = new EntityReader<PersonInfo>();
-            //var Person = new PersonInfo();
+            var reader = new EntityReader<TEntity>();
+            var entity = new TEntity();
 
-            //Person = reader.GetByIdOrKey(key);
-            //Person = Person.Delete();
+            entity = reader.GetByIdOrKey(key);
+            entity = entity.Delete();
 
-            //return Ok(Person.CastOrFill<PersonDto>());
-            return Ok();
+            return Ok(entity);
         }
     }
 }

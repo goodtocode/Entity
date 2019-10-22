@@ -4,12 +4,21 @@ using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Hosting
 {
+    /// <summary>
+    /// Http back end checks for health check
+    /// </summary>
     public class HttpHealthCheckMiddleware
     {
         private readonly RequestDelegate next;
         private readonly string path;
         private readonly string url;
 
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        /// <param name="nextDelegate"></param>
+        /// <param name="endpointToListen"></param>
+        /// <param name="urlToCheck"></param>
         public HttpHealthCheckMiddleware(RequestDelegate nextDelegate, string endpointToListen, string urlToCheck = "http://localhost")
         {
             next = nextDelegate;
@@ -17,6 +26,12 @@ namespace GoodToCode.Entity.Hosting
             url = urlToCheck;
         }
 
+
+        /// <summary>
+        /// Invokes checks for health check
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
             if (context.Request.Path.Value == path)
@@ -43,6 +58,9 @@ namespace GoodToCode.Entity.Hosting
         }
     }
 
+    /// <summary>
+    /// IApplicationBuilder extensions
+    /// </summary>
     public static class HttpHealthCheckMiddlewareExtensions
     {
         /// <summary>

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GoodToCode.Entity.Hosting.Server
 {
@@ -58,9 +59,11 @@ namespace GoodToCode.Entity.Hosting.Server
                 controller.ControllerName = genericType.Name;
 
                 // Method 2 - Route["api/Entity"]
+                var route = typesAndRoutes.Where(x => x.CrudType == genericType).Select(y => y.CrudRoute).FirstOrDefault()
+                    ?? $"api/{genericType.Name}";
                 controller.Selectors.Add(new SelectorModel
                 {
-                    AttributeRouteModel = new AttributeRouteModel(new RouteAttribute($"api/{genericType.Name}")),
+                    AttributeRouteModel = new AttributeRouteModel(new RouteAttribute(route)),
                 });
             }
         }
