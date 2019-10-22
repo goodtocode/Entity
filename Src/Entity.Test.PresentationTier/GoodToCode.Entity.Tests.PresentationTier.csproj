@@ -6,6 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Hosting.Server\**" />
+    <EmbeddedResource Remove="Hosting.Server\**" />
+    <None Remove="Hosting.Server\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
@@ -14,13 +20,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Hosting.Server\" />
     <Folder Include="Dto\" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Entity.Dto\GoodToCode.Entity.Dto.csproj" />
-    <ProjectReference Include="..\Entity.Hosting\GoodToCode.Entity.Hosting.csproj" />
   </ItemGroup>
 
   <ItemGroup>
