@@ -85,6 +85,8 @@ namespace GoodToCode.Entity.Person
             Assert.IsTrue(!testItem.FailedRules.Any());
 
             // Object in db should match in-memory objects
+            testItem = PersonInfo.GetById(resultEntity.Id);
+            Assert.IsTrue(!testItem.IsNew);
             testItem = PersonInfo.GetByKey(resultEntity.Key);
             Assert.IsTrue(!testItem.IsNew);
             Assert.IsTrue(testItem.Id != Defaults.Integer);

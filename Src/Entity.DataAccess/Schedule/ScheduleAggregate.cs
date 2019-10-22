@@ -1,4 +1,5 @@
-using GoodToCode.Extensions.Data;
+
+using GoodToCode.Framework.Data;
 using System.Collections.Generic;
 
 namespace GoodToCode.Entity.Schedule

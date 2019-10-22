@@ -1,15 +1,13 @@
 
 using GoodToCode.Extensions;
-using GoodToCode.Extensions.Data;
+
 using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Repository;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Person
 {

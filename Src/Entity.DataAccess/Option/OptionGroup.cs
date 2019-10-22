@@ -1,5 +1,5 @@
 
-using GoodToCode.Extensions.Data;
+
 using GoodToCode.Framework.Data;
 
 namespace GoodToCode.Entity.Option

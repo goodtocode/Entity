@@ -7,10 +7,9 @@
     <DocumentationFile>bin\Debug\netstandard2.0\GoodToCode.Entity.Hosting.Server.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="GoodToCode.Extensions" Version="4.18.19277.2" />
-    <PackageReference Include="GoodToCode.Extensions.Data" Version="4.18.19277.2" />
-    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19284.2" />
-    <PackageReference Include="GoodToCode.Framework.Data" Version="4.18.19281.1" />
+    <PackageReference Include="GoodToCode.Extensions" Version="4.19.19295.1" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19295.2" />
+    <PackageReference Include="GoodToCode.Framework.Data" Version="4.19.19295.2" />
     <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Core" Version="5.2.7" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
