@@ -89,20 +89,6 @@ steps:
     versioningScheme: byBuildNumber
 
 - task: NuGetCommand@2
-  displayName: 'NuGet pack Entity.Hosting.nuspec'
-  inputs:
-    command: pack
-    packagesToPack: Build/Build.Content/NuGet/Entity.Hosting.nuspec
-    versioningScheme: byBuildNumber
-
-- task: NuGetCommand@2
-  displayName: 'NuGet pack Entity.Hosting.Server.nuspec'
-  inputs:
-    command: pack
-    packagesToPack: Build/Build.Content/NuGet/Entity.Hosting.Server.nuspec
-    versioningScheme: byBuildNumber
-
-- task: NuGetCommand@2
   displayName: 'NuGet pack Entity.DataAccess.Core.nuspec'
   inputs:
     command: pack
