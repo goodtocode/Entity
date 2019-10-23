@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-//namespace GoodToCode.Entity.Hosting.Server
+//namespace GoodToCode.Framework.Hosting.Server
 //{
 //    /// <summary>
 //    /// Adds feature
@@ -68,7 +68,7 @@ using System.Reflection;
 //    }
 //}
 
-//namespace GoodToCode.Entity.Hosting.Server
+//namespace GoodToCode.Framework.Hosting.Server
 //{
 //    /// <summary>
 //    /// Route convetion adding route to controller
@@ -134,7 +134,7 @@ using System.Reflection;
 //    }
 //}
 
-//namespace GoodToCode.Entity.Hosting.Server
+//namespace GoodToCode.Framework.Hosting.Server
 //{
 //    /// <summary>
 //    /// WebAPI CRUD controller to receive CRUD requests.
@@ -246,7 +246,7 @@ using System.Reflection;
 //    }
 //}
 
-//namespace GoodToCode.Entity.Hosting.Server
+//namespace GoodToCode.Framework.Hosting.Server
 //{
 //    /// <summary>
 //    /// Crud Controller and Route information

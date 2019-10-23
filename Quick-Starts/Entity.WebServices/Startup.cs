@@ -1,4 +1,4 @@
-﻿using GoodToCode.Entity.Hosting.Server;
+﻿using GoodToCode.Framework.Hosting.Server;
 using GoodToCode.Entity.Person;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

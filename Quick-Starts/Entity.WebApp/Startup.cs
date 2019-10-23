@@ -1,5 +1,5 @@
 using GoodToCode.Entity.Person;
-using GoodToCode.Entity.Hosting;
+using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
