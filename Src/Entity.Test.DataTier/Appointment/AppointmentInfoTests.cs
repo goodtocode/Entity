@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Appointment
 {
@@ -64,22 +65,24 @@ namespace GoodToCode.Entity.Appointment
         /// Appointment_AppointmentInfo
         /// </summary>
         [TestMethod()]
-        public void Appointment_AppointmentInfo_Create()
+        public async Task Appointment_AppointmentInfo_Create()
         {
             var testEntity = new AppointmentInfo();
             var resultEntity = new AppointmentInfo();
-            var testItem = new AppointmentInfo();
             var reader = new EntityReader<AppointmentInfo>();
             var locationTest = new LocationInfoTests();
             var locationKey = Defaults.Guid;
 
             // Location is required
-            locationTest.Location_LocationInfo_Create();
+            await locationTest.Location_LocationInfo_Create();
             locationKey = LocationInfoTests.RecycleBin.Last();
             Assert.IsTrue(locationKey != Defaults.Guid);
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
@@ -87,13 +90,13 @@ namespace GoodToCode.Entity.Appointment
             Assert.IsTrue(!resultEntity.FailedRules.Any());
 
             // Object in db should match in-memory objects
-            testItem = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id);
-            Assert.IsTrue(testItem.Key == resultEntity.Key);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             AppointmentInfoTests.RecycleBin.Add(testEntity.Key);
         }
@@ -102,101 +105,106 @@ namespace GoodToCode.Entity.Appointment
         /// Appointment_AppointmentInfo
         /// </summary>
         [TestMethod()]
-        public void Appointment_AppointmentInfo_Read()
+        public async Task Appointment_AppointmentInfo_Read()
         {
             var reader = new EntityReader<AppointmentInfo>();
-            var testItem = new AppointmentInfo();
+            var testEntity = new AppointmentInfo();
             var lastKey = Defaults.Guid;
 
-            Appointment_AppointmentInfo_Create();
+            await Appointment_AppointmentInfo_Create();
             lastKey = AppointmentInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Appointment_AppointmentInfo
         /// </summary>
         [TestMethod()]
-        public void Appointment_AppointmentInfo_Update()
+        public async Task Appointment_AppointmentInfo_Update()
         {
             var reader = new EntityReader<AppointmentInfo>();
-            var writer = new StoredProcedureWriter<AppointmentInfo>();
             var resultEntity = new AppointmentInfo();
-            var testItem = new AppointmentInfo();
+            var testEntity = new AppointmentInfo();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Appointment_AppointmentInfo_Create();
+            await Appointment_AppointmentInfo_Create();
             lastKey = AppointmentInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem.Name = uniqueValue;
-            resultEntity = testItem.Save();
+            testEntity.Name = uniqueValue;
+            using (var writer = new StoredProcedureWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Appointment_AppointmentInfo
         /// </summary>
         [TestMethod()]
-        public void Appointment_AppointmentInfo_Delete()
+        public async Task Appointment_AppointmentInfo_Delete()
         {
             var reader = new EntityReader<AppointmentInfo>();
-            var testItem = new AppointmentInfo();
-            var result = new AppointmentInfo();
+            var testEntity = new AppointmentInfo();
+            var resultEntity = new AppointmentInfo();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Appointment_AppointmentInfo_Create();
+            await Appointment_AppointmentInfo_Create();
             lastKey = AppointmentInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            result = testItem.Delete();
-            Assert.IsTrue(result.IsNew);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(testItem.Id != originalId);
-            Assert.IsTrue(testItem.Key != originalKey);
-            Assert.IsTrue(testItem.IsNew);
-            Assert.IsTrue(testItem.Key == Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -222,13 +230,18 @@ namespace GoodToCode.Entity.Appointment
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<AppointmentInfo>();
             var reader = new EntityReader<AppointmentInfo>();
+            var toDelete = new AppointmentInfo();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<AppointmentInfo>(toDelete, new AppointmentInfoSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

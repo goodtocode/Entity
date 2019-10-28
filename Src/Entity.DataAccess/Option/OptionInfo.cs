@@ -1,10 +1,8 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Value;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace GoodToCode.Entity.Option
@@ -13,7 +11,7 @@ namespace GoodToCode.Entity.Option
     /// OptionInfo
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class OptionInfo : ActiveRecordValue<OptionInfo>, IOption
+    public class OptionInfo : ValueInfo<OptionInfo>, IOption
 	{
         /// <summary>
         /// Grouping of properties
@@ -59,17 +57,5 @@ namespace GoodToCode.Entity.Option
 			this.OptionGroupKey = OptionGroupKey;
 			this.Name = name;
 		}
-
-        /// <summary>
-        /// Pulls only properties with a specific groupId
-        /// </summary>
-        /// <param name="OptionGroupKey">Option Group Key</param>
-        public static IQueryable<OptionInfo> GetByGroup(Guid OptionGroupKey)
-		{
-            var reader = new ValueReader<OptionInfo>();
-            var returnValue = reader.GetByWhere(x => x.OptionGroupKey == OptionGroupKey);
-			return returnValue;
-		}
-		
 	}
 }

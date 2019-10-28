@@ -4,6 +4,7 @@ using GoodToCode.Extensions;
 using GoodToCode.Extensions.Text.Cleansing;
 using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Repository;
 using GoodToCode.Framework.Validation;
 using System;
@@ -17,57 +18,8 @@ namespace GoodToCode.Entity.Resource
     /// Resource
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceInfo : ActiveRecordEntity<ResourceInfo>, IResource
+    public class ResourceInfo : EntityInfo<ResourceInfo>, IResource
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceInfo> CreateStoredProcedure
-        => new StoredProcedure<ResourceInfo>()
-        {
-            StoredProcedureName = "ResourceInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceInfo> UpdateStoredProcedure
-        => new StoredProcedure<ResourceInfo>()
-        {
-            StoredProcedureName = "ResourceInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceInfo> DeleteStoredProcedure
-        => new StoredProcedure<ResourceInfo>()
-        {
-            StoredProcedureName = "ResourceInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -91,17 +43,6 @@ namespace GoodToCode.Entity.Resource
         /// Constructor
         /// </summary>
         public ResourceInfo() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new ResourceInfo Save()
-        {
-            var writer = new StoredProcedureWriter<ResourceInfo>();
-            Name = new HtmlUnsafeCleanser(Name).Cleanse().ToPascalCase();
-            Description = new HtmlUnsafeCleanser(Description).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

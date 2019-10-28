@@ -5,6 +5,7 @@ using GoodToCode.Extensions;
 
 using GoodToCode.Framework.Repository;
 using GoodToCode.Entity;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity
 {
@@ -20,7 +21,7 @@ namespace GoodToCode.Entity
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Option_EntityOption_Get()
+        public async Task Option_EntityOption_Get()
         {
             var reader = new EntityReader<EntityOption>();
             var ItemToTest = new EntityOption();

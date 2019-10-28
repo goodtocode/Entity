@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Location
 {
@@ -65,16 +66,18 @@ namespace GoodToCode.Entity.Location
         /// Location_LocationInfo
         /// </summary>
         [TestMethod()]
-        public void Location_LocationInfo_Create()
+        public async Task Location_LocationInfo_Create()
         {
             var testEntity = new LocationInfo();
             var resultEntity = new LocationInfo();
-            var testItem = new LocationInfo();
             var reader = new EntityReader<LocationInfo>();
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<LocationInfo>(testEntity, new LocationInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
@@ -82,13 +85,13 @@ namespace GoodToCode.Entity.Location
             Assert.IsTrue(!resultEntity.FailedRules.Any());
 
             // Object in db should match in-memory objects
-            testItem = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id);
-            Assert.IsTrue(testItem.Key == resultEntity.Key);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             LocationInfoTests.RecycleBin.Add(testEntity.Key);
         }
@@ -97,101 +100,106 @@ namespace GoodToCode.Entity.Location
         /// Location_LocationInfo
         /// </summary>
         [TestMethod()]
-        public void Location_LocationInfo_Read()
+        public async Task Location_LocationInfo_Read()
         {
             var reader = new EntityReader<LocationInfo>();
-            var testItem = new LocationInfo();
+            var testEntity = new LocationInfo();
             var lastKey = Defaults.Guid;
 
-            Location_LocationInfo_Create();
+            await Location_LocationInfo_Create();
             lastKey = LocationInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Location_LocationInfo
         /// </summary>
         [TestMethod()]
-        public void Location_LocationInfo_Update()
+        public async Task Location_LocationInfo_Update()
         {
             var reader = new EntityReader<LocationInfo>();
-            var writer = new StoredProcedureWriter<LocationInfo>();
             var resultEntity = new LocationInfo();
-            var testItem = new LocationInfo();
+            var testEntity = new LocationInfo();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Location_LocationInfo_Create();
+            await Location_LocationInfo_Create();
             lastKey = LocationInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem.Name = uniqueValue;
-            resultEntity = testItem.Save();
+            testEntity.Name = uniqueValue;
+            using (var writer = new StoredProcedureWriter<LocationInfo>(testEntity, new LocationInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Location_LocationInfo
         /// </summary>
         [TestMethod()]
-        public void Location_LocationInfo_Delete()
+        public async Task Location_LocationInfo_Delete()
         {
             var reader = new EntityReader<LocationInfo>();
-            var testItem = new LocationInfo();
-            var result = new LocationInfo();
+            var testEntity = new LocationInfo();
+            var resultEntity = new LocationInfo();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Location_LocationInfo_Create();
+            await Location_LocationInfo_Create();
             lastKey = LocationInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            result = testItem.Delete();
-            Assert.IsTrue(result.IsNew);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<LocationInfo>(testEntity, new LocationInfoSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(testItem.Id != originalId);
-            Assert.IsTrue(testItem.Key != originalKey);
-            Assert.IsTrue(testItem.IsNew);
-            Assert.IsTrue(testItem.Key == Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -217,13 +225,18 @@ namespace GoodToCode.Entity.Location
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<LocationInfo>();
             var reader = new EntityReader<LocationInfo>();
+            var toDelete = new LocationInfo();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<LocationInfo>(toDelete, new LocationInfoSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

@@ -1,15 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -17,67 +11,8 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class SlotLocation : ActiveRecordEntity<SlotLocation>, ISlotLocation
+    public class SlotLocation : EntityInfo<SlotLocation>, ISlotLocation
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotLocation> CreateStoredProcedure
-        => new StoredProcedure<SlotLocation>()
-        {
-            StoredProcedureName = "SlotLocationSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@SlotName", SlotName),
-                new SqlParameter("@SlotDescription", SlotDescription),
-                new SqlParameter("@LocationKey", LocationKey),
-                new SqlParameter("@LocationName", LocationName),
-                new SqlParameter("@LocationDescription", LocationDescription),
-                new SqlParameter("@LocationTypeKey", LocationTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotLocation> UpdateStoredProcedure
-        => new StoredProcedure<SlotLocation>()
-        {
-            StoredProcedureName = "SlotLocationSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@SlotName", SlotName),
-                new SqlParameter("@SlotDescription", SlotDescription),
-                new SqlParameter("@LocationKey", LocationKey),
-                new SqlParameter("@LocationName", LocationName),
-                new SqlParameter("@LocationDescription", LocationDescription),
-                new SqlParameter("@LocationTypeKey", LocationTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotLocation> DeleteStoredProcedure
-        => new StoredProcedure<SlotLocation>()
-        {
-            StoredProcedureName = "SlotLocationDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -128,19 +63,6 @@ namespace GoodToCode.Entity.Schedule
         /// Constructor
         /// </summary>
         public SlotLocation() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new SlotLocation Save()
-        {
-            var writer = new StoredProcedureWriter<SlotLocation>();
-            SlotName = new HtmlUnsafeCleanser(SlotName).Cleanse().ToPascalCase();
-            SlotDescription = new HtmlUnsafeCleanser(SlotDescription).Cleanse();
-            LocationName = new HtmlUnsafeCleanser(LocationName).Cleanse().ToPascalCase();
-            LocationDescription = new HtmlUnsafeCleanser(LocationDescription).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

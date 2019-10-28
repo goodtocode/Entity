@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Person
 {
@@ -71,29 +72,32 @@ namespace GoodToCode.Entity.Person
         /// Person_ResourcePerson
         /// </summary>
         [TestMethod()]
-        public void Person_ResourcePerson_Create()
+        public async Task Person_ResourcePerson_Create()
         {
             var testEntity = new ResourcePerson();
             var resultEntity = new ResourcePerson();
-            var testItem = new ResourcePerson();
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Object in db should match in-memory objects
-            testItem = ResourcePerson.GetByKey(resultEntity.Key);
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id);
-            Assert.IsTrue(testItem.Key == resultEntity.Key);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            var reader = new EntityReader<ResourcePerson>();
+            testEntity = reader.GetByKey(resultEntity.Key);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             ResourcePersonTests.RecycleBin.Add(testEntity.Key);
         }
@@ -103,29 +107,27 @@ namespace GoodToCode.Entity.Person
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Person_ResourcePerson_Create_Id()
+        public async Task Person_ResourcePerson_Create_Id()
         {
-            var customerWriter = new StoredProcedureWriter<ResourcePerson>();
             var testEntity = new ResourcePerson();
             var resultEntity = new ResourcePerson();
-            var oldId = Defaults.Integer;
-            var oldKey = Defaults.Guid;
-            var newId = Defaults.Integer;
-            var newKey = Defaults.Guid;
 
             // Create and insert record
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.Id = Defaults.Integer;
             testEntity.Key = Defaults.Guid;
-            oldId = testEntity.Id;
-            oldKey = testEntity.Key;
+            var oldId = testEntity.Id;
+            var oldKey = testEntity.Key;
             Assert.IsTrue(testEntity.IsNew);
             Assert.IsTrue(testEntity.Id == Defaults.Integer);
             Assert.IsTrue(testEntity.Key == Defaults.Guid);
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            resultEntity = customerWriter.Create(testEntity);
+            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            {
+                resultEntity = await writer.CreateAsync();
+            }
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
@@ -149,29 +151,27 @@ namespace GoodToCode.Entity.Person
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Person_ResourcePerson_Create_Key()
-        {
-            var customerWriter = new StoredProcedureWriter<ResourcePerson>();
+        public async Task Person_ResourcePerson_Create_Key()
+        {            
             var testEntity = new ResourcePerson();
             var resultEntity = new ResourcePerson();
-            var oldId = Defaults.Integer;
-            var oldKey = Defaults.Guid;
-            var newId = Defaults.Integer;
-            var newKey = Defaults.Guid;
 
             // Create and insert record
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.Id = Defaults.Integer;
             testEntity.Key = Guid.NewGuid();
-            oldId = testEntity.Id;
-            oldKey = testEntity.Key;
+            var oldId = testEntity.Id;
+            var oldKey = testEntity.Key;
             Assert.IsTrue(testEntity.IsNew);
             Assert.IsTrue(testEntity.Id == Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            resultEntity = customerWriter.Create(testEntity);
+            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
@@ -194,96 +194,102 @@ namespace GoodToCode.Entity.Person
         /// Person_ResourcePerson
         /// </summary>
         [TestMethod()]
-        public void Person_ResourcePerson_Read()
+        public async Task Person_ResourcePerson_Read()
         {
-            var testItem = new ResourcePerson();
+            var testEntity = new ResourcePerson();
             var lastKey = Defaults.Guid;
 
-            Person_ResourcePerson_Create();
+            await Person_ResourcePerson_Create();
             lastKey = ResourcePersonTests.RecycleBin.LastOrDefault();
 
-            testItem = ResourcePerson.GetByKey(lastKey);
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = new EntityReader<ResourcePerson>().GetByKey(lastKey);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Person_ResourcePerson
         /// </summary>
         [TestMethod()]
-        public void Person_ResourcePerson_Update()
+        public async Task Person_ResourcePerson_Update()
         {
             var resultEntity = new ResourcePerson();
-            var testItem = new ResourcePerson();
+            var testEntity = new ResourcePerson();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Person_ResourcePerson_Create();
+            await Person_ResourcePerson_Create();
             lastKey = ResourcePersonTests.RecycleBin.LastOrDefault();
 
-            testItem = ResourcePerson.GetByKey(lastKey);
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = new EntityReader<ResourcePerson>().GetByKey(lastKey);
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem.FirstName = uniqueValue;
-            resultEntity = testItem.Save();
+            testEntity.FirstName = uniqueValue;
+            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = ResourcePerson.GetByKey(originalKey);
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = new EntityReader<ResourcePerson>().GetByKey(originalKey);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Person_ResourcePerson
         /// </summary>
         [TestMethod()]
-        public void Person_ResourcePerson_Delete()
+        public async Task Person_ResourcePerson_Delete()
         {
-            var testItem = new ResourcePerson();
-            var result = new ResourcePerson();
+            var testEntity = new ResourcePerson();
+            var resultEntity = new ResourcePerson();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Person_ResourcePerson_Create();
+            await Person_ResourcePerson_Create();
             lastKey = ResourcePersonTests.RecycleBin.LastOrDefault();
 
-            testItem = ResourcePerson.GetByKey(lastKey);
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = new EntityReader<ResourcePerson>().GetByKey(lastKey);
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            result = testItem.Delete();
-            Assert.IsTrue(result.IsNew);
-            Assert.IsTrue(!result.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
+            Assert.IsTrue(!resultEntity.FailedRules.Any());
 
-            testItem = ResourcePerson.GetByKey(originalKey);
-            Assert.IsTrue(testItem.Id != originalId);
-            Assert.IsTrue(testItem.Key != originalKey);
-            Assert.IsTrue(testItem.IsNew);
-            Assert.IsTrue(testItem.Key == Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = new EntityReader<ResourcePerson>().GetByKey(originalKey);
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -429,13 +435,18 @@ namespace GoodToCode.Entity.Person
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<ResourcePerson>();
             var reader = new EntityReader<ResourcePerson>();
+            var toDelete = new ResourcePerson();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<ResourcePerson>(toDelete, new ResourcePersonSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

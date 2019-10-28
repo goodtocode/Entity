@@ -1,13 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Person
 {
@@ -15,63 +11,8 @@ namespace GoodToCode.Entity.Person
     /// EntityPerson
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class PersonInfo : ActiveRecordEntity<PersonInfo>, IFormattable, IPerson, IEntity
+    public class PersonInfo : EntityInfo<PersonInfo>, IFormattable, IPerson
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<PersonInfo> CreateStoredProcedure
-        => new StoredProcedure<PersonInfo>()
-        {
-            StoredProcedureName = "PersonInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FirstName", FirstName),
-                new SqlParameter("@MiddleName", MiddleName),
-                new SqlParameter("@LastName", LastName),
-                new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderCode", GenderCode),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<PersonInfo> UpdateStoredProcedure
-        => new StoredProcedure<PersonInfo>()
-        {
-            StoredProcedureName = "PersonInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FirstName", FirstName),
-                new SqlParameter("@MiddleName", MiddleName),
-                new SqlParameter("@LastName", LastName),
-                new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderCode", GenderCode),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<PersonInfo> DeleteStoredProcedure
-        => new StoredProcedure<PersonInfo>()
-        {
-            StoredProcedureName = "PersonInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -129,19 +70,6 @@ namespace GoodToCode.Entity.Person
             MiddleName = middleName;
             LastName = lastName;
             BirthDate = birthDate;
-        }
-
-        /// <summary>
-        /// Save the entity to the database. This method will auto-generate activity tracking.
-        /// </summary>
-        public new PersonInfo Save()
-        {
-            var writer = new StoredProcedureWriter<PersonInfo>();
-            // Ensure data does not contain cross site scripting injection HTML/Js/SQL
-            FirstName = new HtmlUnsafeCleanser(this.FirstName).Cleanse();
-            MiddleName = new HtmlUnsafeCleanser(this.MiddleName).Cleanse();
-            LastName = new HtmlUnsafeCleanser(this.LastName).Cleanse();
-            return writer.Save(this);
         }
 
         /// <summary>

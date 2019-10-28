@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -66,20 +67,22 @@ namespace GoodToCode.Entity.Schedule
         /// Schedule_SlotLocation
         /// </summary>
         [TestMethod()]
-        public void Schedule_SlotLocation_Create()
+        public async Task Schedule_SlotLocation_Create()
         {
             var testEntity = new SlotLocation();
             var resultEntity = new SlotLocation();
-            var dbSlot = new SlotLocation();
             var reader = new EntityReader<SlotLocation>();
             var slotTest = new SlotInfoTests();
 
             // Create a base record
-            slotTest.Schedule_SlotInfo_Create();
+            await slotTest.Schedule_SlotInfo_Create();
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.SlotKey = SlotInfoTests.RecycleBin.LastOrDefault();
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<SlotLocation>(testEntity, new SlotLocationSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.FailedRules.Any());
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
@@ -87,12 +90,12 @@ namespace GoodToCode.Entity.Schedule
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
 
             // Object in db should match in-memory objects
-            dbSlot = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbSlot.IsNew);
-            Assert.IsTrue(dbSlot.Id != Defaults.Integer);
-            Assert.IsTrue(dbSlot.Key != Defaults.Guid);
-            Assert.IsTrue(dbSlot.Id == resultEntity.Id);
-            Assert.IsTrue(dbSlot.Key == resultEntity.Key);
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
 
             SlotLocationTests.RecycleBin.Add(testEntity.Key);
         }
@@ -101,94 +104,99 @@ namespace GoodToCode.Entity.Schedule
         /// Schedule_SlotLocation
         /// </summary>
         [TestMethod()]
-        public void Schedule_SlotLocation_Read()
+        public async Task Schedule_SlotLocation_Read()
         {
             var reader = new EntityReader<SlotLocation>();
-            var dbSlot = new SlotLocation();
+            var testEntity = new SlotLocation();
             var lastKey = Defaults.Guid;
 
-            Schedule_SlotLocation_Create();
+            await Schedule_SlotLocation_Create();
             lastKey = SlotLocationTests.RecycleBin.LastOrDefault();
 
-            dbSlot = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbSlot.IsNew);
-            Assert.IsTrue(dbSlot.Id != Defaults.Integer);
-            Assert.IsTrue(dbSlot.Key != Defaults.Guid);
-            Assert.IsTrue(dbSlot.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
         }
 
         /// <summary>
         /// Schedule_SlotLocation
         /// </summary>
         [TestMethod()]
-        public void Schedule_SlotLocation_Update()
+        public async Task Schedule_SlotLocation_Update()
         {
             var reader = new EntityReader<SlotLocation>();
-            var writer = new StoredProcedureWriter<SlotLocation>();
             var resultEntity = new SlotLocation();
-            var dbSlot = new SlotLocation();
+            var testEntity = new SlotLocation();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Schedule_SlotLocation_Create();
+            await Schedule_SlotLocation_Create();
             lastKey = SlotLocationTests.RecycleBin.LastOrDefault();
 
-            dbSlot = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbSlot.Id;
-            originalKey = dbSlot.Key;
-            Assert.IsTrue(!dbSlot.IsNew);
-            Assert.IsTrue(dbSlot.Id != Defaults.Integer);
-            Assert.IsTrue(dbSlot.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
-            dbSlot.LocationName = uniqueValue;
-            resultEntity = dbSlot.Save();
+            testEntity.LocationName = uniqueValue;
+            using (var writer = new StoredProcedureWriter<SlotLocation>(testEntity, new SlotLocationSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(dbSlot.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbSlot.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
 
-            dbSlot = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbSlot.IsNew);
-            Assert.IsTrue(dbSlot.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbSlot.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(dbSlot.Id != Defaults.Integer);
-            Assert.IsTrue(dbSlot.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
         }
 
         /// <summary>
         /// Schedule_SlotLocation
         /// </summary>
         [TestMethod()]
-        public void Schedule_SlotLocation_Delete()
+        public async Task Schedule_SlotLocation_Delete()
         {
             var reader = new EntityReader<SlotLocation>();
-            var dbSlot = new SlotLocation();
-            var result = new SlotLocation();
+            var testEntity = new SlotLocation();
+            var resultEntity = new SlotLocation();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Schedule_SlotLocation_Create();
+            await Schedule_SlotLocation_Create();
             lastKey = SlotLocationTests.RecycleBin.LastOrDefault();
 
-            dbSlot = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbSlot.Id;
-            originalKey = dbSlot.Key;
-            Assert.IsTrue(dbSlot.Id != Defaults.Integer);
-            Assert.IsTrue(dbSlot.Key != Defaults.Guid);
-            Assert.IsTrue(dbSlot.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            result = dbSlot.Delete();
-            Assert.IsTrue(result.IsNew);
+            using (var writer = new StoredProcedureWriter<SlotLocation>(testEntity, new SlotLocationSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
 
-            dbSlot = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(dbSlot.Id != originalId);
-            Assert.IsTrue(dbSlot.Key != originalKey);
-            Assert.IsTrue(dbSlot.IsNew);
-            Assert.IsTrue(dbSlot.Key == Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -214,13 +222,18 @@ namespace GoodToCode.Entity.Schedule
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<SlotLocation>();
             var reader = new EntityReader<SlotLocation>();
+            var toDelete = new SlotLocation();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<SlotLocation>(toDelete, new SlotLocationSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

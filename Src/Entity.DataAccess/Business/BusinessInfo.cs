@@ -1,15 +1,8 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Business
 {
@@ -17,57 +10,8 @@ namespace GoodToCode.Entity.Business
     /// BusinessInfo DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class BusinessInfo : ActiveRecordEntity<BusinessInfo>, IBusiness
+    public class BusinessInfo : EntityInfo<BusinessInfo>, IBusiness
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<BusinessInfo> CreateStoredProcedure
-        => new StoredProcedure<BusinessInfo>()
-        {
-            StoredProcedureName = "BusinessInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@TaxNumber", TaxNumber),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<BusinessInfo> UpdateStoredProcedure
-        => new StoredProcedure<BusinessInfo>()
-        {
-            StoredProcedureName = "BusinessInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@TaxNumber", TaxNumber),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<BusinessInfo> DeleteStoredProcedure
-        => new StoredProcedure<BusinessInfo>()
-        {
-            StoredProcedureName = "BusinessInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -95,15 +39,5 @@ namespace GoodToCode.Entity.Business
             : base()
         {
         }
-
-        /// <summary>
-        /// Save the entity to the database
-        /// </summary>
-        public new BusinessInfo Save()
-        {
-            var writer = new StoredProcedureWriter<BusinessInfo>();
-            Name = new HtmlUnsafeCleanser(Name).Cleanse(); // Ensure data does not contain cross site scripting injection HTML/Js/SQL
-            return writer.Save(this);
-       }
     }
 }

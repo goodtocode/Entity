@@ -1,10 +1,8 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Name;
+using GoodToCode.Framework.Value;
 using System;
-using System.Collections.Generic;
 
 namespace GoodToCode.Entity.Person
 {
@@ -12,7 +10,7 @@ namespace GoodToCode.Entity.Person
     /// EntityGender
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class GenderInfo : ActiveRecordValue<GenderInfo>, IFormattable, INameCode
+    public class GenderInfo : ValueInfo<GenderInfo>, IFormattable, INameCode
     {
         /// <summary>
         /// Friendly name of the Gender

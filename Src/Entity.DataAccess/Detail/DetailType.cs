@@ -1,8 +1,7 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
 using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Value;
 using System;
 using System.Linq;
 
@@ -12,7 +11,7 @@ namespace GoodToCode.Entity.Detail
     ///  detail type
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class DetailType : ActiveRecordValue<DetailType>
+    public class DetailType : ValueInfo<DetailType>
     {
         /// <summary>
         /// This detail does not apply to the exclude Id
@@ -26,14 +25,5 @@ namespace GoodToCode.Entity.Detail
             : base()
         {
         }
-
-        /// <summary>
-        /// Gets all detail types that are not excluded for this  type
-        /// </summary>
-        public static IQueryable<DetailType> GetByType(Guid TypeKey)
-		{
-            var reader = new ValueReader<DetailType>();
-			return reader.GetByWhere(x => x.ExcludeTypeKey != TypeKey);
-		}
     }
 }

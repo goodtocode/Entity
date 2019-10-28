@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoodToCode.Extensions;
 
 using GoodToCode.Framework.Repository;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Flow
 {
@@ -14,7 +15,7 @@ namespace GoodToCode.Entity.Flow
     public class FlowTests
     {
         [TestMethod()]
-        public void Flow_FlowInfo()
+        public async Task Flow_FlowInfo()
         {
             var workflow = new FlowInfo();
             var flowKey = Defaults.Guid;

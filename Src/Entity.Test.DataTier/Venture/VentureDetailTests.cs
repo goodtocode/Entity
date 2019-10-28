@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Venture
 {
@@ -68,21 +69,23 @@ namespace GoodToCode.Entity.Venture
         /// Venture_VentureDetail
         /// </summary>
         [TestMethod()]
-        public void Venture_VentureDetail_Create()
+        public async Task Venture_VentureDetail_Create()
         {
             var testEntity = new VentureDetail();
             var resultEntity = new VentureDetail();
-            var dbVenture = new VentureDetail();
             var reader = new EntityReader<VentureDetail>();
             var VentureTest = new VentureInfoTests();
 
             // Create a base record
-            VentureTest.Venture_VentureInfo_Create();
+            await VentureTest.Venture_VentureInfo_Create();
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.VentureKey = VentureInfoTests.RecycleBin.LastOrDefault();
             testEntity.DetailTypeKey = DetailTypes.Directions;
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<VentureDetail>(testEntity, new VentureDetailSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.FailedRules.Any());
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
@@ -90,12 +93,12 @@ namespace GoodToCode.Entity.Venture
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
 
             // Object in db should match in-memory objects
-            dbVenture = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbVenture.IsNew);
-            Assert.IsTrue(dbVenture.Id != Defaults.Integer);
-            Assert.IsTrue(dbVenture.Key != Defaults.Guid);
-            Assert.IsTrue(dbVenture.Id == resultEntity.Id);
-            Assert.IsTrue(dbVenture.Key == resultEntity.Key);
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
 
             VentureDetailTests.RecycleBin.Add(testEntity.Key);
         }
@@ -104,94 +107,99 @@ namespace GoodToCode.Entity.Venture
         /// Venture_VentureDetail
         /// </summary>
         [TestMethod()]
-        public void Venture_VentureDetail_Read()
+        public async Task Venture_VentureDetail_Read()
         {
             var reader = new EntityReader<VentureDetail>();
-            var dbVenture = new VentureDetail();
+            var testEntity = new VentureDetail();
             var lastKey = Defaults.Guid;
 
-            Venture_VentureDetail_Create();
+            await Venture_VentureDetail_Create();
             lastKey = VentureDetailTests.RecycleBin.LastOrDefault();
 
-            dbVenture = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbVenture.IsNew);
-            Assert.IsTrue(dbVenture.Id != Defaults.Integer);
-            Assert.IsTrue(dbVenture.Key != Defaults.Guid);
-            Assert.IsTrue(dbVenture.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
         }
 
         /// <summary>
         /// Venture_VentureDetail
         /// </summary>
         [TestMethod()]
-        public void Venture_VentureDetail_Update()
+        public async Task Venture_VentureDetail_Update()
         {
             var reader = new EntityReader<VentureDetail>();
-            var writer = new StoredProcedureWriter<VentureDetail>();
             var resultEntity = new VentureDetail();
-            var dbVenture = new VentureDetail();
+            var testEntity = new VentureDetail();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Venture_VentureDetail_Create();
+            await Venture_VentureDetail_Create();
             lastKey = VentureDetailTests.RecycleBin.LastOrDefault();
 
-            dbVenture = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbVenture.Id;
-            originalKey = dbVenture.Key;
-            Assert.IsTrue(!dbVenture.IsNew);
-            Assert.IsTrue(dbVenture.Id != Defaults.Integer);
-            Assert.IsTrue(dbVenture.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
-            dbVenture.Description = uniqueValue;
-            resultEntity = dbVenture.Save();
+            testEntity.Description = uniqueValue;
+            using (var writer = new StoredProcedureWriter<VentureDetail>(testEntity, new VentureDetailSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(dbVenture.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbVenture.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
 
-            dbVenture = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbVenture.IsNew);
-            Assert.IsTrue(dbVenture.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbVenture.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(dbVenture.Id != Defaults.Integer);
-            Assert.IsTrue(dbVenture.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
         }
 
         /// <summary>
         /// Venture_VentureDetail
         /// </summary>
         [TestMethod()]
-        public void Venture_VentureDetail_Delete()
+        public async Task Venture_VentureDetail_Delete()
         {
             var reader = new EntityReader<VentureDetail>();
-            var dbVenture = new VentureDetail();
-            var result = new VentureDetail();
+            var testEntity = new VentureDetail();
+            var resultEntity = new VentureDetail();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Venture_VentureDetail_Create();
+            await Venture_VentureDetail_Create();
             lastKey = VentureDetailTests.RecycleBin.LastOrDefault();
 
-            dbVenture = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbVenture.Id;
-            originalKey = dbVenture.Key;
-            Assert.IsTrue(dbVenture.Id != Defaults.Integer);
-            Assert.IsTrue(dbVenture.Key != Defaults.Guid);
-            Assert.IsTrue(dbVenture.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            result = dbVenture.Delete();
-            Assert.IsTrue(result.IsNew);
+            using (var writer = new StoredProcedureWriter<VentureDetail>(testEntity, new VentureDetailSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
 
-            dbVenture = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(dbVenture.Id != originalId);
-            Assert.IsTrue(dbVenture.Key != originalKey);
-            Assert.IsTrue(dbVenture.IsNew);
-            Assert.IsTrue(dbVenture.Key == Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -216,13 +224,18 @@ namespace GoodToCode.Entity.Venture
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<VentureDetail>();
             var reader = new EntityReader<VentureDetail>();
+            var toDelete = new VentureDetail();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<VentureDetail>(toDelete, new VentureDetailSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

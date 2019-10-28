@@ -1,4 +1,3 @@
-
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Repository;
 using System;
@@ -37,34 +36,34 @@ namespace GoodToCode.Entity.Schedule
         /// </summary>
         public SlotAggregate() : base() { }
 
-        /// <summary>
-        /// Load by schedule
-        /// </summary>
-        /// <param name="scheduleKey"></param>
-        /// <returns></returns>
-        public static IEnumerable<SlotAggregate> GetBySchedule(Guid scheduleKey)
-        {
-            var returnValue = new List<SlotAggregate>();
-            var slots = new EntityReader<ScheduleSlot>().GetByWhere(x => x.ScheduleKey == scheduleKey).ToList();
-            slots.ForEach(x => returnValue.Add(SlotAggregate.GetByKey(x.SlotKey)));
-            return returnValue;
-        }
+        ///// <summary>
+        ///// Load by schedule
+        ///// </summary>
+        ///// <param name="scheduleKey"></param>
+        ///// <returns></returns>
+        //public static IEnumerable<SlotAggregate> GetBySchedule(Guid scheduleKey)
+        //{
+        //    var returnValue = new List<SlotAggregate>();
+        //    var slots = new EntityReader<ScheduleSlot>().GetByWhere(x => x.ScheduleKey == scheduleKey).ToList();
+        //    slots.ForEach(x => returnValue.Add(SlotAggregate.GetByKey(x.SlotKey)));
+        //    return returnValue;
+        //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="slotKey"></param>
-        /// <returns></returns>
-        public new static SlotAggregate GetByKey(Guid slotKey)
-        {
-            var returnValue = GetByKey(slotKey);
-            returnValue.Locations = SlotLocation.GetByWhere(x => x.Key == slotKey);
-            returnValue.Resources = SlotResource.GetByWhere(x => x.Key == slotKey);
-            returnValue.TimeRanges = SlotTimeRange.GetByWhere(x => x.Key == slotKey);
-            returnValue.TimeReocurring = SlotTimeRecurring.GetByWhere(x => x.Key == slotKey);
+        ///// <summary>
+        ///// 
+        ///// </summary>
+        ///// <param name="slotKey"></param>
+        ///// <returns></returns>
+        //public async Task<static SlotAggregate GetByKey(Guid slotKey)
+        //{
+        //    var returnValue = GetByKey(slotKey);
+        //    returnValue.Locations = SlotLocation.GetByWhere(x => x.Key == slotKey);
+        //    returnValue.Resources = SlotResource.GetByWhere(x => x.Key == slotKey);
+        //    returnValue.TimeRanges = SlotTimeRange.GetByWhere(x => x.Key == slotKey);
+        //    returnValue.TimeReocurring = SlotTimeRecurring.GetByWhere(x => x.Key == slotKey);
 
-            return returnValue;
-        }
+        //    return returnValue;
+        //}
 
         /// <summary>
         /// 

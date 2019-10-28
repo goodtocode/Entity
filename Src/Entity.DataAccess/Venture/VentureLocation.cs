@@ -1,14 +1,9 @@
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Venture
 {
@@ -16,67 +11,8 @@ namespace GoodToCode.Entity.Venture
     /// Ventures
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureLocation : ActiveRecordEntity<VentureLocation>, IVentureLocation
-    {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureLocation> CreateStoredProcedure
-        => new StoredProcedure<VentureLocation>()
-        {
-            StoredProcedureName = "VentureLocationSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureKey", VentureKey),
-                new SqlParameter("@VentureName", VentureName),
-                new SqlParameter("@VentureDescription", VentureDescription),
-                new SqlParameter("@LocationKey", LocationKey),
-                new SqlParameter("@LocationName", LocationName),
-                new SqlParameter("@LocationDescription", LocationDescription),
-                new SqlParameter("@LocationTypeKey", LocationTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureLocation> UpdateStoredProcedure
-        => new StoredProcedure<VentureLocation>()
-        {
-            StoredProcedureName = "VentureLocationSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureKey", VentureKey),
-                new SqlParameter("@VentureName", VentureName),
-                new SqlParameter("@VentureDescription", VentureDescription),
-                new SqlParameter("@LocationKey", LocationKey),
-                new SqlParameter("@LocationName", LocationName),
-                new SqlParameter("@LocationDescription", LocationDescription),
-                new SqlParameter("@LocationTypeKey", LocationTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureLocation> DeleteStoredProcedure
-        => new StoredProcedure<VentureLocation>()
-        {
-            StoredProcedureName = "VentureLocationDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
+    public class VentureLocation : EntityInfo<VentureLocation>, IVentureLocation
+    {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -128,17 +64,6 @@ namespace GoodToCode.Entity.Venture
         /// </summary>
         public VentureLocation() : base() { }
 
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new VentureLocation Save()
-        {
-            var writer = new StoredProcedureWriter<VentureLocation>();
-            LocationName = new HtmlUnsafeCleanser(LocationName).Cleanse().ToPascalCase();
-            LocationDescription = new HtmlUnsafeCleanser(LocationDescription).Cleanse();
-            return writer.Save(this);
-        }
-        
         /// <summary>
         /// Returns name
         /// </summary>        

@@ -1,11 +1,9 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -13,57 +11,8 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode"), DataAccessBehavior(DataAccessBehaviors.NoUpdate)]
-    public class ScheduleSlot : ActiveRecordEntity<ScheduleSlot>, IScheduleSlot
-    {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ScheduleSlot> CreateStoredProcedure
-        => new StoredProcedure<ScheduleSlot>()
-        {
-            StoredProcedureName = "ScheduleSlotSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ScheduleKey", ScheduleKey),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ScheduleSlot> UpdateStoredProcedure
-        => new StoredProcedure<ScheduleSlot>()
-        {
-            StoredProcedureName = "ScheduleSlotSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ScheduleKey", ScheduleKey),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ScheduleSlot> DeleteStoredProcedure
-        => new StoredProcedure<ScheduleSlot>()
-        {
-            StoredProcedureName = "ScheduleSlotDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
+    public class ScheduleSlot : EntityInfo<ScheduleSlot>, IScheduleSlot
+    {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>

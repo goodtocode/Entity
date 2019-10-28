@@ -1,14 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Event
 {
@@ -16,66 +11,9 @@ namespace GoodToCode.Entity.Event
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventInfo : ActiveRecordEntity<EventInfo>, IEvent
+    public class EventInfo : EntityInfo<EventInfo>, IEvent
     {
         private readonly string name = Defaults.String;
-
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EventInfo> CreateStoredProcedure
-        => new StoredProcedure<EventInfo>()
-        {
-            StoredProcedureName = "EventInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@EventGroupKey", EventGroupKey),
-                new SqlParameter("@EventTypeKey", EventTypeKey),
-                new SqlParameter("@EventCreatorKey", EventCreatorKey),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@Slogan", Slogan),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EventInfo> UpdateStoredProcedure
-        => new StoredProcedure<EventInfo>()
-        {
-            StoredProcedureName = "EventInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@EventGroupKey", EventGroupKey),
-                new SqlParameter("@EventTypeKey", EventTypeKey),
-                new SqlParameter("@EventCreatorKey", EventCreatorKey),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@Slogan", Slogan),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EventInfo> DeleteStoredProcedure
-        => new StoredProcedure<EventInfo>()
-        {
-            StoredProcedureName = "EventInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
 
         /// <summary>
         /// EventGroupId
@@ -123,29 +61,6 @@ namespace GoodToCode.Entity.Event
         /// Constructor
         /// </summary>
         public EventInfo() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new EventInfo Save()
-        {
-            var writer = new StoredProcedureWriter<EventInfo>();
-            Name = new HtmlUnsafeCleanser(Name).Cleanse().ToPascalCase();
-            Description = new HtmlUnsafeCleanser(Description).Cleanse();
-            return writer.Save(this);
-        }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        /// <param name="creatorKey">RequestingEntityId of creator</param>
-        /// <param name="activity">Activity responsible for tracking this process</param>        
-        public EventInfo Save(Guid creatorKey, IActivityContext activity)
-        {
-            EventCreatorKey = creatorKey;
-            ActivityContextKey = activity.ActivityContextKey;
-            return Save();
-        }
 
         /// <summary>
         /// Returns name

@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Resource
 {
@@ -67,29 +68,31 @@ namespace GoodToCode.Entity.Resource
         /// Resource_ResourceInfo
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceInfo_Create()
+        public async Task Resource_ResourceInfo_Create()
         {
             var testEntity = new ResourceInfo();
             var resultEntity = new ResourceInfo();
-            var testResource = new ResourceInfo();
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(!testResource.FailedRules.Any());
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Object in db should match in-memory objects
-            testResource = ResourceInfo.GetByKey(resultEntity.Key);
-            Assert.IsTrue(!testResource.IsNew);
-            Assert.IsTrue(testResource.Id != Defaults.Integer);
-            Assert.IsTrue(testResource.Key != Defaults.Guid);
-            Assert.IsTrue(testResource.Id == resultEntity.Id);
-            Assert.IsTrue(testResource.Key == resultEntity.Key);
-            Assert.IsTrue(!testResource.FailedRules.Any());
+            testEntity = new EntityReader<ResourceInfo>().GetByKey(resultEntity.Key);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             ResourceInfoTests.RecycleBin.Add(testEntity.Key);
         }
@@ -99,9 +102,8 @@ namespace GoodToCode.Entity.Resource
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Resource_ResourceInfo_Create_Id()
+        public async Task Resource_ResourceInfo_Create_Id()
         {
-            var customerWriter = new StoredProcedureWriter<ResourceInfo>();
             var testEntity = new ResourceInfo();
             var resultEntity = new ResourceInfo();
             var oldId = Defaults.Integer;
@@ -121,7 +123,10 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            resultEntity = customerWriter.Create(testEntity);
+            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            {
+                resultEntity = await writer.CreateAsync();
+            }
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
@@ -145,9 +150,8 @@ namespace GoodToCode.Entity.Resource
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Resource_ResourceInfo_Create_Key()
+        public async Task Resource_ResourceInfo_Create_Key()
         {
-            var customerWriter = new StoredProcedureWriter<ResourceInfo>();
             var testEntity = new ResourceInfo();
             var resultEntity = new ResourceInfo();
             var oldId = Defaults.Integer;
@@ -167,7 +171,10 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            resultEntity = customerWriter.Create(testEntity);
+            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            {
+                resultEntity = await writer.CreateAsync();
+            }
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
@@ -190,96 +197,96 @@ namespace GoodToCode.Entity.Resource
         /// Resource_ResourceInfo
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceInfo_Read()
+        public async Task Resource_ResourceInfo_Read()
         {
-            var testResource = new ResourceInfo();
+            var testEntity = new ResourceInfo();
             var lastKey = Defaults.Guid;
 
-            Resource_ResourceInfo_Create();
+            await Resource_ResourceInfo_Create();
             lastKey = ResourceInfoTests.RecycleBin.LastOrDefault();
 
-            testResource = ResourceInfo.GetByKey(lastKey);
-            Assert.IsTrue(!testResource.IsNew);
-            Assert.IsTrue(testResource.Id != Defaults.Integer);
-            Assert.IsTrue(testResource.Key != Defaults.Guid);
-            Assert.IsTrue(testResource.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testResource.FailedRules.Any());
+            testEntity = new EntityReader<ResourceInfo>().GetByKey(lastKey);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Resource_ResourceInfo
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceInfo_Update()
+        public async Task Resource_ResourceInfo_Update()
         {
             var resultEntity = new ResourceInfo();
-            var testResource = new ResourceInfo();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
-            var lastKey = Defaults.Guid;
-            var originalId = Defaults.Integer;
-            var originalKey = Defaults.Guid;
+            await Resource_ResourceInfo_Create();
+            var lastKey = ResourceInfoTests.RecycleBin.LastOrDefault();
+            var testEntity = new EntityReader<ResourceInfo>().GetByKey(lastKey);
+            var originalId = testEntity.Id;
+            var originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            Resource_ResourceInfo_Create();
-            lastKey = ResourceInfoTests.RecycleBin.LastOrDefault();
-
-            testResource = ResourceInfo.GetByKey(lastKey);
-            originalId = testResource.Id;
-            originalKey = testResource.Key;
-            Assert.IsTrue(!testResource.IsNew);
-            Assert.IsTrue(testResource.Id != Defaults.Integer);
-            Assert.IsTrue(testResource.Key != Defaults.Guid);
-            Assert.IsTrue(!testResource.FailedRules.Any());
-
-            testResource.Name = uniqueValue;
-            resultEntity = testResource.Save();
+            testEntity.Name = uniqueValue;
+            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(testResource.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testResource.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(!testResource.FailedRules.Any());
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testResource = ResourceInfo.GetByKey(originalKey);
-            Assert.IsTrue(!testResource.IsNew);
-            Assert.IsTrue(testResource.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testResource.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(testResource.Id != Defaults.Integer);
-            Assert.IsTrue(testResource.Key != Defaults.Guid);
-            Assert.IsTrue(!testResource.FailedRules.Any());
+            testEntity = new EntityReader<ResourceInfo>().GetByKey(originalKey);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Resource_ResourceInfo
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceInfo_Delete()
+        public async Task Resource_ResourceInfo_Delete()
         {
-            var testResource = new ResourceInfo();
-            var result = new ResourceInfo();
+            var testEntity = new ResourceInfo();
+            var resultEntity = new ResourceInfo();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Resource_ResourceInfo_Create();
+            await Resource_ResourceInfo_Create();
             lastKey = ResourceInfoTests.RecycleBin.LastOrDefault();
 
-            testResource = ResourceInfo.GetByKey(lastKey);
-            originalId = testResource.Id;
-            originalKey = testResource.Key;
-            Assert.IsTrue(testResource.Id != Defaults.Integer);
-            Assert.IsTrue(testResource.Key != Defaults.Guid);
-            Assert.IsTrue(testResource.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = new EntityReader<ResourceInfo>().GetByKey(lastKey);
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            result = testResource.Delete();
-            Assert.IsTrue(result.IsNew);
-            Assert.IsTrue(!result.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
+            Assert.IsTrue(!resultEntity.FailedRules.Any());
 
-            testResource = ResourceInfo.GetByKey(originalKey);
-            Assert.IsTrue(testResource.Id != originalId);
-            Assert.IsTrue(testResource.Key != originalKey);
-            Assert.IsTrue(testResource.IsNew);
-            Assert.IsTrue(testResource.Key == Defaults.Guid);
-            Assert.IsTrue(!testResource.FailedRules.Any());
+            testEntity = new EntityReader<ResourceInfo>().GetByKey(originalKey);
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -305,13 +312,18 @@ namespace GoodToCode.Entity.Resource
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<ResourceInfo>();
             var reader = new EntityReader<ResourceInfo>();
-            foreach (Guid Resource in RecycleBin)
+            var toDelete = new ResourceInfo();
+
+            foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(Resource));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<ResourceInfo>(toDelete, new ResourceInfoSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

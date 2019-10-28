@@ -1,9 +1,7 @@
-
-using System;
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Data;
-
 using GoodToCode.Framework.Name;
+using GoodToCode.Framework.Value;
 
 namespace GoodToCode.Entity.Flow
 {
@@ -11,7 +9,7 @@ namespace GoodToCode.Entity.Flow
     /// Contains workflows and their steps
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class FlowInfo : ActiveRecordValue<FlowInfo>, INameDescription
+    public class FlowInfo : ValueInfo<FlowInfo>, INameDescription
 	{
         /// <summary>
         /// Friendly name

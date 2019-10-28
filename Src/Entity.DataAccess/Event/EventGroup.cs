@@ -1,10 +1,6 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
-using System;
-using System.Linq;
+using GoodToCode.Framework.Value;
 
 namespace GoodToCode.Entity.Event
 {
@@ -12,7 +8,7 @@ namespace GoodToCode.Entity.Event
     /// Type of event
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventGroup : ActiveRecordValue<EventGroup>, IEventGroup
+    public class EventGroup : ValueInfo<EventGroup>, IEventGroup
     {
         /// <summary>
         /// Friendly name

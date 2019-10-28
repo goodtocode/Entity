@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Validation.Tests
 {
@@ -6,13 +7,13 @@ namespace GoodToCode.Entity.Validation.Tests
     public class ValidationRuleTests
     {
         [TestMethod()]
-        public void Validation_ValidationRule()
+        public async Task Validation_ValidationRule()
         {
             //Assert.Fail();
         }
 
         [TestMethod()]
-        public void Validation_Validate()
+        public async Task Validation_Validate()
         {
             //Assert.Fail();
         }

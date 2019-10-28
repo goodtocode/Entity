@@ -1,13 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -15,71 +11,8 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class SlotTimeRecurring : ActiveRecordEntity<SlotTimeRecurring>, ISlotTimeRecurring
+    public class SlotTimeRecurring : EntityInfo<SlotTimeRecurring>, ISlotTimeRecurring
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotTimeRecurring> CreateStoredProcedure
-        => new StoredProcedure<SlotTimeRecurring>()
-        {
-            StoredProcedureName = "SlotTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeCycleKey", TimeCycleKey),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@SlotName", SlotName),
-                new SqlParameter("@SlotDescription", SlotDescription),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotTimeRecurring> UpdateStoredProcedure
-        => new StoredProcedure<SlotTimeRecurring>()
-        {
-            StoredProcedureName = "SlotTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeCycleKey", TimeCycleKey),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@SlotName", SlotName),
-                new SqlParameter("@SlotDescription", SlotDescription),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotTimeRecurring> DeleteStoredProcedure
-        => new StoredProcedure<SlotTimeRecurring>()
-        {
-            StoredProcedureName = "SlotTimeRecurringDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -151,17 +84,6 @@ namespace GoodToCode.Entity.Schedule
         /// </summary>
         public SlotTimeRecurring() : base() { }
 
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new SlotTimeRecurring Save()
-        {
-            var writer = new StoredProcedureWriter<SlotTimeRecurring>();
-            SlotName = new HtmlUnsafeCleanser(SlotName).Cleanse().ToPascalCase();
-            SlotDescription = new HtmlUnsafeCleanser(SlotDescription).Cleanse();
-            return writer.Save(this);
-        }
-        
         /// <summary>
         /// Returns name
         /// </summary>        

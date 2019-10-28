@@ -1,16 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Venture
 {
@@ -18,64 +11,9 @@ namespace GoodToCode.Entity.Venture
     /// Ventures
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureInfo : ActiveRecordEntity<VentureInfo>, IVenture
+    public class VentureInfo : EntityInfo<VentureInfo>, IVenture
     {
         private readonly string name = Defaults.String;
-
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureInfo> CreateStoredProcedure
-        => new StoredProcedure<VentureInfo>()
-        {
-            StoredProcedureName = "VentureInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureGroupKey", VentureGroupKey),
-                new SqlParameter("@VentureTypeKey", VentureTypeKey),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@Slogan", Slogan),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureInfo> UpdateStoredProcedure
-        => new StoredProcedure<VentureInfo>()
-        {
-            StoredProcedureName = "VentureInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureGroupKey", VentureGroupKey),
-                new SqlParameter("@VentureTypeKey", VentureTypeKey),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@Slogan", Slogan),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureInfo> DeleteStoredProcedure
-        => new StoredProcedure<VentureInfo>()
-        {
-            StoredProcedureName = "VentureInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
 
         /// <summary>
         /// VentureGroupId
@@ -117,17 +55,6 @@ namespace GoodToCode.Entity.Venture
         /// Constructor
         /// </summary>
         public VentureInfo() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new VentureInfo Save()
-        {
-            var writer = new StoredProcedureWriter<VentureInfo>();
-            Name = new HtmlUnsafeCleanser(Name).Cleanse().ToPascalCase();
-            Description = new HtmlUnsafeCleanser(Description).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

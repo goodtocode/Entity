@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity
 {
@@ -14,7 +15,7 @@ namespace GoodToCode.Entity
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Flow_SessionContext()
+        public async Task Flow_SessionContext()
         {
             //Assert.Fail();
         }

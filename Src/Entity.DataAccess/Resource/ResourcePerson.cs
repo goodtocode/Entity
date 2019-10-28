@@ -1,16 +1,13 @@
-
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
-
 using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Repository;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Resource
 {
@@ -18,63 +15,8 @@ namespace GoodToCode.Entity.Resource
     /// EntityPerson
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourcePerson : ActiveRecordEntity<ResourcePerson>, IFormattable, IPerson, IEntity
-    {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourcePerson> CreateStoredProcedure
-        => new StoredProcedure<ResourcePerson>()
-        {
-            StoredProcedureName = "ResourcePersonSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FirstName", FirstName),
-                new SqlParameter("@MiddleName", MiddleName),
-                new SqlParameter("@LastName", LastName),
-                new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderCode", GenderCode),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourcePerson> UpdateStoredProcedure
-        => new StoredProcedure<ResourcePerson>()
-        {
-            StoredProcedureName = "ResourcePersonSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FirstName", FirstName),
-                new SqlParameter("@MiddleName", MiddleName),
-                new SqlParameter("@LastName", LastName),
-                new SqlParameter("@BirthDate", BirthDate),
-                new SqlParameter("@GenderCode", GenderCode),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourcePerson> DeleteStoredProcedure
-        => new StoredProcedure<ResourcePerson>()
-        {
-            StoredProcedureName = "ResourcePersonDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
+    public class ResourcePerson : EntityInfo<ResourcePerson>, IFormattable, IPerson, IEntity
+    {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -147,14 +89,16 @@ namespace GoodToCode.Entity.Resource
         /// <summary>
         /// Save the entity to the database. This method will auto-generate activity tracking.
         /// </summary>
-        public new ResourcePerson Save()
+        public async Task<ResourcePerson> SaveAsync()
         {
-            var writer = new StoredProcedureWriter<ResourcePerson>();
             // Ensure data does not contain cross site scripting injection HTML/Js/SQL
             FirstName = new HtmlUnsafeCleanser(this.FirstName).Cleanse();
             MiddleName = new HtmlUnsafeCleanser(this.MiddleName).Cleanse();
             LastName = new HtmlUnsafeCleanser(this.LastName).Cleanse();
-            return writer.Save(this);
+            using (var writer = new StoredProcedureWriter<ResourcePerson>(this, new ResourcePersonSPConfig()))
+            {
+                return await writer.SaveAsync();
+            }
         }
 
         /// <summary>

@@ -1,16 +1,9 @@
-
-using GoodToCode.Entity.Schedule;
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity
 {
@@ -18,65 +11,8 @@ namespace GoodToCode.Entity
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EntityTimeRecurring : ActiveRecordEntity<EntityTimeRecurring>, IEntityTimeRecurring
+    public class EntityTimeRecurring : EntityInfo<EntityTimeRecurring>, IEntityTimeRecurring
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EntityTimeRecurring> CreateStoredProcedure
-        => new StoredProcedure<EntityTimeRecurring>()
-        {
-            StoredProcedureName = "EntityTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@EntityKey", EntityKey),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EntityTimeRecurring> UpdateStoredProcedure
-        => new StoredProcedure<EntityTimeRecurring>()
-        {
-            StoredProcedureName = "EntityTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@EntityKey", EntityKey),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EntityTimeRecurring> DeleteStoredProcedure
-        => new StoredProcedure<EntityTimeRecurring>()
-        {
-            StoredProcedureName = "EntityTimeRecurringDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>

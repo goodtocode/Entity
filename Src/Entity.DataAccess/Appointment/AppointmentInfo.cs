@@ -1,15 +1,9 @@
-﻿
-using GoodToCode.Entity.Event;
-using GoodToCode.Extensions;
-
-using GoodToCode.Framework.Activity;
+﻿using GoodToCode.Extensions;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Appointment
 {
@@ -17,65 +11,8 @@ namespace GoodToCode.Entity.Appointment
     /// Event location and time
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class AppointmentInfo : ActiveRecordEntity<AppointmentInfo>, IAppointment
+    public class AppointmentInfo : EntityInfo<AppointmentInfo>, IAppointment
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<AppointmentInfo> CreateStoredProcedure
-        => new StoredProcedure<AppointmentInfo>()
-        {
-            StoredProcedureName = "AppointmentInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@SlotLocationKey", SlotLocationKey),
-                new SqlParameter("@SlotResourceKey", SlotResourceKey),
-                new SqlParameter("@BeginDate", BeginDate),
-                new SqlParameter("@EndDate", EndDate),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<AppointmentInfo> UpdateStoredProcedure
-        => new StoredProcedure<AppointmentInfo>()
-        {
-            StoredProcedureName = "AppointmentInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@SlotLocationKey", SlotLocationKey),
-                new SqlParameter("@SlotResourceKey", SlotResourceKey),
-                new SqlParameter("@BeginDate", BeginDate),
-                new SqlParameter("@EndDate", EndDate),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<AppointmentInfo> DeleteStoredProcedure
-        => new StoredProcedure<AppointmentInfo>()
-        {
-            StoredProcedureName = "AppointmentInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>

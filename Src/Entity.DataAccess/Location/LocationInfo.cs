@@ -1,16 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Name;
-using GoodToCode.Framework.Repository;
 using GoodToCode.Framework.Validation;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Location
 {
@@ -18,58 +11,9 @@ namespace GoodToCode.Entity.Location
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class LocationInfo : ActiveRecordEntity<LocationInfo>, INameDescription
+    public class LocationInfo : EntityInfo<LocationInfo>, INameDescription
     {
         private readonly string name = Defaults.String;
-
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<LocationInfo> CreateStoredProcedure
-        => new StoredProcedure<LocationInfo>()
-        {
-            StoredProcedureName = "LocationInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<LocationInfo> UpdateStoredProcedure
-        => new StoredProcedure<LocationInfo>()
-        {
-            StoredProcedureName = "LocationInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<LocationInfo> DeleteStoredProcedure
-        => new StoredProcedure<LocationInfo>()
-        {
-            StoredProcedureName = "LocationInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
 
         /// <summary>
         /// Name
@@ -96,17 +40,6 @@ namespace GoodToCode.Entity.Location
         /// Constructor
         /// </summary>
         public LocationInfo() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new LocationInfo Save()
-        {
-            var writer = new StoredProcedureWriter<LocationInfo>();
-            Name = new HtmlUnsafeCleanser(Name).Cleanse().ToPascalCase();
-            Description = new HtmlUnsafeCleanser(Description).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

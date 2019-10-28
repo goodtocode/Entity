@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -54,23 +55,25 @@ namespace GoodToCode.Entity.Schedule
         /// Schedule_ScheduleSlot
         /// </summary>
         [TestMethod()]
-        public void Schedule_ScheduleSlot_Create()
+        public async Task Schedule_ScheduleSlot_Create()
         {
             var testEntity = new ScheduleSlot();
             var resultEntity = new ScheduleSlot();
-            var testItem = new ScheduleSlot();
             var reader = new EntityReader<ScheduleSlot>();
             var scheduleTest = new ScheduleInfoTests();
             var slotTest = new SlotInfoTests();
 
             // Create base records
-            scheduleTest.Schedule_ScheduleInfo_Create();
+            await scheduleTest.Schedule_ScheduleInfo_Create();
             testEntity.ScheduleKey = ScheduleInfoTests.RecycleBin.LastOrDefault();
-            slotTest.Schedule_SlotInfo_Create();
+            await slotTest.Schedule_SlotInfo_Create();
             testEntity.SlotKey = SlotInfoTests.RecycleBin.LastOrDefault();
 
             // Create should update original object, and pass back a fresh-from-db object
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<ScheduleSlot>(testEntity, new ScheduleSlotSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
@@ -78,13 +81,13 @@ namespace GoodToCode.Entity.Schedule
             Assert.IsTrue(!resultEntity.FailedRules.Any());
 
             // Object in db should match in-memory objects
-            testItem = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id);
-            Assert.IsTrue(testItem.Key == resultEntity.Key);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             ScheduleSlotTests.RecycleBin.Add(testEntity.Key);
         }
@@ -93,21 +96,21 @@ namespace GoodToCode.Entity.Schedule
         /// Schedule_ScheduleSlot
         /// </summary>
         [TestMethod()]
-        public void Schedule_ScheduleSlot_Read()
+        public async Task Schedule_ScheduleSlot_Read()
         {
             var reader = new EntityReader<ScheduleSlot>();
-            var testItem = new ScheduleSlot();
+            var testEntity = new ScheduleSlot();
             var lastKey = Defaults.Guid;
 
-            Schedule_ScheduleSlot_Create();
+            await Schedule_ScheduleSlot_Create();
             lastKey = ScheduleSlotTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
 
@@ -115,36 +118,39 @@ namespace GoodToCode.Entity.Schedule
         /// Schedule_ScheduleSlot
         /// </summary>
         [TestMethod()]
-        public void Schedule_ScheduleSlot_Delete()
+        public async Task Schedule_ScheduleSlot_Delete()
         {
             var reader = new EntityReader<ScheduleSlot>();
-            var testItem = new ScheduleSlot();
-            var result = new ScheduleSlot();
+            var testEntity = new ScheduleSlot();
+            var resultEntity = new ScheduleSlot();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Schedule_ScheduleSlot_Create();
+            await Schedule_ScheduleSlot_Create();
             lastKey = ScheduleSlotTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            result = testItem.Delete();
-            Assert.IsTrue(result.IsNew);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<ScheduleSlot>(testEntity, new ScheduleSlotSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(testItem.Id != originalId);
-            Assert.IsTrue(testItem.Key != originalKey);
-            Assert.IsTrue(testItem.IsNew);
-            Assert.IsTrue(testItem.Key == Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -154,13 +160,18 @@ namespace GoodToCode.Entity.Schedule
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<ScheduleSlot>();
             var reader = new EntityReader<ScheduleSlot>();
+            var toDelete = new ScheduleSlot();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<ScheduleSlot>(toDelete, new ScheduleSlotSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

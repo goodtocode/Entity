@@ -3,6 +3,7 @@ using GoodToCode.Framework.Repository;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Application
 {
@@ -18,7 +19,7 @@ namespace GoodToCode.Entity.Application
 		/// </summary>
 		/// <remarks></remarks>
 		[TestMethod()]
-		public void Application_ApplicationInfo()
+		public async Task Application_ApplicationInfo()
 		{
             var apps = new List<ApplicationInfo>();
             var app = new ApplicationInfo();
@@ -42,7 +43,7 @@ namespace GoodToCode.Entity.Application
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Application_Settings()
+        public async Task Application_Settings()
         {
             var Apps = new List<ApplicationSetting>();
             var App = new ApplicationSetting();

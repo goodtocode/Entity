@@ -1,15 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Event
 {
@@ -17,67 +11,8 @@ namespace GoodToCode.Entity.Event
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventResource : ActiveRecordEntity<EventResource>, IEventResource
+    public class EventResource : EntityInfo<EventResource>, IEventResource
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EventResource> CreateStoredProcedure
-        => new StoredProcedure<EventResource>()
-        {
-            StoredProcedureName = "EventResourceSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@EventKey", EventKey),
-                new SqlParameter("@EventName", EventName),
-                new SqlParameter("@EventDescription", EventDescription),
-                new SqlParameter("@ResourceKey", ResourceKey),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ResourceTypeKey", ResourceTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EventResource> UpdateStoredProcedure
-        => new StoredProcedure<EventResource>()
-        {
-            StoredProcedureName = "EventResourceSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@EventKey", EventKey),
-                new SqlParameter("@EventName", EventName),
-                new SqlParameter("@EventDescription", EventDescription),
-                new SqlParameter("@ResourceKey", ResourceKey),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ResourceTypeKey", ResourceTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<EventResource> DeleteStoredProcedure
-        => new StoredProcedure<EventResource>()
-        {
-            StoredProcedureName = "EventResourceDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -134,17 +69,6 @@ namespace GoodToCode.Entity.Event
         /// Constructor
         /// </summary>
         public EventResource() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new EventResource Save()
-        {
-            var writer = new StoredProcedureWriter<EventResource>();
-            ResourceName = new HtmlUnsafeCleanser(ResourceName).Cleanse().ToPascalCase();
-            ResourceDescription = new HtmlUnsafeCleanser(ResourceDescription).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

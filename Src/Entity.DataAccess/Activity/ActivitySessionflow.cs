@@ -1,14 +1,11 @@
-
 using GoodToCode.Extensions;
 using GoodToCode.Extensions.Collections;
-
 using GoodToCode.Extensions.Serialization;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Activity
 {
@@ -16,56 +13,8 @@ namespace GoodToCode.Entity.Activity
     /// Activity data on a transactional Sessionflow. Main activity record for any data committed to the system.
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode"), DataAccessBehavior(DataAccessBehaviors.NoDelete)]
-    public class ActivitySessionflow : ActiveRecordEntity<ActivitySessionflow>, IActivitySessionflow
-    {
-        /// <summary>
-        /// Serialized sessionflow data from the database
-        /// Important: Use SessionData.Add and SessionData.Remove to control this property.
-        /// </summary>
-        public string SessionflowData { get; protected set; } = Defaults.String;
-
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ActivitySessionflow> CreateStoredProcedure
-        => new StoredProcedure<ActivitySessionflow>()
-        {
-            StoredProcedureName = "ActivitySessionflowInsert",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FlowKey", FlowKey),
-                new SqlParameter("@ApplicationKey", ApplicationKey),
-                new SqlParameter("@EntityKey", EntityKey),
-                new SqlParameter("@SessionflowData", SessionflowData),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ActivitySessionflow> UpdateStoredProcedure
-        => new StoredProcedure<ActivitySessionflow>()
-        {
-            StoredProcedureName = "ActivitySessionflowUpdate",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FlowKey", FlowKey),
-                new SqlParameter("@ApplicationKey", ApplicationKey),
-                new SqlParameter("@EntityKey", EntityKey),
-                new SqlParameter("@SessionflowData", SessionflowData),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Does not support deletes
-        /// </summary>
-        public override StoredProcedure<ActivitySessionflow> DeleteStoredProcedure => throw new NotImplementedException();
-
+    public class ActivitySessionflow : EntityInfo<ActivitySessionflow>, IActivitySessionflow
+    {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -117,30 +66,12 @@ namespace GoodToCode.Entity.Activity
         /// </summary>
         public string ApplicationUuid { get; internal set; } = Defaults.String;
 
+        public string SessionflowData => throw new NotImplementedException();
+
         /// <summary>
         /// Constructor
         /// </summary>
         public ActivitySessionflow() : base() { }
-
-        /// <summary>
-        /// Saves data
-        /// </summary>
-        public new ActivitySessionflow Save()
-        {
-            using (var writer = new StoredProcedureWriter<ActivitySessionflow>())
-            {
-                ActivitySessionflow returnValue;
-                if (this.CanExecute() == true)
-                {
-                    returnValue = writer.Save(this);
-                }
-                else
-                {
-                    throw new System.Exception("Sessionflow can not be processed.");
-                }
-                return returnValue;
-            }            
-        }
 
         /// <summary>
         /// Determines if this flow can be processed

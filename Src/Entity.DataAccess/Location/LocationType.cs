@@ -1,10 +1,6 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
-using System;
-using System.Linq;
+using GoodToCode.Framework.Value;
 
 namespace GoodToCode.Entity.Location
 {
@@ -12,7 +8,7 @@ namespace GoodToCode.Entity.Location
     /// Type of Location
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class LocationType : ActiveRecordValue<LocationType>, ILocationType
+    public class LocationType : ValueInfo<LocationType>, ILocationType
     {
         /// <summary>
         /// Friendly name

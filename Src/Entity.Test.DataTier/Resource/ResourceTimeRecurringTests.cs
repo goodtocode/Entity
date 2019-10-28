@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Resource
 {
@@ -63,16 +64,18 @@ namespace GoodToCode.Entity.Resource
         /// Resource_ResourceTimeRecurring
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceTimeRecurring_Create()
+        public async Task Resource_ResourceTimeRecurring_Create()
         {
             var testEntity = new ResourceTimeRecurring();
             var resultEntity = new ResourceTimeRecurring();
-            var dbEvent = new ResourceTimeRecurring();
             var reader = new EntityReader<ResourceTimeRecurring>();
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.FailedRules.Any());
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
@@ -80,12 +83,12 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
 
             // Object in db should match in-memory objects
-            dbEvent = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.Id == resultEntity.Id);
-            Assert.IsTrue(dbEvent.Key == resultEntity.Key);
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
 
             ResourceTimeRecurringTests.RecycleBin.Add(testEntity.Key);
         }
@@ -94,94 +97,99 @@ namespace GoodToCode.Entity.Resource
         /// Resource_ResourceTimeRecurring
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceTimeRecurring_Read()
+        public async Task Resource_ResourceTimeRecurring_Read()
         {
             var reader = new EntityReader<ResourceTimeRecurring>();
-            var dbEvent = new ResourceTimeRecurring();
+            var testEntity = new ResourceTimeRecurring();
             var lastKey = Defaults.Guid;
 
-            Resource_ResourceTimeRecurring_Create();
+            await Resource_ResourceTimeRecurring_Create();
             lastKey = ResourceTimeRecurringTests.RecycleBin.LastOrDefault();
 
-            dbEvent = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
         }
 
         /// <summary>
         /// Resource_ResourceTimeRecurring
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceTimeRecurring_Update()
+        public async Task Resource_ResourceTimeRecurring_Update()
         {
             var reader = new EntityReader<ResourceTimeRecurring>();
-            var writer = new StoredProcedureWriter<ResourceTimeRecurring>();
             var resultEntity = new ResourceTimeRecurring();
-            var dbEvent = new ResourceTimeRecurring();
+            var testEntity = new ResourceTimeRecurring();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Resource_ResourceTimeRecurring_Create();
+            await Resource_ResourceTimeRecurring_Create();
             lastKey = ResourceTimeRecurringTests.RecycleBin.LastOrDefault();
 
-            dbEvent = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbEvent.Id;
-            originalKey = dbEvent.Key;
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
-            dbEvent.ResourceName = uniqueValue;
-            resultEntity = dbEvent.Save();
+            testEntity.ResourceName = uniqueValue;
+            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbEvent.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
 
-            dbEvent = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbEvent.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
         }
 
         /// <summary>
         /// Resource_ResourceTimeRecurring
         /// </summary>
         [TestMethod()]
-        public void Resource_ResourceTimeRecurring_Delete()
+        public async Task Resource_ResourceTimeRecurring_Delete()
         {
             var reader = new EntityReader<ResourceTimeRecurring>();
-            var dbEvent = new ResourceTimeRecurring();
-            var result = new ResourceTimeRecurring();
+            var testEntity = new ResourceTimeRecurring();
+            var resultEntity = new ResourceTimeRecurring();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Resource_ResourceTimeRecurring_Create();
+            await Resource_ResourceTimeRecurring_Create();
             lastKey = ResourceTimeRecurringTests.RecycleBin.LastOrDefault();
 
-            dbEvent = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbEvent.Id;
-            originalKey = dbEvent.Key;
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            result = dbEvent.Delete();
-            Assert.IsTrue(result.IsNew);
+            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
 
-            dbEvent = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(dbEvent.Id != originalId);
-            Assert.IsTrue(dbEvent.Key != originalKey);
-            Assert.IsTrue(dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Key == Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -207,13 +215,18 @@ namespace GoodToCode.Entity.Resource
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<ResourceTimeRecurring>();
             var reader = new EntityReader<ResourceTimeRecurring>();
+            var toDelete = new ResourceTimeRecurring();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<ResourceTimeRecurring>(toDelete, new ResourceTimeRecurringSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

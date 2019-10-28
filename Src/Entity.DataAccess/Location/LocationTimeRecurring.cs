@@ -1,16 +1,9 @@
-
-using GoodToCode.Entity.Schedule;
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Location
 {
@@ -18,65 +11,8 @@ namespace GoodToCode.Entity.Location
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class LocationTimeRecurring : ActiveRecordEntity<LocationTimeRecurring>, ILocationTimeRecurring
+    public class LocationTimeRecurring : EntityInfo<LocationTimeRecurring>, ILocationTimeRecurring
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<LocationTimeRecurring> CreateStoredProcedure
-        => new StoredProcedure<LocationTimeRecurring>()
-        {
-            StoredProcedureName = "LocationTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@LocationKey", LocationKey),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<LocationTimeRecurring> UpdateStoredProcedure
-        => new StoredProcedure<LocationTimeRecurring>()
-        {
-            StoredProcedureName = "LocationTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@LocationKey", LocationKey),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<LocationTimeRecurring> DeleteStoredProcedure
-        => new StoredProcedure<LocationTimeRecurring>()
-        {
-            StoredProcedureName = "LocationTimeRecurringDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -137,18 +73,7 @@ namespace GoodToCode.Entity.Location
         /// Constructor
         /// </summary>
         public LocationTimeRecurring() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new LocationTimeRecurring Save()
-        {
-            var writer = new StoredProcedureWriter<LocationTimeRecurring>();
-            LocationName = new HtmlUnsafeCleanser(LocationName).Cleanse().ToPascalCase();
-            LocationDescription = new HtmlUnsafeCleanser(LocationDescription).Cleanse();
-            return writer.Save(this);
-        }
-
+        
         /// <summary>
         /// Returns name
         /// </summary>        

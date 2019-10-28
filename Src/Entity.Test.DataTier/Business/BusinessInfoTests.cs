@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Business
 {
@@ -65,30 +66,32 @@ namespace GoodToCode.Entity.Business
         /// Business_BusinessInfo
         /// </summary>
         [TestMethod()]
-        public void Business_BusinessInfo_Create()
+        public async Task Business_BusinessInfo_Create()
         {
             var testEntity = new BusinessInfo();
             var resultEntity = new BusinessInfo();
-            var testItem = new BusinessInfo();
             var reader = new EntityReader<BusinessInfo>();
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<BusinessInfo>(testEntity, new BusinessInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Object in db should match in-memory objects
-            testItem = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id);
-            Assert.IsTrue(testItem.Key == resultEntity.Key);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             BusinessInfoTests.RecycleBin.Add(testEntity.Key);
         }
@@ -98,9 +101,8 @@ namespace GoodToCode.Entity.Business
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Business_BusinessInfo_Create_Id()
+        public async Task Business_BusinessInfo_Create_Id()
         {
-            var BusinessWriter = new StoredProcedureWriter<BusinessInfo>();
             var testEntity = new BusinessInfo();
             var resultEntity = new BusinessInfo();
             var oldId = Defaults.Integer;
@@ -120,7 +122,10 @@ namespace GoodToCode.Entity.Business
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            resultEntity = BusinessWriter.Create(testEntity);
+            using (var writer = new StoredProcedureWriter<BusinessInfo>(testEntity, new BusinessInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
@@ -144,9 +149,8 @@ namespace GoodToCode.Entity.Business
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Business_BusinessInfo_Create_Key()
+        public async Task Business_BusinessInfo_Create_Key()
         {
-            var BusinessWriter = new StoredProcedureWriter<BusinessInfo>();
             var testEntity = new BusinessInfo();
             var resultEntity = new BusinessInfo();
             var oldId = Defaults.Integer;
@@ -166,7 +170,10 @@ namespace GoodToCode.Entity.Business
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            resultEntity = BusinessWriter.Create(testEntity);
+            using (var writer = new StoredProcedureWriter<BusinessInfo>(testEntity, new BusinessInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
@@ -189,104 +196,108 @@ namespace GoodToCode.Entity.Business
         /// Business_BusinessInfo
         /// </summary>
         [TestMethod()]
-        public void Business_BusinessInfo_Read()
+        public async Task Business_BusinessInfo_Read()
         {
             var reader = new EntityReader<BusinessInfo>();
-            var testItem = new BusinessInfo();
+            var testEntity = new BusinessInfo();
             var lastKey = Defaults.Guid;
 
-            Business_BusinessInfo_Create();
+            await Business_BusinessInfo_Create();
             lastKey = BusinessInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Business_BusinessInfo
         /// </summary>
         [TestMethod()]
-        public void Business_BusinessInfo_Update()
+        public async Task Business_BusinessInfo_Update()
         {
             var reader = new EntityReader<BusinessInfo>();
-            var writer = new StoredProcedureWriter<BusinessInfo>();
             var resultEntity = new BusinessInfo();
-            var testItem = new BusinessInfo();
+            var testEntity = new BusinessInfo();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Business_BusinessInfo_Create();
+            await Business_BusinessInfo_Create();
             lastKey = BusinessInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
-            testItem.Name = uniqueValue;
-            resultEntity = testItem.Save();
+            testEntity.Name = uniqueValue;
+            using (var writer = new StoredProcedureWriter<BusinessInfo>(testEntity, new BusinessInfoSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!testItem.IsNew);
-            Assert.IsTrue(testItem.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(testItem.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Business_BusinessInfo
         /// </summary>
         [TestMethod()]
-        public void Business_BusinessInfo_Delete()
+        public async Task Business_BusinessInfo_Delete()
         {
             var reader = new EntityReader<BusinessInfo>();
-            var testItem = new BusinessInfo();
-            var result = new BusinessInfo();
+            var testEntity = new BusinessInfo();
+            var resultEntity = new BusinessInfo();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Business_BusinessInfo_Create();
+            await Business_BusinessInfo_Create();
             lastKey = BusinessInfoTests.RecycleBin.LastOrDefault();
 
-            testItem = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = testItem.Id;
-            originalKey = testItem.Key;
-            Assert.IsTrue(testItem.Id != Defaults.Integer);
-            Assert.IsTrue(testItem.Key != Defaults.Guid);
-            Assert.IsTrue(testItem.CreatedDate.Date == DateTime.UtcNow.Date);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            result = testItem.Delete();
-            Assert.IsTrue(result.IsNew);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<BusinessInfo>(testEntity, new BusinessInfoSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            testItem = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(testItem.Id != originalId);
-            Assert.IsTrue(testItem.Key != originalKey);
-            Assert.IsTrue(testItem.IsNew);
-            Assert.IsTrue(testItem.Key == Defaults.Guid);
-            Assert.IsTrue(!testItem.FailedRules.Any());
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
         }
-
 
         [TestMethod()]
         public void Business_BusinessInfo_Serialize()
@@ -303,18 +314,23 @@ namespace GoodToCode.Entity.Business
             Assert.IsTrue(resultObject.Name == searchChar);
             Assert.IsTrue(resultObject.TaxNumber == searchChar);
         }
-       
+
         /// <summary>
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<BusinessInfo>();
             var reader = new EntityReader<BusinessInfo>();
+            var toDelete = new BusinessInfo();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<BusinessInfo>(toDelete, new BusinessInfoSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

@@ -1,10 +1,6 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
-using System;
-using System.Linq;
+using GoodToCode.Framework.Value;
 
 namespace GoodToCode.Entity.Resource
 {
@@ -12,7 +8,7 @@ namespace GoodToCode.Entity.Resource
     /// Type of Resource
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceType : ActiveRecordValue<ResourceType>, IResourceType
+    public class ResourceType : ValueInfo<ResourceType>, IResourceType
     {
         /// <summary>
         /// Friendly name

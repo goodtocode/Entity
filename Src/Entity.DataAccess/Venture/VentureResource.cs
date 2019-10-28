@@ -1,15 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Venture
 {
@@ -17,67 +11,8 @@ namespace GoodToCode.Entity.Venture
     /// Ventures
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureResource : ActiveRecordEntity<VentureResource>, IVentureResource
-    {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureResource> CreateStoredProcedure
-        => new StoredProcedure<VentureResource>()
-        {
-            StoredProcedureName = "VentureResourceSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureKey", VentureKey),
-                new SqlParameter("@VentureName", VentureName),
-                new SqlParameter("@VentureDescription", VentureDescription),
-                new SqlParameter("@ResourceKey", ResourceKey),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ResourceTypeKey", ResourceTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureResource> UpdateStoredProcedure
-        => new StoredProcedure<VentureResource>()
-        {
-            StoredProcedureName = "VentureResourceSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureKey", VentureKey),
-                new SqlParameter("@VentureName", VentureName),
-                new SqlParameter("@VentureDescription", VentureDescription),
-                new SqlParameter("@ResourceKey", ResourceKey),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ResourceTypeKey", ResourceTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureResource> DeleteStoredProcedure
-        => new StoredProcedure<VentureResource>()
-        {
-            StoredProcedureName = "VentureResourceDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
+    public class VentureResource : EntityInfo<VentureResource>, IVentureResource
+    {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -128,17 +63,6 @@ namespace GoodToCode.Entity.Venture
         /// Constructor
         /// </summary>
         public VentureResource() : base() { }
-        
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new VentureResource Save()
-        {
-            var writer = new StoredProcedureWriter<VentureResource>();
-            ResourceName = new HtmlUnsafeCleanser(ResourceName).Cleanse().ToPascalCase();
-            ResourceDescription = new HtmlUnsafeCleanser(ResourceDescription).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

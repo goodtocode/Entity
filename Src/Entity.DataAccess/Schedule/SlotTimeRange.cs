@@ -1,13 +1,9 @@
-
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -15,65 +11,8 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class SlotTimeRange : ActiveRecordEntity<SlotTimeRange>, ISlotTimeRange
+    public class SlotTimeRange : EntityInfo<SlotTimeRange>, ISlotTimeRange
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotTimeRange> CreateStoredProcedure
-        => new StoredProcedure<SlotTimeRange>()
-        {
-            StoredProcedureName = "SlotTimeRangeSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@BeginDate", BeginDate),
-                new SqlParameter("@EndDate", EndDate),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@SlotName", SlotName),
-                new SqlParameter("@SlotDescription", SlotDescription),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotTimeRange> UpdateStoredProcedure
-        => new StoredProcedure<SlotTimeRange>()
-        {
-            StoredProcedureName = "SlotTimeRangeSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@BeginDate", BeginDate),
-                new SqlParameter("@EndDate", EndDate),
-                new SqlParameter("@SlotKey", SlotKey),
-                new SqlParameter("@SlotName", SlotName),
-                new SqlParameter("@SlotDescription", SlotDescription),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<SlotTimeRange> DeleteStoredProcedure
-        => new StoredProcedure<SlotTimeRange>()
-        {
-            StoredProcedureName = "SlotTimeRangeDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -124,17 +63,6 @@ namespace GoodToCode.Entity.Schedule
         /// Constructor
         /// </summary>
         public SlotTimeRange() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new SlotTimeRange Save()
-        {
-            var writer = new StoredProcedureWriter<SlotTimeRange>();
-            SlotName = new HtmlUnsafeCleanser(SlotName).Cleanse().ToPascalCase();
-            SlotDescription = new HtmlUnsafeCleanser(SlotDescription).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

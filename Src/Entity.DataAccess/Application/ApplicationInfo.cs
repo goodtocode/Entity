@@ -1,7 +1,6 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Value;
 using System;
 
 namespace GoodToCode.Entity.Application
@@ -10,7 +9,7 @@ namespace GoodToCode.Entity.Application
     /// ApplicationInfo DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ApplicationInfo : ActiveRecordValue<ApplicationInfo>, IApplication
+    public class ApplicationInfo : ValueInfo<ApplicationInfo>, IApplication
     {
         /// <summary>
         /// Application name

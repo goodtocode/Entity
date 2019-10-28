@@ -1,12 +1,9 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 
 namespace GoodToCode.Entity.Activity
 {
@@ -14,50 +11,8 @@ namespace GoodToCode.Entity.Activity
     /// Activity data on a transactional Workflow. Main activity record for any data committed to the system.
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode"), DataAccessBehavior(DataAccessBehaviors.NoDelete)]
-    public class ActivityWorkflow : ActiveRecordEntity<ActivityWorkflow>, IActivityWorkflow
+    public class ActivityWorkflow : EntityInfo<ActivityWorkflow>, IActivityWorkflow
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ActivityWorkflow> CreateStoredProcedure
-        => new StoredProcedure<ActivityWorkflow>()
-        {
-            StoredProcedureName = "ActivityWorkflowInsert",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FlowKey", FlowKey),
-                new SqlParameter("@ApplicationKey", ApplicationKey),
-                new SqlParameter("@EntityKey", EntityKey),
-                new SqlParameter("@FlowStepKey", FlowStepKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ActivityWorkflow> UpdateStoredProcedure
-        => new StoredProcedure<ActivityWorkflow>()
-        {
-            StoredProcedureName = "ActivityWorkflowUpdate",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@FlowKey", FlowKey),
-                new SqlParameter("@ApplicationKey", ApplicationKey),
-                new SqlParameter("@EntityKey", EntityKey),
-                new SqlParameter("@FlowStepKey", FlowStepKey),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Does not support deletes
-        /// </summary>
-        public override StoredProcedure<ActivityWorkflow> DeleteStoredProcedure => throw new NotImplementedException();
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -113,27 +68,6 @@ namespace GoodToCode.Entity.Activity
         /// Constructor
         /// </summary>
         public ActivityWorkflow() : base() { }
-
-        /// <summary>
-        /// Saves data
-        /// </summary>
-        public new ActivityWorkflow Save()
-        {
-            var returnValue = new ActivityWorkflow();
-            using (var writer = new StoredProcedureWriter<ActivityWorkflow>())
-            {
-                if (this.CanExecute() == true)
-                {
-                    returnValue = writer.Save(this);
-                }
-                else
-                {
-                    throw new System.Exception("Workflow can not be processed.");
-                }
-            }
-
-            return returnValue;
-        }
 
         /// <summary>
         /// Determines if this flow can be processed

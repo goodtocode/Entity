@@ -1,14 +1,9 @@
-﻿
-using GoodToCode.Extensions;
-
-using GoodToCode.Framework.Activity;
+﻿using GoodToCode.Extensions;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Venture
 {
@@ -16,65 +11,8 @@ namespace GoodToCode.Entity.Venture
     /// Venture location and time
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureAppointment : ActiveRecordEntity<VentureAppointment>, IVentureAppointment
+    public class VentureAppointment : EntityInfo<VentureAppointment>, IVentureAppointment
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureAppointment> CreateStoredProcedure
-        => new StoredProcedure<VentureAppointment>()
-        {
-            StoredProcedureName = "VentureAppointmentSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureKey", VentureKey),
-                new SqlParameter("@AppointmentKey", AppointmentKey),
-                new SqlParameter("@AppointmentName", AppointmentName),
-                new SqlParameter("@AppointmentDescription", AppointmentDescription),
-                new SqlParameter("@BeginDate", BeginDate),
-                new SqlParameter("@EndDate", EndDate),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureAppointment> UpdateStoredProcedure
-        => new StoredProcedure<VentureAppointment>()
-        {
-            StoredProcedureName = "VentureAppointmentSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@VentureKey", VentureKey),
-                new SqlParameter("@AppointmentKey", AppointmentKey),
-                new SqlParameter("@AppointmentName", AppointmentName),
-                new SqlParameter("@AppointmentDescription", AppointmentDescription),
-                new SqlParameter("@BeginDate", BeginDate),
-                new SqlParameter("@EndDate", EndDate),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<VentureAppointment> DeleteStoredProcedure
-        => new StoredProcedure<VentureAppointment>()
-        {
-            StoredProcedureName = "VentureAppointmentDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>

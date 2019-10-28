@@ -1,13 +1,9 @@
-
-using GoodToCode.Entity.Setting;
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace GoodToCode.Entity.Application
 {
@@ -50,43 +46,6 @@ namespace GoodToCode.Entity.Application
             {
                 new ValidationRule<ModuleSetting>(x => x.SettingName.Length > 0, "Name is required")
             };
-        }
-
-        /// <summary>
-        /// Gets one setting for the Module
-        /// </summary>
-        /// <param name="moduleKey">Id to get</param>
-        public static IQueryable<ModuleSetting> GetById(Guid moduleKey)
-        {
-            return GetByModule(moduleKey);
-        }
-
-        /// <summary>
-        /// Gets one setting for the Module
-        /// </summary>
-        /// <param name="moduleKey">Id to get</param>
-        public static IQueryable<ModuleSetting>GetByModule(Guid moduleKey)
-        {
-            using (var reader = new EntityReader<ModuleSetting>())
-            {
-                var returnValue = reader.GetByWhere(x => x.Key == moduleKey);
-                return returnValue;
-            }            
-        }
-
-        /// <summary>
-        /// Gets one setting for the Module
-        /// </summary>
-        /// <param name="moduleKey">Id to get</param>
-        /// <param name="settingTypeKey">Setting type</param>
-
-        public static ModuleSetting GetByAll(Guid moduleKey, Guid settingTypeKey)
-        {
-            using (var reader = new EntityReader<ModuleSetting>())
-            {
-                var returnValue = reader.GetByWhere(x => x.Key == moduleKey & x.SettingKey == settingTypeKey);
-                return returnValue.FirstOrDefaultSafe();
-            }
         }
     }
 }

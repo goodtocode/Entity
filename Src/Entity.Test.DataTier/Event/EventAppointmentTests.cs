@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Event
 {
@@ -66,20 +67,22 @@ namespace GoodToCode.Entity.Event
         /// Event_EventAppointment
         /// </summary>
         [TestMethod()]
-        public void Event_EventAppointment_Create()
+        public async Task Event_EventAppointment_Create()
         {
             var testEntity = new EventAppointment();
             var resultEntity = new EventAppointment();
-            var dbEvent = new EventAppointment();
             var reader = new EntityReader<EventAppointment>();
             var testClass = new EventInfoTests();
 
             // Create event
-            testClass.Event_EventInfo_Create();
+            await testClass.Event_EventInfo_Create();
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.EventKey = EventInfoTests.RecycleBin.LastOrDefault();
-            resultEntity = testEntity.Save();
+            using (var writer = new StoredProcedureWriter<EventAppointment>(testEntity, new EventAppointmentSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.FailedRules.Any());
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
@@ -87,12 +90,12 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
 
             // Object in db should match in-memory objects
-            dbEvent = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.Id == resultEntity.Id);
-            Assert.IsTrue(dbEvent.Key == resultEntity.Key);
+            testEntity = reader.Read(x => x.Id == resultEntity.Id).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key);
 
             EventAppointmentTests.RecycleBin.Add(testEntity.Key);
         }
@@ -101,94 +104,99 @@ namespace GoodToCode.Entity.Event
         /// Event_EventAppointment
         /// </summary>
         [TestMethod()]
-        public void Event_EventAppointment_Read()
+        public async Task Event_EventAppointment_Read()
         {
             var reader = new EntityReader<EventAppointment>();
-            var dbEvent = new EventAppointment();
+            var testEntity = new EventAppointment();
             var lastKey = Defaults.Guid;
 
-            Event_EventAppointment_Create();
+            await Event_EventAppointment_Create();
             lastKey = EventAppointmentTests.RecycleBin.LastOrDefault();
 
-            dbEvent = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
         }
 
         /// <summary>
         /// Event_EventAppointment
         /// </summary>
         [TestMethod()]
-        public void Event_EventAppointment_Update()
+        public async Task Event_EventAppointment_Update()
         {
             var reader = new EntityReader<EventAppointment>();
-            var writer = new StoredProcedureWriter<EventAppointment>();
             var resultEntity = new EventAppointment();
-            var dbEvent = new EventAppointment();
+            var testEntity = new EventAppointment();
             var uniqueValue = Guid.NewGuid().ToString().Replace("-", "");
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Event_EventAppointment_Create();
+            await Event_EventAppointment_Create();
             lastKey = EventAppointmentTests.RecycleBin.LastOrDefault();
 
-            dbEvent = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbEvent.Id;
-            originalKey = dbEvent.Key;
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
-            dbEvent.AppointmentName = uniqueValue;
-            resultEntity = dbEvent.Save();
+            testEntity.AppointmentName = uniqueValue;
+            using (var writer = new StoredProcedureWriter<EventAppointment>(testEntity, new EventAppointmentSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
             Assert.IsTrue(!resultEntity.IsNew);
             Assert.IsTrue(resultEntity.Id != Defaults.Integer);
             Assert.IsTrue(resultEntity.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbEvent.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
 
-            dbEvent = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(!dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Id == resultEntity.Id && resultEntity.Id == originalId);
-            Assert.IsTrue(dbEvent.Key == resultEntity.Key && resultEntity.Key == originalKey);
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id == resultEntity.Id && resultEntity.Id == originalId);
+            Assert.IsTrue(testEntity.Key == resultEntity.Key && resultEntity.Key == originalKey);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
         }
 
         /// <summary>
         /// Event_EventAppointment
         /// </summary>
         [TestMethod()]
-        public void Event_EventAppointment_Delete()
+        public async Task Event_EventAppointment_Delete()
         {
             var reader = new EntityReader<EventAppointment>();
-            var dbEvent = new EventAppointment();
-            var result = new EventAppointment();
+            var testEntity = new EventAppointment();
+            var resultEntity = new EventAppointment();
             var lastKey = Defaults.Guid;
             var originalId = Defaults.Integer;
             var originalKey = Defaults.Guid;
 
-            Event_EventAppointment_Create();
+            await Event_EventAppointment_Create();
             lastKey = EventAppointmentTests.RecycleBin.LastOrDefault();
 
-            dbEvent = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
-            originalId = dbEvent.Id;
-            originalKey = dbEvent.Key;
-            Assert.IsTrue(dbEvent.Id != Defaults.Integer);
-            Assert.IsTrue(dbEvent.Key != Defaults.Guid);
-            Assert.IsTrue(dbEvent.CreatedDate.Date == DateTime.UtcNow.Date);
+            testEntity = reader.Read(x => x.Key == lastKey).FirstOrDefaultSafe();
+            originalId = testEntity.Id;
+            originalKey = testEntity.Key;
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            result = dbEvent.Delete();
-            Assert.IsTrue(result.IsNew);
+            using (var writer = new StoredProcedureWriter<EventAppointment>(testEntity, new EventAppointmentSPConfig()))
+            {
+                resultEntity = await writer.DeleteAsync();
+            }
+            Assert.IsTrue(resultEntity.IsNew);
 
-            dbEvent = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
-            Assert.IsTrue(dbEvent.Id != originalId);
-            Assert.IsTrue(dbEvent.Key != originalKey);
-            Assert.IsTrue(dbEvent.IsNew);
-            Assert.IsTrue(dbEvent.Key == Defaults.Guid);
+            testEntity = reader.Read(x => x.Id == originalId).FirstOrDefaultSafe();
+            Assert.IsTrue(testEntity.Id != originalId);
+            Assert.IsTrue(testEntity.Key != originalKey);
+            Assert.IsTrue(testEntity.IsNew);
+            Assert.IsTrue(testEntity.Key == Defaults.Guid);
 
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
@@ -214,13 +222,18 @@ namespace GoodToCode.Entity.Event
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<EventAppointment>();
             var reader = new EntityReader<EventAppointment>();
+            var toDelete = new EventAppointment();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<EventAppointment>(toDelete, new EventAppointmentSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

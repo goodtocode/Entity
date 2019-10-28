@@ -1,15 +1,12 @@
-
 using GoodToCode.Extensions;
-
 using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Repository;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Resource
 {
@@ -17,69 +14,8 @@ namespace GoodToCode.Entity.Resource
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceTimeRecurring : ActiveRecordEntity<ResourceTimeRecurring>, IResourceTimeRecurring
+    public class ResourceTimeRecurring : EntityInfo<ResourceTimeRecurring>, IResourceTimeRecurring
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceTimeRecurring> CreateStoredProcedure
-        => new StoredProcedure<ResourceTimeRecurring>()
-        {
-            StoredProcedureName = "ResourceTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ResourceKey", ResourceKey),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceTimeRecurring> UpdateStoredProcedure
-        => new StoredProcedure<ResourceTimeRecurring>()
-        {
-            StoredProcedureName = "ResourceTimeRecurringSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@BeginDay", BeginDay),
-                new SqlParameter("@EndDay", EndDay),
-                new SqlParameter("@BeginTime", BeginTime),
-                new SqlParameter("@EndTime", EndTime),
-                new SqlParameter("@TimeTypeKey", TimeTypeKey),
-                new SqlParameter("@ResourceKey", ResourceKey),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceTimeRecurring> DeleteStoredProcedure
-        => new StoredProcedure<ResourceTimeRecurring>()
-        {
-            StoredProcedureName = "ResourceTimeRecurringDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -144,12 +80,15 @@ namespace GoodToCode.Entity.Resource
         /// <summary>
         /// Commits to database
         /// </summary>
-        public new ResourceTimeRecurring Save()
+        public async Task<ResourceTimeRecurring> SaveAsync()
         {
-            var writer = new StoredProcedureWriter<ResourceTimeRecurring>();
+
             ResourceName = new HtmlUnsafeCleanser(ResourceName).Cleanse().ToPascalCase();
             ResourceDescription = new HtmlUnsafeCleanser(ResourceDescription).Cleanse();
-            return writer.Save(this);
+            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(this, new ResourceTimeRecurringSPConfig()))
+            {
+                return await writer.SaveAsync();
+            }
         }
 
         /// <summary>

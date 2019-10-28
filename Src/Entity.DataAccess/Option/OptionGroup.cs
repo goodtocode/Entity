@@ -1,6 +1,5 @@
-
-
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Value;
 
 namespace GoodToCode.Entity.Option
 {
@@ -8,7 +7,7 @@ namespace GoodToCode.Entity.Option
     /// PropertyGroup
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class OptionGroup : ActiveRecordValue<OptionGroup>
+    public class OptionGroup : ValueInfo<OptionGroup>
 	{
 		/// <summary>
 		/// Constructor

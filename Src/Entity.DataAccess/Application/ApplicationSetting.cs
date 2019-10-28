@@ -1,11 +1,7 @@
-
-using GoodToCode.Entity.Setting;
 using GoodToCode.Extensions;
-
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Value;
 using System;
-using System.Linq;
 
 namespace GoodToCode.Entity.Application
 {
@@ -13,7 +9,7 @@ namespace GoodToCode.Entity.Application
     /// Application DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ApplicationSetting : ActiveRecordValue<ApplicationSetting>, IApplicationSetting
+    public class ApplicationSetting : ValueInfo<ApplicationSetting>, IApplicationSetting
 	{
         /// <summary>
         /// ApplicationId
@@ -39,32 +35,5 @@ namespace GoodToCode.Entity.Application
         /// Module's Setting value
         /// </summary>
         public string SettingValue { get; set; } = Defaults.String;
-
-        /// <summary>
-        /// Gets one setting for the application
-        /// </summary>
-        /// <param name="applicationKey">App Id to get settings</param>
-        public static IQueryable<ApplicationSetting>GetByApplication(Guid applicationKey)
-        {
-            using (var reader = new ValueReader<ApplicationSetting>())
-            {
-                return reader.GetByWhere(x => x.Key == applicationKey);
-            }
-        }
-
-        /// <summary>
-        /// Gets one setting for the application
-        /// </summary>
-        /// <param name="applicationKey">App Id to get settings</param>
-        /// <param name="settingTypeKey">Type of setting</param>
-
-        public static ApplicationSetting GetByAll(Guid applicationKey, Guid settingTypeKey)
-        {
-            using (var reader = new ValueReader<ApplicationSetting>())
-            {
-                var returnValue = reader.GetByWhere(x => x.Key == applicationKey & x.SettingTypeKey == settingTypeKey);
-                return returnValue.FirstOrDefaultSafe();
-            }            
-        }
     }
 }

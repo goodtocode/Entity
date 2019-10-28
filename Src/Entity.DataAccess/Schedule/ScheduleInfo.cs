@@ -1,16 +1,8 @@
-
-using GoodToCode.Entity.Resource;
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
-using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -18,57 +10,8 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ScheduleInfo : ActiveRecordEntity<ScheduleInfo>
+    public class ScheduleInfo : EntityInfo<ScheduleInfo>
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ScheduleInfo> CreateStoredProcedure
-        => new StoredProcedure<ScheduleInfo>()
-        {
-            StoredProcedureName = "ScheduleInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ScheduleInfo> UpdateStoredProcedure
-        => new StoredProcedure<ScheduleInfo>()
-        {
-            StoredProcedureName = "ScheduleInfoSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@Name", Name),
-                new SqlParameter("@Description", Description),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ScheduleInfo> DeleteStoredProcedure
-        => new StoredProcedure<ScheduleInfo>()
-        {
-            StoredProcedureName = "ScheduleInfoDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -93,17 +36,6 @@ namespace GoodToCode.Entity.Schedule
         /// Constructor
         /// </summary>
         public ScheduleInfo() : base() { }
-
-        /// <summary>
-        /// Commits to database
-        /// </summary>
-        public new ScheduleInfo Save()
-        {
-            var writer = new StoredProcedureWriter<ScheduleInfo>();
-            Name = new HtmlUnsafeCleanser(Name).Cleanse().ToPascalCase();
-            Description = new HtmlUnsafeCleanser(Description).Cleanse();
-            return writer.Save(this);
-        }
 
         /// <summary>
         /// Returns name

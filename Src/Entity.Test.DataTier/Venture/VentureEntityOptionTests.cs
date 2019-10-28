@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Repository;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Venture
 {
@@ -16,7 +17,7 @@ namespace GoodToCode.Entity.Venture
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Venture_VentureEntityOption_Get()
+        public async Task Venture_VentureEntityOption_Get()
         {
             var reader = new EntityReader<VentureEntityOption>();
             var ItemToTest = new VentureEntityOption();

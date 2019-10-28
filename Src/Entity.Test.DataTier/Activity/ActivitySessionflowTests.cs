@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Activity
 {
@@ -61,93 +62,95 @@ namespace GoodToCode.Entity.Activity
         /// Workflow activity
         /// </summary>
         [TestMethod()]
-        public void Activity_ActivitySessionflow_Get()
+        public async Task Activity_ActivitySessionflow_Get()
         {
             var readerActivity = new EntityReader<ActivitySessionflow>();
-            var origItem = new ActivitySessionflow();
+            var testEntity = new ActivitySessionflow();
             var testKey = Defaults.Guid;
 
             // Create test record
-            Activity_ActivitySessionflow_Create();
+            await Activity_ActivitySessionflow_Create();
             testKey = RecycleBin.LastOrDefault();
 
             // Verify
-            origItem = readerActivity.GetByKey(testKey);
-            Assert.IsTrue(!origItem.IsNew);
-            Assert.IsTrue(origItem.Id != Defaults.Integer);
-            Assert.IsTrue(origItem.Key != Defaults.Guid);
-            Assert.IsTrue(!origItem.FailedRules.Any());
+            testEntity = readerActivity.GetByKey(testKey);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
         }
 
         /// <summary>
         /// Workflow activity
         /// </summary>
         [TestMethod()]
-        public void Activity_ActivitySessionflow_Create()
+        public async Task Activity_ActivitySessionflow_Create()
         {
             var readerActivity = new EntityReader<ActivitySessionflow>();
             var readerFlow = new ValueReader<FlowInfo>();
             var readerApp = new ValueReader<ApplicationInfo>();
-            var origItem = new ActivitySessionflow();
+            var testEntity = new ActivitySessionflow();
             var flow = new FlowInfo();
             var applicationKey = Defaults.Guid;
             var entityKey = Defaults.Guid;
-            var savedItem = new ActivitySessionflow();
+            var resultEntity = new ActivitySessionflow();
 
             // Init
             flow = readerFlow.GetAll().FirstOrDefaultSafe();
             applicationKey = readerApp.GetAll().FirstOrDefaultSafe().Key;
-            new PersonInfoTests().Person_PersonInfo_Create();
+            await new PersonInfoTests().Person_PersonInfo_Create();
             entityKey = PersonInfoTests.RecycleBin.LastOrDefault();
 
             //*
             //* Save
             //*
-            origItem = new ActivitySessionflow
+            testEntity = new ActivitySessionflow
             {
                 EntityKey = entityKey,
                 FlowKey = flow.Key,
                 ApplicationKey = applicationKey
             };
-            savedItem = origItem.Save();
-            Assert.IsTrue(!savedItem.IsNew);
-            Assert.IsTrue(savedItem.Id != Defaults.Integer);
-            Assert.IsTrue(savedItem.Key != Defaults.Guid);
-            Assert.IsTrue(!savedItem.FailedRules.Any());
+            using (var writer = new StoredProcedureWriter<ActivitySessionflow>(testEntity, new ActivitySessionflowSPConfig()))
+            {
+                resultEntity = await writer.SaveAsync();
+            }
+            Assert.IsTrue(!resultEntity.IsNew);
+            Assert.IsTrue(resultEntity.Id != Defaults.Integer);
+            Assert.IsTrue(resultEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!resultEntity.FailedRules.Any());
 
             //*
             //* Verify
             //*
-            origItem = readerActivity.GetByKey(origItem.Key);
-            Assert.IsTrue(!origItem.IsNew);
-            Assert.IsTrue(origItem.Id != Defaults.Integer);
-            Assert.IsTrue(origItem.Key != Defaults.Guid);
-            Assert.IsTrue(!origItem.FailedRules.Any());
+            testEntity = readerActivity.GetByKey(testEntity.Key);
+            Assert.IsTrue(!testEntity.IsNew);
+            Assert.IsTrue(testEntity.Id != Defaults.Integer);
+            Assert.IsTrue(testEntity.Key != Defaults.Guid);
+            Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            RecycleBin.Add(origItem.Key);
+            RecycleBin.Add(testEntity.Key);
         }
 
         /// <summary>
         /// Workflow activity
         /// </summary>
         [TestMethod()]
-        public void Activity_ActivitySessionflow_Update()
+        public async Task Activity_ActivitySessionflow_Update()
         {
             var readerActivity = new EntityReader<ActivitySessionflow>();
-            var origItem = new ActivitySessionflow();
-            var savedItem = new ActivitySessionflow();
-            var testKey = Defaults.Guid;
 
             // Create test record
-            Activity_ActivitySessionflow_Create();
-            testKey = RecycleBin.LastOrDefault();
+            await Activity_ActivitySessionflow_Create();
+            var testKey = RecycleBin.LastOrDefault();
 
             // Verify
-            origItem = readerActivity.GetByKey(testKey);
-            origItem.Save();
-            savedItem = readerActivity.GetByKey(testKey);
-            Assert.IsTrue(savedItem.Key == origItem.Key);
-            Assert.IsTrue(!savedItem.FailedRules.Any());
+            var testEntity = readerActivity.GetByKey(testKey);
+            using (var writer = new StoredProcedureWriter<ActivitySessionflow>(testEntity, new ActivitySessionflowSPConfig()))
+            {
+                var resultEntity = await writer.SaveAsync();
+                Assert.IsTrue(resultEntity.Key == testEntity.Key);
+                Assert.IsTrue(!resultEntity.FailedRules.Any());
+            }
         }
 
         /// <summary>

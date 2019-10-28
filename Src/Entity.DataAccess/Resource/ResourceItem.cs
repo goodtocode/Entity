@@ -1,16 +1,10 @@
-
 using GoodToCode.Entity.Item;
 using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
-using GoodToCode.Framework.Activity;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
+using GoodToCode.Framework.Entity;
 using GoodToCode.Framework.Validation;
 using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq.Expressions;
 
 namespace GoodToCode.Entity.Resource
 {
@@ -18,61 +12,8 @@ namespace GoodToCode.Entity.Resource
     /// EntityItem
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceItem : ActiveRecordEntity<ResourceItem>, IItemInfo, IResourceInfo
+    public class ResourceItem : EntityInfo<ResourceItem>, IItemInfo, IResourceInfo
     {
-        /// <summary>
-        /// Entity Create/Insert Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceItem> CreateStoredProcedure
-        => new StoredProcedure<ResourceItem>()
-        {
-            StoredProcedureName = "ResourceItemSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ItemName", ItemName),
-                new SqlParameter("@ItemDescription", ItemDescription),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Update Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceItem> UpdateStoredProcedure
-        => new StoredProcedure<ResourceItem>()
-        {
-            StoredProcedureName = "ResourceItemSave",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ResourceName", ResourceName),
-                new SqlParameter("@ResourceDescription", ResourceDescription),
-                new SqlParameter("@ItemName", ItemName),
-                new SqlParameter("@ItemDescription", ItemDescription),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
-        /// <summary>
-        /// Entity Delete Stored Procedure
-        /// </summary>
-        public override StoredProcedure<ResourceItem> DeleteStoredProcedure
-        => new StoredProcedure<ResourceItem>()
-        {
-            StoredProcedureName = "ResourceItemDelete",
-            Parameters = new List<SqlParameter>()
-            {
-                new SqlParameter("@Id", Id),
-                new SqlParameter("@Key", Key),
-                new SqlParameter("@ActivityContextKey", ActivityContextKey)
-            }
-        };
-
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
         /// </summary>
@@ -84,7 +25,6 @@ namespace GoodToCode.Entity.Resource
                 new ValidationRule<ResourceItem>(x => x.ItemName.Length > 0, "ItemName is required")
             };
         }
-
 
         /// <summary>
         /// ResourceKey
@@ -122,20 +62,6 @@ namespace GoodToCode.Entity.Resource
         public ResourceItem()
             : base()
         {
-        }
-
-        /// <summary>
-        /// Save the entity to the database. This method will auto-generate activity tracking.
-        /// </summary>
-        public new ResourceItem Save()
-        {
-            var writer = new StoredProcedureWriter<ResourceItem>();
-            // Ensure data does not contain cross site scripting injection HTML/Js/SQL
-            ResourceName = new HtmlUnsafeCleanser(ResourceName).Cleanse();
-            ResourceDescription = new HtmlUnsafeCleanser(ResourceDescription).Cleanse();
-            ItemName = new HtmlUnsafeCleanser(ItemName).Cleanse();
-            ItemDescription = new HtmlUnsafeCleanser(ItemDescription).Cleanse();
-            return writer.Save(this);
         }
     }
 }

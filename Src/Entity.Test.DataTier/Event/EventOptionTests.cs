@@ -1,6 +1,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Repository;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Event
 {
@@ -16,7 +17,7 @@ namespace GoodToCode.Entity.Event
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Event_EventOption_Get()
+        public async Task Event_EventOption_Get()
         {
             var reader = new EntityReader<EventOption>();
             var ItemToTest = new EventOption();

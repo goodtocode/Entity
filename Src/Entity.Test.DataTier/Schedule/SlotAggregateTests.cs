@@ -6,6 +6,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Schedule
 {
@@ -74,58 +76,58 @@ namespace GoodToCode.Entity.Schedule
         /// Schedule_ScheduleInfo
         /// </summary>
         ///[TestMethod()]
-        public void Schedule_SlotAggregate_Create()
+        public async Task Schedule_SlotAggregate_Create()
         {
-            var scheduleEntity = new ScheduleInfo();
-            var slotRangeEntity = new SlotTimeRange();
-            var slotRecurEntity = new SlotTimeRecurring();
-            var slotRecurWriter = new StoredProcedureWriter<SlotTimeRecurring>();
-            var scheduleSlotEntity = new ScheduleSlot();
-            var scheduleSlotWriter = new StoredProcedureWriter<ScheduleSlot>();
+            //var scheduleEntity = new ScheduleInfo();
+            //var slotRangeEntity = new SlotTimeRange();
+            //var slotRecurEntity = new SlotTimeRecurring();
+            //var slotRecurWriter = new StoredProcedureWriter<SlotTimeRecurring>();
+            //var scheduleSlotEntity = new ScheduleSlot();
+            //var scheduleSlotWriter = new StoredProcedureWriter<ScheduleSlot>();
 
-            // Create schedule to hold the slots
-            scheduleEntity.Fill(testSchedules.FirstOrDefaultSafe());
-            scheduleEntity.Save();
-            // 
-            // Create specific times (time ranges)
-            //
-            slotRangeEntity.Fill(testSlotTimeRanges.FirstOrDefaultSafe());            
-            slotRangeEntity.Save();
-            // Save join record
-            scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
-            scheduleSlotEntity.ScheduleKey = slotRangeEntity.SlotKey;
-            scheduleSlotEntity.Save();
-            slotRangeEntity = new SlotTimeRange();
-            slotRangeEntity.Fill(testSlotTimeRanges.LastOrDefaultSafe());
-            slotRangeEntity.Save();
-            // Join Record
-            scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
-            scheduleSlotEntity.ScheduleKey = slotRangeEntity.SlotKey;
-            scheduleSlotEntity.Save();
-            // 
-            // Create recurring times
-            //
-            slotRecurEntity.Fill(testSlotTimeRecurring.FirstOrDefaultSafe());
-            slotRecurEntity.Save();
-            // Join Record
-            scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
-            scheduleSlotEntity.ScheduleKey = slotRecurEntity.SlotKey;
-            scheduleSlotEntity.Save();
-            slotRecurEntity = new SlotTimeRecurring();
-            slotRecurEntity.Fill(testSlotTimeRecurring.LastOrDefaultSafe());
-            slotRecurEntity.Save();
-            // Join Record
-            scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
-            scheduleSlotEntity.ScheduleKey = slotRecurEntity.SlotKey;
-            scheduleSlotEntity.Save();
+            //// Create schedule to hold the slots
+            //scheduleEntity.Fill(testSchedules.FirstOrDefaultSafe());
+            //scheduleEntity.Save();
+            //// 
+            //// Create specific times (time ranges)
+            ////
+            //slotRangeEntity.Fill(testSlotTimeRanges.FirstOrDefaultSafe());            
+            //slotRangeEntity.Save();
+            //// Save join record
+            //scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
+            //scheduleSlotEntity.ScheduleKey = slotRangeEntity.SlotKey;
+            //scheduleSlotEntity.Save();
+            //slotRangeEntity = new SlotTimeRange();
+            //slotRangeEntity.Fill(testSlotTimeRanges.LastOrDefaultSafe());
+            //slotRangeEntity.Save();
+            //// Join Record
+            //scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
+            //scheduleSlotEntity.ScheduleKey = slotRangeEntity.SlotKey;
+            //scheduleSlotEntity.Save();
+            //// 
+            //// Create recurring times
+            ////
+            //slotRecurEntity.Fill(testSlotTimeRecurring.FirstOrDefaultSafe());
+            //slotRecurEntity.Save();
+            //// Join Record
+            //scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
+            //scheduleSlotEntity.ScheduleKey = slotRecurEntity.SlotKey;
+            //scheduleSlotEntity.Save();
+            //slotRecurEntity = new SlotTimeRecurring();
+            //slotRecurEntity.Fill(testSlotTimeRecurring.LastOrDefaultSafe());
+            //slotRecurEntity.Save();
+            //// Join Record
+            //scheduleSlotEntity.ScheduleKey = scheduleEntity.Key;
+            //scheduleSlotEntity.ScheduleKey = slotRecurEntity.SlotKey;
+            //scheduleSlotEntity.Save();
 
-            // Available by positive match tests
-
-
-            // Unavailable by positive match tests
+            //// Available by positive match tests
 
 
-            // Holiday (unavailable) by positive match tests
+            //// Unavailable by positive match tests
+
+
+            //// Holiday (unavailable) by positive match tests
 
 
         }
@@ -134,13 +136,18 @@ namespace GoodToCode.Entity.Schedule
         /// Cleanup all data
         /// </summary>
         [ClassCleanup()]
-        public static void Cleanup()
+        public static async Task Cleanup()
         {
-            var writer = new StoredProcedureWriter<ScheduleInfo>();
             var reader = new EntityReader<ScheduleInfo>();
+            var toDelete = new ScheduleInfo();
+
             foreach (Guid item in RecycleBin)
             {
-                writer.Delete(reader.GetByKey(item));
+                toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
+                using (var db = new StoredProcedureWriter<ScheduleInfo>(toDelete, new ScheduleInfoSPConfig()))
+                {
+                    await db.DeleteAsync();
+                }
             }
         }
     }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Validation.Tests
 {
@@ -6,19 +7,19 @@ namespace GoodToCode.Entity.Validation.Tests
     public class ValidationBaseTests
     {
         [TestMethod()]
-        public void Validation_IsValid()
+        public async Task Validation_IsValid()
         {
             //Assert.Fail();
         }
 
         [TestMethod()]
-        public void Validation_HasValidated()
+        public async Task Validation_HasValidated()
         {
             //Assert.Fail();
         }
 
         [TestMethod()]
-        public void Validation_CanSave()
+        public async Task Validation_CanSave()
         {
             //Assert.Fail();
         }

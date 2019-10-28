@@ -2,6 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GoodToCode.Extensions;
 
 using GoodToCode.Framework.Repository;
+using System.Threading.Tasks;
 
 namespace GoodToCode.Entity.Option
 {
@@ -17,7 +18,7 @@ namespace GoodToCode.Entity.Option
         /// </summary>
         /// <remarks></remarks>
         [TestMethod()]
-        public void Option_OptionInfo_Get()
+        public async Task Option_OptionInfo_Get()
         {
             var reader = new ValueReader<OptionInfo>();
             var ItemToTest = new OptionInfo();
