@@ -2,8 +2,7 @@
     @Id             	int,
     @Key				uniqueidentifier,
 	@Name			    nvarchar(50),
-	@TaxNumber			nvarchar(50),
-	@ActivityContextKey	uniqueidentifier
+	@TaxNumber			nvarchar(50)
 AS
 	-- Local variables
 	-- Initialize
@@ -12,7 +11,7 @@ AS
 	Select 	@TaxNumber	= RTRIM(LTRIM(@TaxNumber))
 	
 	-- Validate data that will be inserted/updated, and ensure basic values exist
-	If ((@Name <> '') Or (@TaxNumber <> '')) And (@ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If ((@Name <> '') Or (@TaxNumber <> ''))
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull(BusinessKey, @Key) From [Entity].[Business] P Where P.[BusinessId] = @Id
@@ -25,8 +24,8 @@ AS
 				Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
 				Insert Into [Entity].[Entity] (EntityKey) Values (@Key)
 				-- Create Business record
-				Insert Into [Entity].[Business] (BusinessKey, BusinessName, TaxNumber, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-					Values (@Key, @Name, @TaxNumber, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[Business] (BusinessKey, BusinessName, TaxNumber, RecordStateKey)
+					Values (@Key, @Name, @TaxNumber, '00000000-0000-0000-0000-000000000000')
 				Select	@Id = SCOPE_IDENTITY()
 			End
 			Else
@@ -35,14 +34,13 @@ AS
 				Update P
 				Set P.BusinessName		    = @Name, 
 					P.TaxNumber			    = @TaxNumber, 
-					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Business] P
 				Where	P.BusinessId = @Id
 			End
 		End Try
 		Begin Catch
-			Exec [Activity].[ExceptionLogInsertByActivity] @ActivityContextKey;
+			Exec [Activity].[ExceptionLogInsertByException];
 		End Catch
 	End	
 

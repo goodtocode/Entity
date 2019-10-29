@@ -3,13 +3,12 @@
 	@Key					Uniqueidentifier,
 	@EntityKey			    Uniqueidentifier,
     @LocationKey			Uniqueidentifier,
-    @LocationTypeKey		Uniqueidentifier = null,
-	@ActivityContextKey		Uniqueidentifier
+    @LocationTypeKey		Uniqueidentifier = null
 AS   
 	-- Initialize
     Select  @LocationTypeKey        = NullIf(@LocationTypeKey, '00000000-0000-0000-0000-000000000000')
 	-- Validate Data
-	If  (@EntityKey <> '00000000-0000-0000-0000-000000000000' AND @LocationKey <> '00000000-0000-0000-0000-000000000000' AND @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If  (@EntityKey <> '00000000-0000-0000-0000-000000000000' AND @LocationKey <> '00000000-0000-0000-0000-000000000000')
 	Begin       
 		-- Id and Key are both valid. Sync now.
 		Select Top 1 @Id = IsNull([EntityLocationId], -1), @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), [EntityLocationKey]) 
@@ -18,8 +17,8 @@ AS
 		If (@Id Is Null) Or (@Id = -1)
 		Begin
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[EntityLocation] (EntityLocationKey, EntityKey, LocationKey, LocationTypeKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@Key, @EntityKey, @LocationKey, @LocationTypeKey, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[EntityLocation] (EntityLocationKey, EntityKey, LocationKey, LocationTypeKey, RecordStateKey) 
+                Values (@Key, @EntityKey, @LocationKey, @LocationTypeKey, '00000000-0000-0000-0000-000000000000')
 			Select @Id = SCOPE_IDENTITY()
 		End
 	End

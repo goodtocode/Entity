@@ -7,14 +7,13 @@
     @ResourceKey			Uniqueidentifier,
 	@ResourceName			nvarchar(50),
 	@ResourceDescription	nvarchar(2000),	
-    @ResourceTypeKey		Uniqueidentifier,
-	@ActivityContextKey		Uniqueidentifier
+    @ResourceTypeKey		Uniqueidentifier
 AS
 	-- Initialize
 	Select 	@ResourceName			= RTRIM(LTRIM(@ResourceName))
 	Select 	@ResourceDescription	= RTRIM(LTRIM(@ResourceDescription))
 	-- Validate Data
-	If  (@SlotKey <> '00000000-0000-0000-0000-000000000000' AND @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If  (@SlotKey <> '00000000-0000-0000-0000-000000000000')
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull([SlotResourceKey], @Key), @ResourceKey = IsNull(NullIf(@ResourceKey, '00000000-0000-0000-0000-000000000000'), ResourceKey), 
@@ -25,8 +24,8 @@ AS
 		Begin
             -- Insert SlotSlot
             Select @SlotKey = IsNull(NullIf(@SlotKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Slot] (SlotKey, SlotName, SlotDescription, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@SlotKey, @SlotName, @SlotDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Slot] (SlotKey, SlotName, SlotDescription, RecordStateKey) 
+                Values (@SlotKey, @SlotName, @SlotDescription, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -42,8 +41,8 @@ AS
 		Begin
             -- Insert SlotResource
             Select @ResourceKey = IsNull(NullIf(@ResourceKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Resource] (ResourceKey, ResourceName, ResourceDescription, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@ResourceKey, @ResourceName, @ResourceDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Resource] (ResourceKey, ResourceName, ResourceDescription, RecordStateKey) 
+                Values (@ResourceKey, @ResourceName, @ResourceDescription, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -59,8 +58,8 @@ AS
 		Begin
             -- Insert SlotResource
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[SlotResource] (SlotResourceKey, SlotKey, ResourceKey, ResourceTypeKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@Key, @SlotKey, @ResourceKey, NullIf(@ResourceTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[SlotResource] (SlotResourceKey, SlotKey, ResourceKey, ResourceTypeKey, RecordStateKey) 
+                Values (@Key, @SlotKey, @ResourceKey, NullIf(@ResourceTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000')
 			Select @Id = SCOPE_IDENTITY()
 		End
 		Else
@@ -68,7 +67,7 @@ AS
             -- Update Resource
             Update [Entity].[SlotResource]
             Set     ResourceTypeKey     = NullIf(@ResourceTypeKey, '00000000-0000-0000-0000-000000000000'),
-                    ModifiedActivityKey = @ActivityContextKey,
+                    
                     ModifiedDate        = GetUtcDate()
             Where   SlotResourceKey = @Key
 		End

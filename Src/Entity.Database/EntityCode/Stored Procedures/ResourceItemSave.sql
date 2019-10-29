@@ -4,8 +4,7 @@
 	@ResourceName			nvarchar(50),
 	@ResourceDescription	nvarchar(50),
 	@ItemName			    nvarchar(50),
-	@ItemDescription	    nvarchar(50),
-	@ActivityContextKey	    Uniqueidentifier
+	@ItemDescription	    nvarchar(50)
 AS
 	-- Local variables
     Declare @ResourceKey As Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
@@ -18,7 +17,7 @@ AS
 	Select 	@ItemDescription	    = RTRIM(LTRIM(@ItemDescription))
 	
 	-- Validate data that will be inserted/updated, and ensure basic values exist
-	If ((@ResourceName <> '') Or (@ItemName <> '')) And (@ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If ((@ResourceName <> '') Or (@ItemName <> ''))
 	Begin
 		-- Id and Key are both valid. Sync now.
         If (@Id <> -1) Select Top 1 @Key = IsNull(ResourceItemKey, @Key), @ResourceKey = ResourceKey, @ItemKey = ItemKey From [Entity].[ResourceItem] P Where [ResourceItemId] = @Id
@@ -30,16 +29,16 @@ AS
 				-- Create main entity record
 				Select @ItemKey = IsNull(NullIf(@ItemKey, '00000000-0000-0000-0000-000000000000'), NewId())
 				-- Create Item record
-				Insert Into [Entity].[Item] (ItemKey, ItemName, ItemDescription, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-					Values (@ItemKey, @ItemName, @ItemDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[Item] (ItemKey, ItemName, ItemDescription, RecordStateKey)
+					Values (@ItemKey, @ItemName, @ItemDescription, '00000000-0000-0000-0000-000000000000')
                 -- Create Resource record
                 Select @ResourceKey = IsNull(NullIf(@ResourceKey, '00000000-0000-0000-0000-000000000000'), NewId())
-				Insert Into [Entity].[Resource] (ResourceKey, ResourceName, ResourceDescription, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-                    Values (@ResourceKey, @ResourceName, @ResourceDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[Resource] (ResourceKey, ResourceName, ResourceDescription, RecordStateKey)
+                    Values (@ResourceKey, @ResourceName, @ResourceDescription, '00000000-0000-0000-0000-000000000000')
                 -- Create ResourceItem record
 				Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-				Insert Into [Entity].[ResourceItem] (ResourceItemKey, ResourceKey, ItemKey, RecordStateKey, CreatedActivityKey, ModifiedActivityKey) 
-                    Values (@Key, @ResourceKey, @ItemKey, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[ResourceItem] (ResourceItemKey, ResourceKey, ItemKey, RecordStateKey) 
+                    Values (@Key, @ResourceKey, @ItemKey, '00000000-0000-0000-0000-000000000000')
 				Select	@Id = SCOPE_IDENTITY()
 			End
             Else
@@ -48,7 +47,6 @@ AS
 				Update P
 				Set P.ResourceName			= @ResourceName, 
 					P.ResourceDescription	= @ResourceDescription, 
-					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Resource] P
 				Where	P.ResourceKey = @ResourceKey
@@ -56,14 +54,13 @@ AS
 				Update P
 				Set P.ItemName				= @ItemName, 
 					P.ItemDescription		= @ItemDescription, 
-					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Item] P
 				Where	P.ItemKey = @ItemKey
 			End
 		End Try
 		Begin Catch
-			Exec [Activity].[ExceptionLogInsertByActivity] @ActivityContextKey;
+			Exec [Activity].[ExceptionLogInsertByException];
 		End Catch
 	End	
 

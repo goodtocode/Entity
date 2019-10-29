@@ -5,13 +5,10 @@
     [ItemDescription]	NVARCHAR (2000)   CONSTRAINT [DF_Item_ItemDescription] DEFAULT ('') NOT NULL,
     [ItemTypeKey]      UNIQUEIDENTIFIER CONSTRAINT [DF_Item_ItemType] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_Item_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]    UNIQUEIDENTIFIER        CONSTRAINT [DF_Item_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,    
-    [ModifiedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_Item_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [CreatedDate]           DATETIME         CONSTRAINT [DF_Item_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate]          DATETIME         CONSTRAINT [DF_Item_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_Item] PRIMARY KEY CLUSTERED ([ItemId] ASC),
-    CONSTRAINT [FK_Item_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-    CONSTRAINT [FK_Item_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_Item_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_Item_ItemKey] ON [Entity].[Item] ([ItemKey] Asc)

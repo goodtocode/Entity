@@ -1,14 +1,13 @@
 ﻿Create Procedure [EntityCode].[GovernmentInfoSave]
     @Id             	int,
     @Key				uniqueidentifier,
-	@Name			    nvarchar(50),
-	@ActivityContextKey	uniqueidentifier
+	@Name			    nvarchar(50)
 AS
 	-- Initialize
 	Select 	@Name		= RTRIM(LTRIM(@Name))
 	
 	-- Validate data that will be inserted/updated, and ensure basic values exist
-	If (@Name <> '') And (@ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If (@Name <> '')
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull(GovernmentKey, @Key) From [Entity].[Government] P Where P.[GovernmentId] = @Id
@@ -22,8 +21,8 @@ AS
 				Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
 				Insert Into [Entity].[Entity] (EntityKey) Values (@Key)
 				-- Create Government record
-				Insert Into [Entity].[Government] (GovernmentKey, GovernmentName, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-					Values (@Key, @Name, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)	
+				Insert Into [Entity].[Government] (GovernmentKey, GovernmentName, RecordStateKey)
+					Values (@Key, @Name, '00000000-0000-0000-0000-000000000000')	
 				Select	@Id = SCOPE_IDENTITY()
 			End
 			Else
@@ -31,7 +30,6 @@ AS
 				-- Create main entity record
 				Update P
 				Set P.GovernmentName		= @Name, 
-					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Government] P
 				Where	P.GovernmentId = @Id
@@ -40,7 +38,7 @@ AS
 		End Try
 		Begin Catch
 			
-			Exec [Activity].[ExceptionLogInsertByActivity] @ActivityContextKey;
+			Exec [Activity].[ExceptionLogInsertByException];
 			
 		End Catch
 	End	

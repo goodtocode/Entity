@@ -8,7 +8,6 @@ AS
 			E.EventName As Name, 
 			E.EventDescription As [Description], 
 			E.EventSlogan As Slogan, 
-			E.ModifiedActivityKey As ActivityContextKey,
 			E.CreatedDate, 
 			E.ModifiedDate
 	From	[Entity].[Event] E

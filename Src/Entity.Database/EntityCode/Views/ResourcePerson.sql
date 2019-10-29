@@ -11,7 +11,6 @@ Select	RP.ResourcePersonId As [Id],
 		P.LastName, 
 		P.BirthDate,
 		IsNull(G.GenderCode, '') As GenderCode,
-		RP.ModifiedActivityKey As ActivityContextKey,
 		RP.CreatedDate, 
 		RP.ModifiedDate
 From	[Entity].[ResourcePerson] RP

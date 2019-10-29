@@ -10,7 +10,6 @@ AS
             L.ResourceDescription,
             IsNull(SL.ResourceTypeKey, '00000000-0000-0000-0000-000000000000') As [ResourceTypeKey],
             SL.RecordStateKey,
-            SL.CreatedActivityKey As [ActivityContextKey],
 			SL.CreatedDate, 
 			SL.ModifiedDate
 	From	[Entity].[SlotResource] SL

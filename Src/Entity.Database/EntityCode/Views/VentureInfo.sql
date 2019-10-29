@@ -7,7 +7,6 @@ AS
 			E.VentureName As Name, 
 			E.VentureDescription As [Description], 
 			E.VentureSlogan As Slogan, 
-			E.ModifiedActivityKey As ActivityContextKey,
 			E.CreatedDate, 
 			E.ModifiedDate
 	From	[Entity].[Venture] E

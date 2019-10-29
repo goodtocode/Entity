@@ -11,7 +11,6 @@ AS
             TA.EndTime,
             TA.Interval,
             IsNull(LTA.TimeTypeKey, '00000000-0000-0000-0000-000000000000') As [TimeTypeKey],
-            LTA.CreatedActivityKey As [ActivityContextKey], 
 			LTA.CreatedDate, 
 			LTA.ModifiedDate
 	From	[Entity].[LocationTimeRecurring] LTA

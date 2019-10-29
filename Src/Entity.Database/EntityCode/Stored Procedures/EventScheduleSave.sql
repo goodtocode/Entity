@@ -7,14 +7,13 @@
     @ScheduleKey			Uniqueidentifier,
 	@ScheduleName			nvarchar(50),
 	@ScheduleDescription	nvarchar(2000),	
-    @ScheduleTypeKey		Uniqueidentifier,
-	@ActivityContextKey		Uniqueidentifier
+    @ScheduleTypeKey		Uniqueidentifier
 AS
 	-- Initialize
 	Select 	@ScheduleName			= RTRIM(LTRIM(@ScheduleName))
 	Select 	@ScheduleDescription	= RTRIM(LTRIM(@ScheduleDescription))
 	-- Validate Data
-	If  (@EventKey <> '00000000-0000-0000-0000-000000000000' AND @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If  (@EventKey <> '00000000-0000-0000-0000-000000000000')
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull([EventScheduleKey], @Key), @ScheduleKey = IsNull(NullIf(@ScheduleKey, '00000000-0000-0000-0000-000000000000'), ScheduleKey), 
@@ -25,8 +24,8 @@ AS
 		Begin
             -- Insert EventEvent
             Select @EventKey = IsNull(NullIf(@EventKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Event] (EventKey, EventName, EventDescription, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@EventKey, @EventName, @EventDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Event] (EventKey, EventName, EventDescription, RecordStateKey) 
+                Values (@EventKey, @EventName, @EventDescription, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -42,8 +41,8 @@ AS
 		Begin
             -- Insert EventSchedule
             Select @ScheduleKey = IsNull(NullIf(@ScheduleKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Schedule] (ScheduleKey, ScheduleName, ScheduleDescription,RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@ScheduleKey, @ScheduleName, @ScheduleDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Schedule] (ScheduleKey, ScheduleName, ScheduleDescription,RecordStateKey) 
+                Values (@ScheduleKey, @ScheduleName, @ScheduleDescription, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -59,8 +58,8 @@ AS
 		Begin
             -- Insert EventSchedule
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[EventSchedule] (EventScheduleKey, EventKey, ScheduleKey, ScheduleTypeKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@Key, @EventKey, @ScheduleKey, NullIf(@ScheduleTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[EventSchedule] (EventScheduleKey, EventKey, ScheduleKey, ScheduleTypeKey, RecordStateKey) 
+                Values (@Key, @EventKey, @ScheduleKey, NullIf(@ScheduleTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000')
 			Select @Id = SCOPE_IDENTITY()
 		End
 		Else
@@ -68,7 +67,7 @@ AS
             -- Update Schedule
             Update [Entity].[EventSchedule]
             Set     ScheduleTypeKey     = NullIf(@ScheduleTypeKey, '00000000-0000-0000-0000-000000000000'),
-                    ModifiedActivityKey = @ActivityContextKey,
+                    
                     ModifiedDate        = GetUtcDate()
             Where   EventScheduleKey = @Key
 		End

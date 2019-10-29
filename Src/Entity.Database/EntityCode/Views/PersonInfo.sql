@@ -7,7 +7,6 @@ Select	P.PersonId As [Id],
 		P.LastName,
 		P.BirthDate,
 		IsNull(G.GenderCode, '') As GenderCode,
-		P.ModifiedActivityKey As ActivityContextKey,
 		P.CreatedDate, 
 		P.ModifiedDate
 From	[Entity].[Person] P

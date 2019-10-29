@@ -5,8 +5,7 @@
 	@MiddleName			nvarchar(50),
 	@LastName			nvarchar(50),
 	@BirthDate			datetime,
-	@GenderCode			nvarchar(10),
-	@ActivityContextKey	Uniqueidentifier
+	@GenderCode			nvarchar(10)
 AS
 	-- Local variables
 	Declare @EntityId As Int = -1
@@ -19,7 +18,7 @@ AS
 	Select 	@LastName		= RTRIM(LTRIM(@LastName))
 	
 	-- Validate data that will be inserted/updated, and ensure basic values exist
-	If ((@FirstName <> '') Or (@MiddleName <> '') Or (@LastName <> '')) And (@ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If ((@FirstName <> '') Or (@MiddleName <> '') Or (@LastName <> ''))
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull(PersonKey, @Key) From [Entity].[Person] P Where [PersonId] = @Id
@@ -36,8 +35,8 @@ AS
                     Values (@Key)
 				Select	@EntityId = SCOPE_IDENTITY()
 				-- Create person record
-				Insert Into [Entity].[Person] (PersonKey, FirstName, MiddleName, LastName, BirthDate, GenderId, RecordStateKey, CreatedActivityKey, ModifiedActivityKey)
-					Values (@Key, @FirstName, @MiddleName, @LastName, @BirthDate, @GenderId, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+				Insert Into [Entity].[Person] (PersonKey, FirstName, MiddleName, LastName, BirthDate, GenderId, RecordStateKey)
+					Values (@Key, @FirstName, @MiddleName, @LastName, @BirthDate, @GenderId, '00000000-0000-0000-0000-000000000000')
 				Select	@Id = SCOPE_IDENTITY()
 			End
 			Else
@@ -49,7 +48,6 @@ AS
 					P.LastName				= @LastName, 
 					P.BirthDate				= @BirthDate, 
 					P.GenderId				= @GenderId,
-					P.ModifiedActivityKey	= @ActivityContextKey,
 					P.ModifiedDate			= GetUTCDate()
 				From	[Entity].[Person] P
 				Where	P.PersonId = @Id
@@ -58,7 +56,7 @@ AS
 		End Try
 		Begin Catch
 			
-			Exec [Activity].[ExceptionLogInsertByActivity] @ActivityContextKey;
+			Exec [Activity].[ExceptionLogInsertByException];
 			
 		End Catch
 	End	

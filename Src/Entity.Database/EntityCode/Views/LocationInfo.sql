@@ -4,7 +4,6 @@ AS
 			L.LocationKey As [Key],
             L.LocationName As [Name],
             L.LocationDescription As [Description],
-            L.CreatedActivityKey As [ActivityContextKey], 
 			L.CreatedDate, 
 			L.ModifiedDate
 	From	[Entity].[Location] L 

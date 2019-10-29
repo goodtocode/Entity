@@ -7,17 +7,13 @@
     [SlotResourceKey]	        UNIQUEIDENTIFIER CONSTRAINT [DF_Appointment_SlotResource] DEFAULT('00000000-0000-0000-0000-000000000000') NULL,
 	[TimeRangeKey]	        UNIQUEIDENTIFIER CONSTRAINT [DF_Appointment_TimeRangeId] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_Appointment_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]    UNIQUEIDENTIFIER         CONSTRAINT [DF_Appointment_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]   UNIQUEIDENTIFIER         CONSTRAINT [DF_Appointment_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]           DATETIME         CONSTRAINT [DF_Appointment_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate]          DATETIME         CONSTRAINT [DF_Appointment_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_Appointment] PRIMARY KEY CLUSTERED ([AppointmentId] ASC),
 	CONSTRAINT [FK_Appointment_Location] FOREIGN KEY ([SlotLocationKey]) REFERENCES [Entity].[SlotLocation] ([SlotLocationKey]),
     CONSTRAINT [FK_Appointment_Resource] FOREIGN KEY ([SlotResourceKey]) REFERENCES [Entity].[SlotResource] ([SlotResourceKey]),
 	CONSTRAINT [FK_Appointment_TimeRange] FOREIGN KEY ([TimeRangeKey]) REFERENCES [Entity].[TimeRange] ([TimeRangeKey]),
-    CONSTRAINT [FK_Appointment_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_Appointment_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_Appointment_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_Appointment_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_Appointment_Key] ON [Entity].[Appointment] ([AppointmentKey] Asc)

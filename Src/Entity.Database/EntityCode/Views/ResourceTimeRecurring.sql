@@ -11,7 +11,6 @@ AS
             TA.EndTime,
             TA.Interval,
             IsNull(RTA.TimeTypeKey, '00000000-0000-0000-0000-000000000000') As [TimeTypeKey],
-            RTA.CreatedActivityKey As [ActivityContextKey], 
 			RTA.CreatedDate, 
 			RTA.ModifiedDate
 	From	[Entity].[ResourceTimeRecurring] RTA

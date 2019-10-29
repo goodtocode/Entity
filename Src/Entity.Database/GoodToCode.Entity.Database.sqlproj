@@ -119,10 +119,6 @@
     <Build Include="Setting\Tables\SettingType.sql" />
     <None Include="Scripts\Data\Master\SettingType.sql" />
     <Build Include="Security\Setting.sql" />
-    <Build Include="Activity\Tables\ActivityContext.sql" />
-    <Build Include="Activity\Tables\ActivityQueryflow.sql" />
-    <Build Include="Activity\Tables\ActivitySessionflow.sql" />
-    <Build Include="Activity\Tables\ActivityWorkflow.sql" />
     <Build Include="Activity\Tables\ExceptionLog.sql" />
     <None Include="Scripts\Data\Master\Gender.sql" />
     <Build Include="Security\Identity.sql" />
@@ -132,7 +128,6 @@
     <Build Include="Identity\Tables\AspNetUserLogins.sql" />
     <Build Include="Identity\Tables\AspNetUserRoles.sql" />
     <Build Include="Identity\Tables\AspNetUsers.sql" />
-    <Build Include="Activity\Stored Procedures\ExceptionLogInsertByActivity.sql" />
     <Build Include="Security\Role_db_executor.sql" />
     <Build Include="Security\TestUser-Roles.sql" />
     <Build Include="Entity\Tables\RecordState.sql" />
@@ -277,6 +272,7 @@
     <Build Include="EntityCode\Views\EntityAppointment.sql" />
     <Build Include="EntityCode\Stored Procedures\ScheduleSlotSave.sql" />
     <Build Include="EntityCode\Stored Procedures\ScheduleSlotDelete.sql" />
+    <Build Include="Activity\Stored Procedures\ExceptionLogInsertByException.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App_Data\PostBuild.Debug.bat" />
@@ -314,12 +310,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="EntityCode\Stored Procedures\ActivityQueryflowInsert.sql" />
-    <Build Include="EntityCode\Stored Procedures\ActivityQueryflowUpdate.sql" />
-    <Build Include="EntityCode\Stored Procedures\ActivitySessionflowInsert.sql" />
-    <Build Include="EntityCode\Stored Procedures\ActivitySessionflowUpdate.sql" />
-    <Build Include="EntityCode\Stored Procedures\ActivityWorkflowInsert.sql" />
-    <Build Include="EntityCode\Stored Procedures\ActivityWorkflowUpdate.sql" />
     <Build Include="EntityCode\Stored Procedures\AppointmentInfoDelete.sql" />
     <Build Include="EntityCode\Stored Procedures\AppointmentInfoSave.sql" />
     <Build Include="EntityCode\Stored Procedures\BusinessInfoDelete.sql" />
@@ -334,9 +324,6 @@
     <Build Include="EntityCode\Stored Procedures\PersonInfoSave.sql" />
     <Build Include="EntityCode\Stored Procedures\EntityOptionDelete.sql" />
     <Build Include="EntityCode\Stored Procedures\EntityOptionSave.sql" />
-    <Build Include="EntityCode\Views\ActivityQueryflow.sql" />
-    <Build Include="EntityCode\Views\ActivitySessionflow.sql" />
-    <Build Include="EntityCode\Views\ActivityWorkflow.sql" />
     <Build Include="EntityCode\Views\ApplicationInfo.sql" />
     <Build Include="EntityCode\Views\ApplicationSetting.sql" />
     <Build Include="EntityCode\Views\AppointmentInfo.sql" />

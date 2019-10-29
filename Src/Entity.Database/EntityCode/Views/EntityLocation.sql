@@ -7,7 +7,6 @@ Select	C.EntityLocationId As [Id],
         L.LocationName,
         L.LocationDescription,
         IsNull(C.LocationTypeKey, '00000000-0000-0000-0000-000000000000') As [LocationTypeKey],
-        C.ModifiedActivityKey As ActivityContextKey,
 		C.CreatedDate,
 		C.ModifiedDate
 From	[Entity].[EntityLocation] C

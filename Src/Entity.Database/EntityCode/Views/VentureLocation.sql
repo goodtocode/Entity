@@ -9,7 +9,6 @@ AS
             L.LocationName,
             L.LocationDescription,
             IsNull(ESL.LocationTypeKey, '00000000-0000-0000-0000-000000000000') As [LocationTypeKey],
-            ESL.CreatedActivityKey As [ActivityContextKey], 
 			ESL.CreatedDate, 
 			ESL.ModifiedDate
 	From	[Entity].[VentureLocation] ESL

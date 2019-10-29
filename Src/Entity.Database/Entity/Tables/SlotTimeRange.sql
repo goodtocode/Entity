@@ -5,17 +5,13 @@
 	[TimeRangeKey]	        UNIQUEIDENTIFIER CONSTRAINT [DF_SlotTimeRange_TimeRangeId] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [TimeTypeKey]	        UNIQUEIDENTIFIER CONSTRAINT [DF_SlotTimeRange_TimeType] DEFAULT('00000000-0000-0000-0000-000000000000') NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_SlotTimeRange_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_SlotTimeRange_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_SlotTimeRange_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]  DATETIME         CONSTRAINT [DF_SlotTimeRange_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate] DATETIME         CONSTRAINT [DF_SlotTimeRange_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_SlotTimeRange] PRIMARY KEY CLUSTERED ([SlotTimeRangeId] ASC),
 	CONSTRAINT [FK_SlotTimeRange_Slot] FOREIGN KEY ([SlotKey]) REFERENCES [Entity].[Slot] ([SlotKey]),
 	CONSTRAINT [FK_SlotTimeRange_TimeRange] FOREIGN KEY ([TimeRangeKey]) REFERENCES [Entity].[TimeRange] ([TimeRangeKey]),
     CONSTRAINT [FK_SlotTimeRange_TimeType] FOREIGN KEY ([TimeTypeKey]) REFERENCES [Entity].[TimeType] ([TimeTypeKey]),    
-    CONSTRAINT [FK_SlotTimeRange_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_SlotTimeRange_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_SlotTimeRange_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_SlotTimeRange_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE NonCLUSTERED INDEX [IX_SlotTimeRange_Slot] ON [Entity].[SlotTimeRange] ([SlotKey] Asc)

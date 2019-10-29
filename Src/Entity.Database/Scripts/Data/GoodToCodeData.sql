@@ -10,9 +10,6 @@ Declare @SandboxApplicationKey UNIQUEIDENTIFIER = N'1EE3F6EC-59A7-4FD3-91D7-22AE
 Declare @ActiveSoversApplicationKey UNIQUEIDENTIFIER = N'3C272F13-FB34-4550-BD09-6BE825ACB485'
 Declare @FrameworkModuleKey UNIQUEIDENTIFIER = N'FED60864-3604-407E-8379-BEA5823F7CA1'
 Declare @FlowStepKey Uniqueidentifier = '3767f875-7e3d-4f12-b85d-61e31e6d43f1'
-Declare @ActivityContextKey Uniqueidentifier = NewId()
-Declare @ActivityWorkflowKey Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
-Declare @ActivitySessionflowKey Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
 
 --------------------------------------------------------------
 -- Entity - Need for all other records
@@ -50,25 +47,17 @@ WHEN NOT MATCHED BY TARGET THEN
 --------------------------------------------------------------
 -- Business
 --------------------------------------------------------------
--- ActivitySessionflow for new Business
-Use [EntityData]
-Insert INTO [Activity].[ActivityContext] (ActivityContextKey, [IdentityUserName])
-	Select @ActivityContextKey As ActivityContextKey, N'admin@GoodToCode.com' As IdentityUserName
-Insert INTO [Activity].[ActivitySessionflow] ([ActivityContextKey], [FlowKey], [ApplicationKey])
-	Select @ActivityContextKey, FlowKey, @SandboxApplicationKey as [ApplicationKey]
-		From [Entity].[Flow] Where FlowKey = '71C39399-6976-4620-9F24-CFC7FFA64B45'
-
 -- Business Record
 Use [EntityData]
 MERGE INTO [Entity].[Business] AS Target 
 USING (VALUES 
-	(@EntityKey, N'GoodToCode', @ActivityContextKey, @ActivityContextKey)
+	(@EntityKey, N'GoodToCode')
 	)
-	AS Source ([BusinessKey], [BusinessName], [CreatedActivityKey], [ModifiedActivityKey]) 
+	AS Source ([BusinessKey], [BusinessName]) 
 ON Target.[BusinessKey] = Source.[BusinessKey]
 WHEN MATCHED THEN 
 	UPDATE SET [BusinessName] = Source.[BusinessName]
 WHEN NOT MATCHED BY TARGET THEN 
-	INSERT ([BusinessKey], [BusinessName], [CreatedActivityKey], [ModifiedActivityKey]) 
-		VALUES (Source.[BusinessKey], Source.[BusinessName], Source.[CreatedActivityKey], Source.[ModifiedActivityKey])
+	INSERT ([BusinessKey], [BusinessName]) 
+		VALUES (Source.[BusinessKey], Source.[BusinessName])
 ;

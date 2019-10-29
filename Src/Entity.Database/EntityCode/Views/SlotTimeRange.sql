@@ -10,7 +10,6 @@ AS
             IsNull(ST.TimeTypeKey, '00000000-0000-0000-0000-000000000000') As [TimeTypeKey],
             IsNull(TT.TimeBehavior, 1) As [TimeBehavior],
             ST.RecordStateKey,
-            ST.CreatedActivityKey As [ActivityContextKey],
 			ST.CreatedDate, 
 			ST.ModifiedDate
 	From	[Entity].[SlotTimeRange] ST		

@@ -7,17 +7,13 @@
     [TimeName]			        NVARCHAR (50)    CONSTRAINT [DF_EntityTimeRecurring_TimeName] DEFAULT ('') NOT NULL,
     [TimeTypeKey]	            UNIQUEIDENTIFIER    CONSTRAINT [DF_EntityTimeRecurring_TimeType] DEFAULT('00000000-0000-0000-0000-000000000000') NULL,
     [RecordStateKey]            UNIQUEIDENTIFIER  CONSTRAINT [DF_EntityTimeRecurring_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]	    UNIQUEIDENTIFIER         CONSTRAINT [DF_EntityTimeRecurring_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]	    UNIQUEIDENTIFIER         CONSTRAINT [DF_EntityTimeRecurring_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]               DATETIME         CONSTRAINT [DF_EntityTimeRecurring_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate]              DATETIME         CONSTRAINT [DF_EntityTimeRecurring_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_EntityTimeRecurring] PRIMARY KEY CLUSTERED ([EntityTimeRecurringId] ASC),
 	CONSTRAINT [FK_EntityTimeRecurring_Entity] FOREIGN KEY ([EntityKey]) REFERENCES [Entity].[Entity] ([EntityKey]),
 	CONSTRAINT [FK_EntityTimeRecurring_TimeRecurring] FOREIGN KEY ([TimeRecurringKey]) REFERENCES [Entity].[TimeRecurring] ([TimeRecurringKey]),
     CONSTRAINT [FK_EntityAvailable_TimeType] FOREIGN KEY ([TimeTypeKey]) REFERENCES [Entity].[TimeType] ([TimeTypeKey]),    
-    CONSTRAINT [FK_EntityTimeRecurring_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_EntityTimeRecurring_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_EntityTimeRecurring_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_EntityTimeRecurring_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_EntityTimeRecurring_Key] ON [Entity].[EntityTimeRecurring] ([EntityTimeRecurringKey] Asc)

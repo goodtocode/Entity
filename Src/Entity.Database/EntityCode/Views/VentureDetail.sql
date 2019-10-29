@@ -8,7 +8,6 @@ SELECT  VD.[VentureDetailId] As Id,
         D.[DetailData],
         DT.[DetailTypeName] As [Name],
         DT.[DetailTypeDescription] As [Description],
-        VD.ModifiedActivityKey As ActivityContextKey,
 		VD.CreatedDate,
 		VD.ModifiedDate
   FROM [Entity].[VentureDetail] VD

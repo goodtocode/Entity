@@ -7,14 +7,10 @@
     [VentureDescription] NVARCHAR (250)   CONSTRAINT [DF_Venture_VentureDescription] DEFAULT ('') NOT NULL,
     [VentureSlogan]      NVARCHAR (50)    CONSTRAINT [DF_Venture_VentureSlogan] DEFAULT ('') NOT NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_Venture_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]      UNIQUEIDENTIFIER         CONSTRAINT [DF_Venture_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]     UNIQUEIDENTIFIER         CONSTRAINT [DF_Venture_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]  DATETIME         CONSTRAINT [DF_Venture_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate] DATETIME         CONSTRAINT [DF_Venture_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,
     CONSTRAINT [PK_Venture] PRIMARY KEY CLUSTERED ([VentureId] ASC),
-    CONSTRAINT [FK_Venture_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_Venture_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_Venture_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_Venture_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_Venture_VentureKey] ON [Entity].[Venture] ([VentureKey] Asc)

@@ -10,7 +10,6 @@ AS
             L.LocationDescription,
             IsNull(SL.LocationTypeKey, '00000000-0000-0000-0000-000000000000') As [LocationTypeKey],
             SL.RecordStateKey,
-            SL.CreatedActivityKey As [ActivityContextKey],
 			SL.CreatedDate, 
 			SL.ModifiedDate
 	From	[Entity].[SlotLocation] SL

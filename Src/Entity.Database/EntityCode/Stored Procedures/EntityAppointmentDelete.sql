@@ -1,7 +1,6 @@
 ﻿Create Procedure [EntityCode].[EntityAppointmentDelete]
 	@Id	                INT,
-    @Key				uniqueidentifier,
-	@ActivityContextKey	Uniqueidentifier
+    @Key				uniqueidentifier
 AS
     Begin
     	
@@ -10,7 +9,7 @@ AS
 		    If (@Id <> -1) Select Top 1 @Key = IsNull([EntityAppointmentKey], @Key) From [Entity].[EntityAppointment] Where [EntityAppointmentId] = @Id
 		    If (@Id = -1 AND @Key <> '00000000-0000-0000-0000-000000000000') Select Top 1 @Id = IsNull([EntityAppointmentId], -1) From [Entity].[EntityAppointment] Where [EntityAppointmentKey] = @Key
             -- Validate
-            If (@Id <> -1) AND (@ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+            If (@Id <> -1)
 			Begin
 	            Update	[Entity].[EntityAppointment]
                 Set     RecordStateKey = '081C6A5B-0817-4161-A3AD-AD7924BEA874'
@@ -18,9 +17,7 @@ AS
 			End
 			
 		End Try
-		Begin Catch
-			
-			Exec [Activity].[ExceptionLogInsertByActivity] @ActivityContextKey;
-			
+		Begin Catch	
+			Exec [Activity].[ExceptionLogInsertByException];			
 		End Catch
     End

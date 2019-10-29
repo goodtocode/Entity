@@ -6,8 +6,7 @@
 	@AppointmentName		nvarchar(50),
 	@AppointmentDescription	nvarchar(2000),
     @BeginDate				datetime,
-	@EndDate				datetime,
-	@ActivityContextKey		Uniqueidentifier
+	@EndDate				datetime
 AS
     -- Local variables
     Declare @TimeRangeId As Int = -1
@@ -16,7 +15,7 @@ AS
 	Select 	@AppointmentName			= RTRIM(LTRIM(@AppointmentName))
 	Select 	@AppointmentDescription	= RTRIM(LTRIM(@AppointmentDescription))
 	-- Validate Data
-	If  (@EventKey <> '00000000-0000-0000-0000-000000000000' AND @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If  (@EventKey <> '00000000-0000-0000-0000-000000000000')
 	Begin
     	-- Save Time
 	    Select Top 1 @TimeRangeId = IsNull(TimeRangeId, @TimeRangeId), @TimeRangeKey = IsNull(NullIf(@TimeRangeKey, '00000000-0000-0000-0000-000000000000'), [TimeRangeKey]) From [Entity].[TimeRange] TR Where BeginDate = @BeginDate And EndDate = @EndDate
@@ -24,8 +23,8 @@ AS
 	    If (@TimeRangeId Is Null) Or (@TimeRangeId = -1)
 	    Begin
             Select @TimeRangeKey = IsNull(NullIf(@TimeRangeKey, '00000000-0000-0000-0000-000000000000'), NewId())
-		    Insert Into [Entity].[TimeRange]	(TimeRangeKey, BeginDate, EndDate, CreatedActivityKey)
-			    Values	(@TimeRangeKey, @BeginDate, @EndDate, @ActivityContextKey)	
+		    Insert Into [Entity].[TimeRange]	(TimeRangeKey, BeginDate, EndDate)
+			    Values	(@TimeRangeKey, @BeginDate, @EndDate)	
             Select @TimeRangeId = SCOPE_IDENTITY()
 	    End
 
@@ -38,8 +37,8 @@ AS
 		Begin
             -- Insert EventAppointment
             Select @AppointmentKey = IsNull(NullIf(@AppointmentKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Appointment] (AppointmentKey, AppointmentName, AppointmentDescription, TimeRangeKey, SlotLocationKey, SlotResourceKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@AppointmentKey, @AppointmentName, @AppointmentDescription, @TimeRangeKey, NULL, NULL, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Appointment] (AppointmentKey, AppointmentName, AppointmentDescription, TimeRangeKey, SlotLocationKey, SlotResourceKey, RecordStateKey) 
+                Values (@AppointmentKey, @AppointmentName, @AppointmentDescription, @TimeRangeKey, NULL, NULL, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -56,8 +55,8 @@ AS
 		Begin
             -- Insert EventAppointment
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[EventAppointment] (EventAppointmentKey, EventKey, AppointmentKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@Key, @EventKey, @AppointmentKey, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[EventAppointment] (EventAppointmentKey, EventKey, AppointmentKey, RecordStateKey) 
+                Values (@Key, @EventKey, @AppointmentKey, '00000000-0000-0000-0000-000000000000')
 			Select @Id = SCOPE_IDENTITY()
 		End
 		Else

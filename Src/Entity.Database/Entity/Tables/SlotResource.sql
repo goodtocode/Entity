@@ -5,17 +5,13 @@
 	[ResourceKey]	        UNIQUEIDENTIFIER CONSTRAINT [DF_SlotResource_ResourceId] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [ResourceTypeKey]	        UNIQUEIDENTIFIER CONSTRAINT [DF_SlotResource_ResourceType] DEFAULT('00000000-0000-0000-0000-000000000000') NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_SlotResource_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_SlotResource_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_SlotResource_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]  DATETIME         CONSTRAINT [DF_SlotResource_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate] DATETIME         CONSTRAINT [DF_SlotResource_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_SlotResource] PRIMARY KEY CLUSTERED ([SlotResourceId] ASC),
 	CONSTRAINT [FK_SlotResource_Slot] FOREIGN KEY ([SlotKey]) REFERENCES [Entity].[Slot] ([SlotKey]),
 	CONSTRAINT [FK_SlotResource_Resource] FOREIGN KEY ([ResourceKey]) REFERENCES [Entity].[Resource] ([ResourceKey]),
     CONSTRAINT [FK_SlotResource_ResourceType] FOREIGN KEY ([ResourceTypeKey]) REFERENCES [Entity].[ResourceType] ([ResourceTypeKey]),
-    CONSTRAINT [FK_SlotResource_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_SlotResource_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_SlotResource_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_SlotResource_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE NonCLUSTERED INDEX [IX_SlotResource_Slot] ON [Entity].[SlotResource] ([SlotKey] Asc)

@@ -7,11 +7,9 @@
 	[EndTime]	            DATETIME            CONSTRAINT [DF_TimeRecurring_EndTime] DEFAULT ('01/01/1900') NOT NULL,
     [Interval]	            INT                 CONSTRAINT [DF_TimeRecurring_Interval] DEFAULT (1) NOT NULL,
     [TimeCycleKey]	        UNIQUEIDENTIFIER    CONSTRAINT [DF_TimeRecurring_TimeCycle] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]	UNIQUEIDENTIFIER    CONSTRAINT [DF_TimeRecurring_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]           DATETIME            CONSTRAINT [DF_TimeRecurring_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     CONSTRAINT [PK_TimeRecurring] PRIMARY KEY CLUSTERED ([TimeRecurringId] ASC),
-    CONSTRAINT [FK_TimeRecurring_TimeCycle] FOREIGN KEY ([TimeCycleKey]) REFERENCES [Entity].[TimeCycle] ([TimeCycleKey]),
-	CONSTRAINT [FK_TimeRecurring_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_TimeRecurring_TimeCycle] FOREIGN KEY ([TimeCycleKey]) REFERENCES [Entity].[TimeCycle] ([TimeCycleKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_TimeRecurring_All] ON [Entity].[TimeRecurring] 

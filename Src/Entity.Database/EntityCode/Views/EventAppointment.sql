@@ -13,7 +13,6 @@ AS
 			TR.EndDate,
             IsNull(A.SlotLocationKey, '00000000-0000-0000-0000-000000000000') As [SlotLocationKey], 
             IsNull(A.SlotResourceKey, '00000000-0000-0000-0000-000000000000') As [SlotResourceKey], 
-            EA.CreatedActivityKey As [ActivityContextKey], 
 			EA.CreatedDate, 
 			EA.ModifiedDate
 	From	[Entity].[EventAppointment] EA

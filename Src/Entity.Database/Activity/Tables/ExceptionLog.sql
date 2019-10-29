@@ -12,8 +12,6 @@
     [URL]					NVARCHAR (MAX)    CONSTRAINT [DF_ExceptionLog_URL] DEFAULT ('') NOT NULL,
     [CustomMessage]			NVARCHAR (MAX)    CONSTRAINT [DF_ExceptionLog_CustomMessage] DEFAULT ('') NOT NULL,
 	[Discriminator]			NVARCHAR (128)	 CONSTRAINT [DF_ExceptionLog_Discriminator] DEFAULT ('') NOT NULL,
-    [ActivityContextId]     INT				 CONSTRAINT [DF_ExceptionLog_ActivityContextId] DEFAULT (-1) NOT NULL,
-	[ActivityContextKey]    Uniqueidentifier CONSTRAINT [DF_ExceptionLog_ActivityContextKey] DEFAULT ('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]           DATETIME         CONSTRAINT [DF_ExceptionLog_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     CONSTRAINT [PK_Exception] PRIMARY KEY CLUSTERED ([ExceptionLogId] ASC)
 	);

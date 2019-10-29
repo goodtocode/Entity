@@ -6,7 +6,7 @@
 --MERGE INTO [Setting].[Setting] AS Target 
 --USING (VALUES ()
 --	)
---AS Source ([SettingKey], [SettingTypeKey], [SettingName], [SettingValue], [CreatedActivityKey], [ModifiedActivityKey])
+--AS Source ([SettingKey], [SettingTypeKey], [SettingName], [SettingValue])
 --ON Target.[SettingKey] = Source.[SettingKey]
 ---- Update
 --WHEN MATCHED THEN 

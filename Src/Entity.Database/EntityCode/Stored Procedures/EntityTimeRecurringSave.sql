@@ -6,15 +6,14 @@
     @BeginTime              datetime,
     @EndTime                datetime,
     @TimeTypeKey			Uniqueidentifier,
-    @EntityKey			    Uniqueidentifier,
-	@ActivityContextKey		Uniqueidentifier
+    @EntityKey			    Uniqueidentifier
 AS
 	-- Local variables
     Declare @TimeRecurringId As Int = -1
 	Declare @TimeRecurringKey As Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
     
 	-- Validate Data
-	If  (@EntityKey <> '00000000-0000-0000-0000-000000000000' And @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If  (@EntityKey <> '00000000-0000-0000-0000-000000000000')
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull([EntityTimeRecurringKey], @Key) From [Entity].[EntityTimeRecurring] Where [EntityTimeRecurringId] = @Id
@@ -26,8 +25,8 @@ AS
 	    If (@TimeRecurringId Is Null) Or (@TimeRecurringId = -1)
 	    Begin
             Select @TimeRecurringKey = IsNull(NullIf(@TimeRecurringKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[TimeRecurring] (TimeRecurringKey, BeginDay, EndDay, BeginTime, EndTime, CreatedActivityKey) 
-                Values (@TimeRecurringKey, @BeginDay, @EndDay, @BeginTime, @EndTime, @ActivityContextKey)
+            Insert Into [Entity].[TimeRecurring] (TimeRecurringKey, BeginDay, EndDay, BeginTime, EndTime) 
+                Values (@TimeRecurringKey, @BeginDay, @EndDay, @BeginTime, @EndTime)
             Select @TimeRecurringId = SCOPE_IDENTITY()
 	    End
         -- EntityTimeRecurring
@@ -35,8 +34,8 @@ AS
 		Begin
             -- Insert EntityTimeRecurring
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[EntityTimeRecurring] (EntityTimeRecurringKey, EntityKey, TimeRecurringKey, TimeTypeKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@Key, @EntityKey, @TimeRecurringKey, NullIf(@TimeTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[EntityTimeRecurring] (EntityTimeRecurringKey, EntityKey, TimeRecurringKey, TimeTypeKey, RecordStateKey) 
+                Values (@Key, @EntityKey, @TimeRecurringKey, NullIf(@TimeTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000')
             Select @Id = SCOPE_IDENTITY()
 		End
 		Else
@@ -46,7 +45,7 @@ AS
             Set     EntityKey        = IsNull(@EntityKey, EntityKey),
                     TimeRecurringKey        = IsNull(@TimeRecurringKey, TimeRecurringKey),
                     TimeTypeKey        = NullIf(@TimeTypeKey, '00000000-0000-0000-0000-000000000000'),
-                    ModifiedActivityKey = @ActivityContextKey,
+                    
                     ModifiedDate        = GetUtcDate()
             Where   EntityTimeRecurringKey = @Key
 		End

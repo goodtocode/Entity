@@ -1,7 +1,6 @@
 ﻿Create Procedure [EntityCode].[EntityTimeRecurringDelete]
 	@Id	                INT,
-    @Key				uniqueidentifier,
-	@ActivityContextKey	Uniqueidentifier
+    @Key				uniqueidentifier
 AS
     Begin
     	
@@ -10,7 +9,7 @@ AS
 		    If (@Id <> -1) Select Top 1 @Key = IsNull([EntityTimeRecurringKey], @Key) From [Entity].[EntityTimeRecurring] Where [EntityTimeRecurringId] = @Id
 		    If (@Id = -1 AND @Key <> '00000000-0000-0000-0000-000000000000') Select Top 1 @Id = IsNull([EntityTimeRecurringId], -1) From [Entity].[EntityTimeRecurring] Where [EntityTimeRecurringKey] = @Key
             -- Validate
-            If (@Id <> -1) AND (@ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+            If (@Id <> -1)
 			Begin
 	            Update	[Entity].[EntityTimeRecurring]
                 Set     RecordStateKey = '081C6A5B-0817-4161-A3AD-AD7924BEA874'
@@ -20,7 +19,7 @@ AS
 		End Try
 		Begin Catch
 			
-			Exec [Activity].[ExceptionLogInsertByActivity] @ActivityContextKey;
+			Exec [Activity].[ExceptionLogInsertByException];
 			
 		End Catch
     End

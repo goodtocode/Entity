@@ -3,8 +3,7 @@ As
 Select	B.BusinessId As [Id],
 		B.BusinessKey As [Key],
 		B.BusinessName As Name,
-		B.TaxNumber, 
-		B.ModifiedActivityKey As ActivityContextKey,
+		B.TaxNumber, 		
 		B.CreatedDate, 
 		B.ModifiedDate
 From	[Entity].[Business] B

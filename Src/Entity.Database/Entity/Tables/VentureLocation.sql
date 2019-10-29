@@ -5,17 +5,13 @@
     [LocationKey]   UNIQUEIDENTIFIER CONSTRAINT [DF_VentureLocation_LocationId] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [LocationTypeKey]			UNIQUEIDENTIFIER    CONSTRAINT [DF_VentureLocation_LocationType] DEFAULT('00000000-0000-0000-0000-000000000000') NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER        CONSTRAINT [DF_VentureLocation_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]    UNIQUEIDENTIFIER         CONSTRAINT [DF_VentureLocation_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-	[ModifiedActivityKey]   UNIQUEIDENTIFIER         CONSTRAINT [DF_VentureLocation_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]           DATETIME         CONSTRAINT [DF_VentureLocation_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate]          DATETIME         CONSTRAINT [DF_VentureLocation_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_VentureLocation] PRIMARY KEY CLUSTERED ([VentureLocationId] ASC),
     CONSTRAINT [FK_VentureLocation_Venture] FOREIGN KEY ([VentureKey]) REFERENCES [Entity].[Venture] ([VentureKey]),
     CONSTRAINT [FK_VentureLocation_Location] FOREIGN KEY ([LocationKey]) REFERENCES [Entity].[Location] ([LocationKey]),
     CONSTRAINT [FK_VentureLocation_LocationType] FOREIGN KEY ([LocationTypeKey]) REFERENCES [Entity].[LocationType] ([LocationTypeKey]),    
-    CONSTRAINT [FK_VentureLocation_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_VentureLocation_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_VentureLocation_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_VentureLocation_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_VentureLocation_Key] ON [Entity].[VentureLocation] ([VentureLocationKey] Asc)

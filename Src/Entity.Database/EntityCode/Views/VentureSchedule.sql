@@ -9,7 +9,6 @@ AS
             L.ScheduleName,
             L.ScheduleDescription,
             IsNull(ESL.ScheduleTypeKey, '00000000-0000-0000-0000-000000000000') As [ScheduleTypeKey],
-            ESL.CreatedActivityKey As [ActivityContextKey], 
 			ESL.CreatedDate, 
 			ESL.ModifiedDate
 	From	[Entity].[VentureSchedule] ESL

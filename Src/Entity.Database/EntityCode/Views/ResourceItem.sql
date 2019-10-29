@@ -9,7 +9,6 @@ Select	RP.ResourceItemId As [Id],
         P.ItemName, 
 		P.ItemDescription, 
 		P.ItemTypeKey,
-		RP.ModifiedActivityKey As ActivityContextKey,
 		RP.CreatedDate, 
 		RP.ModifiedDate
 From	[Entity].[ResourceItem] RP

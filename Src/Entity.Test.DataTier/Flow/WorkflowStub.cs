@@ -54,7 +54,6 @@ namespace GoodToCode.Entity.Flow
 
         public int Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Guid Key { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Guid ActivityContextKey { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public DateTime CreatedDate => throw new NotImplementedException();
 

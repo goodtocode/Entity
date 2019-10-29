@@ -8,7 +8,7 @@ AS
             IsNull(A.SlotResourceKey, '00000000-0000-0000-0000-000000000000') As [SlotResourceKey], 
 			A.CreatedDate, 
 			A.ModifiedDate, 
-			A.ModifiedActivityKey As ActivityContextKey,
+			
 			A.TimeRangeKey,
 			TR.BeginDate,
 			TR.EndDate

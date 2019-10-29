@@ -5,7 +5,6 @@ AS
             S.ScheduleName As [Name],
             S.ScheduleDescription As [Description],
             S.RecordStateKey,
-            S.CreatedActivityKey As [ActivityContextKey],
 			S.CreatedDate, 
 			S.ModifiedDate
 	From	[Entity].[Schedule] S

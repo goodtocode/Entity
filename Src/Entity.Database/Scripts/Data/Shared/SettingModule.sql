@@ -7,7 +7,7 @@
 --MERGE INTO [Setting].[SettingModule] AS Target 
 --USING (VALUES (
 --	)
---AS Source([SettingModuleKey], [SettingKey], [ModuleKey], [ModifiedActivityKey], [CreatedActivityKey])
+--AS Source([SettingModuleKey], [SettingKey], [ModuleKey])
 --ON Target.[SettingModuleKey] = Source.[SettingModuleKey]
 ---- Update
 --WHEN MATCHED THEN 

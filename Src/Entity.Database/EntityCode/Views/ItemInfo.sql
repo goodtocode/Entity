@@ -5,7 +5,6 @@ AS
             L.ItemName As [Name],
             L.ItemDescription As [Description],
             L.ItemTypeKey,
-            L.CreatedActivityKey As [ActivityContextKey], 
 			L.CreatedDate, 
 			L.ModifiedDate
 	From	[Entity].[Item] L 

@@ -7,17 +7,13 @@
     [TimeName]			        NVARCHAR (50)    CONSTRAINT [DF_LocationTimeRecurring_TimeName] DEFAULT ('') NOT NULL,
     [TimeTypeKey]	        UNIQUEIDENTIFIER    CONSTRAINT [DF_LocationTimeRecurring_TimeType] DEFAULT('00000000-0000-0000-0000-000000000000') NULL,
     [RecordStateKey]            UNIQUEIDENTIFIER  CONSTRAINT [DF_LocationTimeRecurring_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]	    UNIQUEIDENTIFIER         CONSTRAINT [DF_LocationTimeRecurring_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]	    UNIQUEIDENTIFIER         CONSTRAINT [DF_LocationTimeRecurring_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]               DATETIME         CONSTRAINT [DF_LocationTimeRecurring_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate]              DATETIME         CONSTRAINT [DF_LocationTimeRecurring_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_LocationTimeRecurring] PRIMARY KEY CLUSTERED ([LocationTimeRecurringId] ASC),
 	CONSTRAINT [FK_LocationTimeRecurring_Location] FOREIGN KEY ([LocationKey]) REFERENCES [Entity].[Location] ([LocationKey]),
 	CONSTRAINT [FK_LocationTimeRecurring_TimeRecurring] FOREIGN KEY ([TimeRecurringKey]) REFERENCES [Entity].[TimeRecurring] ([TimeRecurringKey]),
     CONSTRAINT [FK_LocationAvailable_TimeType] FOREIGN KEY ([TimeTypeKey]) REFERENCES [Entity].[TimeType] ([TimeTypeKey]),    
-    CONSTRAINT [FK_LocationTimeRecurring_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_LocationTimeRecurring_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_LocationTimeRecurring_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_LocationTimeRecurring_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_LocationTimeRecurring_Key] ON [Entity].[LocationTimeRecurring] ([LocationTimeRecurringKey] Asc)

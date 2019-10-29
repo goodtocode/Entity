@@ -8,7 +8,6 @@ SELECT  ED.[EventDetailId] As Id,
         D.[DetailData],
         DT.[DetailTypeName] As [Name],
         DT.[DetailTypeDescription] As [Description],
-        ED.ModifiedActivityKey As ActivityContextKey,
 		ED.CreatedDate,
 		ED.ModifiedDate
   FROM [Entity].[EventDetail] ED

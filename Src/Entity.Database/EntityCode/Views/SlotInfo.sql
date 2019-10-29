@@ -5,7 +5,6 @@ AS
             S.SlotName As [Name],
             S.SlotDescription As [Description],
             S.RecordStateKey,
-            S.CreatedActivityKey As [ActivityContextKey],
 			S.CreatedDate, 
 			S.ModifiedDate
 	From	[Entity].[Slot] S

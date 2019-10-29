@@ -7,14 +7,13 @@
     @ScheduleKey			Uniqueidentifier,
 	@ScheduleName			nvarchar(50),
 	@ScheduleDescription	nvarchar(2000),	
-    @ScheduleTypeKey		Uniqueidentifier,
-	@ActivityContextKey		Uniqueidentifier
+    @ScheduleTypeKey		Uniqueidentifier
 AS
 	-- Initialize
 	Select 	@ScheduleName			= RTRIM(LTRIM(@ScheduleName))
 	Select 	@ScheduleDescription	= RTRIM(LTRIM(@ScheduleDescription))
 	-- Validate Data
-	If  (@VentureKey <> '00000000-0000-0000-0000-000000000000' AND @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If  (@VentureKey <> '00000000-0000-0000-0000-000000000000')
 	Begin
 		-- Id and Key are both valid. Sync now.
 		If (@Id <> -1) Select Top 1 @Key = IsNull([VentureScheduleKey], @Key), @ScheduleKey = IsNull(NullIf(@ScheduleKey, '00000000-0000-0000-0000-000000000000'), ScheduleKey), 
@@ -25,8 +24,8 @@ AS
 		Begin
             -- Insert VentureVenture
             Select @VentureKey = IsNull(NullIf(@VentureKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Venture] (VentureKey, VentureName, VentureDescription, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@VentureKey, @VentureName, @VentureDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Venture] (VentureKey, VentureName, VentureDescription, RecordStateKey) 
+                Values (@VentureKey, @VentureName, @VentureDescription, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -42,8 +41,8 @@ AS
 		Begin
             -- Insert VentureSchedule
             Select @ScheduleKey = IsNull(NullIf(@ScheduleKey, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[Schedule] (ScheduleKey, ScheduleName, ScheduleDescription, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@ScheduleKey, @ScheduleName, @ScheduleDescription, '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[Schedule] (ScheduleKey, ScheduleName, ScheduleDescription, RecordStateKey) 
+                Values (@ScheduleKey, @ScheduleName, @ScheduleDescription, '00000000-0000-0000-0000-000000000000')
 		End
 		Else
 		Begin
@@ -59,8 +58,8 @@ AS
 		Begin
             -- Insert VentureSchedule
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-            Insert Into [Entity].[VentureSchedule] (VentureScheduleKey, VentureKey, ScheduleKey, ScheduleTypeKey, RecordStateKey, ModifiedActivityKey, CreatedActivityKey) 
-                Values (@Key, @VentureKey, @ScheduleKey, NullIf(@ScheduleTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000', @ActivityContextKey, @ActivityContextKey)
+            Insert Into [Entity].[VentureSchedule] (VentureScheduleKey, VentureKey, ScheduleKey, ScheduleTypeKey, RecordStateKey) 
+                Values (@Key, @VentureKey, @ScheduleKey, NullIf(@ScheduleTypeKey, '00000000-0000-0000-0000-000000000000'), '00000000-0000-0000-0000-000000000000')
 			Select @Id = SCOPE_IDENTITY()
 		End
 		Else
@@ -68,7 +67,7 @@ AS
             -- Update Schedule
             Update [Entity].[VentureSchedule]
             Set     ScheduleTypeKey     = NullIf(@ScheduleTypeKey, '00000000-0000-0000-0000-000000000000'),
-                    ModifiedActivityKey = @ActivityContextKey,
+                    
                     ModifiedDate        = GetUtcDate()
             Where   VentureScheduleKey = @Key
 		End

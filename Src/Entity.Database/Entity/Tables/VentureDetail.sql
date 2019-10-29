@@ -3,16 +3,12 @@
     [VentureDetailKey]            UNIQUEIDENTIFIER CONSTRAINT [DF_VentureDetail_Key] DEFAULT (NewID()) NOT NULL,
     [VentureKey]                  UNIQUEIDENTIFIER CONSTRAINT [DF_VentureDetail_Venture] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [DetailKey]                 UNIQUEIDENTIFIER CONSTRAINT [DF_VentureDetail_Detail] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [CreatedActivityKey]        UNIQUEIDENTIFIER         CONSTRAINT [DF_VentureDetail_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]       UNIQUEIDENTIFIER         CONSTRAINT [DF_VentureDetail_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]               DATETIME         CONSTRAINT [DF_VentureDetail_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate]              DATETIME         CONSTRAINT [DF_VentureDetail_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_VentureDetail] PRIMARY KEY CLUSTERED ([VentureDetailId] ASC),
     CONSTRAINT [FK_VentureDetail_Venture] FOREIGN KEY ([VentureKey]) REFERENCES [Entity].[Venture] ([VentureKey]),
     CONSTRAINT [FK_VentureDetail_Detail] FOREIGN KEY ([DetailKey]) REFERENCES [Entity].[Detail] ([DetailKey]),
-    CONSTRAINT [UQ_VentureDetail_VentureDetailId] UNIQUE NONCLUSTERED ([VentureKey] ASC, [VentureDetailKey] ASC),
-	CONSTRAINT [FK_VentureDetail_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_VentureDetail_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [UQ_VentureDetail_VentureDetailId] UNIQUE NONCLUSTERED ([VentureKey] ASC, [VentureDetailKey] ASC)
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_VentureDetail_Key] ON [Entity].[VentureDetail] ([VentureDetailKey] Asc)

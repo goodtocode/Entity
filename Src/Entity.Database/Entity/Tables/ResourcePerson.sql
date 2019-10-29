@@ -4,16 +4,12 @@
 	[ResourceKey]			UNIQUEIDENTIFIER         CONSTRAINT [DF_ResourceResource_Resource] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[PersonKey]				UNIQUEIDENTIFIER         CONSTRAINT [DF_ResourcePerson_Person] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
     [RecordStateKey]        UNIQUEIDENTIFIER         CONSTRAINT [DF_ResourcePerson_RecordState] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-	[CreatedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_ResourcePerson_CreatedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
-    [ModifiedActivityKey]	UNIQUEIDENTIFIER         CONSTRAINT [DF_ResourcePerson_ModifiedActivity] DEFAULT('00000000-0000-0000-0000-000000000000') NOT NULL,
 	[CreatedDate]  DATETIME         CONSTRAINT [DF_ResourcePerson_CreatedDate] DEFAULT (getutcdate()) NOT NULL,
     [ModifiedDate] DATETIME         CONSTRAINT [DF_ResourcePerson_ModifiedDate] DEFAULT (getutcdate()) NOT NULL,	
     CONSTRAINT [PK_ResourcePerson] PRIMARY KEY CLUSTERED ([ResourcePersonId] ASC),
 	CONSTRAINT [FK_ResourceResource_Resource] FOREIGN KEY ([ResourceKey]) REFERENCES [Entity].[Resource] ([ResourceKey]),
 	CONSTRAINT [FK_ResourcePerson_Person] FOREIGN KEY ([PersonKey]) REFERENCES [Entity].[Person] ([PersonKey]),
-    CONSTRAINT [FK_ResourcePerson_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey]),
-	CONSTRAINT [FK_ResourcePerson_CreatedActivity] FOREIGN KEY ([CreatedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey]),
-	CONSTRAINT [FK_ResourcePerson_ModifiedActivity] FOREIGN KEY ([ModifiedActivityKey]) REFERENCES [Activity].[ActivityContext] ([ActivityContextKey])
+    CONSTRAINT [FK_ResourcePerson_RecordState] FOREIGN KEY ([RecordStateKey]) REFERENCES [Entity].[RecordState] ([RecordStateKey])
 );
 GO
 CREATE UNIQUE NonCLUSTERED INDEX [IX_ResourcePerson_Key] ON [Entity].[ResourcePerson] ([ResourcePersonKey] Asc)

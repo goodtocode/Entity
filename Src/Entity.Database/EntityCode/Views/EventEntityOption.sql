@@ -8,7 +8,6 @@ Select	CP.EventEntityOptionId As [Id],
 		P.OptionGroupKey, 
         P.OptionName,
         P.OptionDescription,
-		CP.ModifiedActivityKey As ActivityContextKey, 
         CP.ModifiedDate,
 		CP.CreatedDate
 From	[Entity].EventEntityOption CP

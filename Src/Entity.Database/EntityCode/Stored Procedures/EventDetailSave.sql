@@ -3,8 +3,7 @@
     @Key				Uniqueidentifier,
 	@EventKey			Uniqueidentifier,
 	@DetailTypeKey		Uniqueidentifier,
-	@DetailData		    nvarchar(1000),
-	@ActivityContextKey	Uniqueidentifier
+	@DetailData		    nvarchar(1000)
 AS
 	-- Initialize
     Declare	@DetailKey As Uniqueidentifier = '00000000-0000-0000-0000-000000000000'
@@ -14,26 +13,26 @@ AS
         Where ED.EventKey = @EventKey And D.DetailTypeKey = @DetailTypeKey
 
 	-- Do nothing if bad data
-	If (@DetailTypeKey <> '00000000-0000-0000-0000-000000000000' AND @ActivityContextKey <> '00000000-0000-0000-0000-000000000000')
+	If (@DetailTypeKey <> '00000000-0000-0000-0000-000000000000')
 	Begin
 		-- Insert vs Update
 		If (@Id Is Null) Or (@Id = -1)
 		Begin
             -- Detail
             Select @DetailKey = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-			Insert Into [Entity].[Detail] (DetailKey, DetailTypeKey, DetailData, CreatedActivityKey, ModifiedActivityKey)
-				Values (@DetailKey, @DetailTypeKey, @DetailData, @ActivityContextKey, @ActivityContextKey)
+			Insert Into [Entity].[Detail] (DetailKey, DetailTypeKey, DetailData)
+				Values (@DetailKey, @DetailTypeKey, @DetailData)
             -- EventDetail
             Select @Key = IsNull(NullIf(@Key, '00000000-0000-0000-0000-000000000000'), NewId())
-			Insert Into [Entity].[EventDetail] (EventDetailKey, EventKey, DetailKey, CreatedActivityKey, ModifiedActivityKey)
-				Values (@Key, @EventKey, @DetailKey, @ActivityContextKey, @ActivityContextKey)
+			Insert Into [Entity].[EventDetail] (EventDetailKey, EventKey, DetailKey)
+				Values (@Key, @EventKey, @DetailKey)
 			Select @Id = SCOPE_IDENTITY()
 		End
 		Else
 		Begin
 			Update [Entity].[Detail]
 			Set	DetailData	            = @DetailData,
-				ModifiedActivityKey		= @ActivityContextKey,
+				
 				ModifiedDate			= GetUTCDate()
 			Where DetailKey = @DetailKey
 		End

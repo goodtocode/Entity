@@ -5,7 +5,6 @@ AS
             S.ResourceName As [Name],
             S.ResourceDescription As [Description],
             S.RecordStateKey,
-            S.CreatedActivityKey As [ActivityContextKey],
 			S.CreatedDate, 
 			S.ModifiedDate
 	From	[Entity].[Resource] S        

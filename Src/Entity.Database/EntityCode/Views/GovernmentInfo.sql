@@ -3,7 +3,6 @@ As
 Select	G.GovernmentId As [Id],
 		G.GovernmentKey As [Key],
 		G.GovernmentName As Name,
-		G.ModifiedActivityKey As ActivityContextKey,
 		G.CreatedDate, 
 		G.ModifiedDate
 From	[Entity].[Government] G

@@ -10,7 +10,6 @@ AS
             L.ResourceName,
             L.ResourceDescription,
             IsNull(ESL.ResourceTypeKey, '00000000-0000-0000-0000-000000000000') As [ResourceTypeKey],
-            ESL.CreatedActivityKey As [ActivityContextKey], 
 			ESL.CreatedDate, 
 			ESL.ModifiedDate
 	From	[Entity].[EventResource] ESL
