@@ -44,7 +44,7 @@ namespace GoodToCode.Entity.WebServices
                 c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
             });
 
-            var crudControllers = new List<CrudApiInfo>() { new CrudApiInfo(typeof(PersonInfo), "api/Person") };
+            var crudControllers = new List<CrudApiRoute>() { new CrudApiRoute(typeof(PersonInfo), "api/Person") };
             services
                 .AddMvc(o => o.Conventions.Add(
                   new CrudApiControllerRouteConvention(crudControllers)

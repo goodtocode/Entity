@@ -19,6 +19,7 @@
 //-----------------------------------------------------------------------
 using GoodToCode.Entity.Person;
 using GoodToCode.Extensions;
+using GoodToCode.Framework.Repository;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,10 +52,10 @@ namespace GoodToCode.Entity.WebServices
         [HttpGet(ControllerRoute + "/{idOrKey}/{firstName}/{lastName}")]
         public IEnumerable<IPerson> Get(string idOrKey = "", string firstName = "", string lastName = "")
         {
-            var returnValue = new List<PersonDto>();
+            var returnValue = new List<PersonInfo>();
             var id = idOrKey.TryParseInt32();
             var key = idOrKey.TryParseGuid();
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(firstName) || x.LastName.Contains(lastName) || x.Key == key || x.Id == id).Take(MaxRecords);
+            var searchResults = new EntityReader<PersonInfo>().GetByWhere(x => x.FirstName.Contains(firstName) || x.LastName.Contains(lastName) || x.Key == key || x.Id == id).Take(MaxRecords);
 
             if (searchResults.Any())
                 returnValue.FillRange(searchResults);
@@ -70,7 +71,7 @@ namespace GoodToCode.Entity.WebServices
         [HttpPost(ControllerRoute)]
         public IEnumerable<IPerson> Post([FromBody]PersonDto data)
         {
-            var searchResults = PersonInfo.GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(MaxRecords);
+            var searchResults = new EntityReader<PersonInfo>().GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(MaxRecords);
             return searchResults;
         }     
     }
