@@ -21,7 +21,7 @@ namespace GoodToCode.Entity
             {
                 new SqlParameter("@Id", Entity.Id),
                 new SqlParameter("@Key", Entity.Key),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@LocationKey", Entity.LocationKey),
                 new SqlParameter("@LocationTypeKey", Entity.LocationTypeKey)
                 
@@ -39,7 +39,7 @@ namespace GoodToCode.Entity
             {
                 new SqlParameter("@Id", Entity.Id),
                 new SqlParameter("@Key", Entity.Key),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@LocationKey", Entity.LocationKey),
                 new SqlParameter("@LocationTypeKey", Entity.LocationTypeKey)
                 

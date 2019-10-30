@@ -20,7 +20,7 @@ namespace GoodToCode.Entity.Venture
             Parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@VentureKey", Entity.VentureKey),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@OptionKey", Entity.OptionKey)
                 
             }
@@ -36,7 +36,7 @@ namespace GoodToCode.Entity.Venture
             Parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@VentureKey", Entity.VentureKey),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@OptionKey", Entity.OptionKey)
                 
             }

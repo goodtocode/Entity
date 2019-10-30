@@ -20,7 +20,7 @@ namespace GoodToCode.Entity
             StoredProcedureName = "EntityOptionSave",
             Parameters = new List<SqlParameter>()
             {
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@OptionKey", Entity.OptionKey)
                 
             }
@@ -35,7 +35,7 @@ namespace GoodToCode.Entity
             StoredProcedureName = "EntityOptionSave",
             Parameters = new List<SqlParameter>()
             {
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@OptionKey", Entity.OptionKey)
                 
             }

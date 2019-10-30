@@ -21,7 +21,7 @@ namespace GoodToCode.Entity
             {
                 new SqlParameter("@Id", Entity.Id),
                 new SqlParameter("@Key", Entity.Key),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@BeginDay", Entity.BeginDay),
                 new SqlParameter("@EndDay", Entity.EndDay),
                 new SqlParameter("@BeginTime", Entity.BeginTime),
@@ -42,7 +42,7 @@ namespace GoodToCode.Entity
             {
                 new SqlParameter("@Id", Entity.Id),
                 new SqlParameter("@Key", Entity.Key),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@BeginDay", Entity.BeginDay),
                 new SqlParameter("@EndDay", Entity.EndDay),
                 new SqlParameter("@BeginTime", Entity.BeginTime),

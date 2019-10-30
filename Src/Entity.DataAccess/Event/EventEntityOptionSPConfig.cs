@@ -21,7 +21,7 @@ namespace GoodToCode.Entity.Event
             Parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@EventKey", Entity.EventKey),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@OptionKey", Entity.OptionKey)
                 
             }
@@ -37,7 +37,7 @@ namespace GoodToCode.Entity.Event
             Parameters = new List<SqlParameter>()
             {
                 new SqlParameter("@EventKey", Entity.EventKey),
-                new SqlParameter("@EntityKey", Entity.Key),
+                new SqlParameter("@EntityKey", Entity.EntityKey),
                 new SqlParameter("@OptionKey", Entity.OptionKey)
                 
             }
