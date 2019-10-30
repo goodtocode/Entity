@@ -191,7 +191,7 @@ namespace GoodToCode.Entity.Venture
 
             using (var writer = new StoredProcedureWriter<VentureDetail>(testEntity, new VentureDetailSPConfig()))
             {
-                resultEntity = await writer.SaveAsync();
+                resultEntity = await writer.DeleteAsync();
             }
             Assert.IsTrue(resultEntity.IsNew);
 
