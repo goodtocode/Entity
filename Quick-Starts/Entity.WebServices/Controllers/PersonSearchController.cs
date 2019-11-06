@@ -49,7 +49,7 @@ namespace GoodToCode.Entity.WebServices
         /// <param name="firstName">String - Text to search in first name</param>
         /// <param name="lastName">String - Text to search in the last name field</param>
         /// <returns>Partial view of only the search results region</returns>
-        [HttpGet(ControllerRoute + "/{idOrKey}/{firstName}/{lastName}")]
+        [HttpGet(ControllerRoute + "/{idOrKey}/{firstName}/{lastName}"), Route(ControllerRoute)]
         public IEnumerable<IPerson> Get(string idOrKey = "", string firstName = "", string lastName = "")
         {
             var returnValue = new List<PersonInfo>();
