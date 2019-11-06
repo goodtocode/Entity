@@ -10,9 +10,9 @@
     <PackageReference Include="GoodToCode.Entity.Abstractions" Version="4.19.19303.3" />
     <PackageReference Include="GoodToCode.Entity.Dto" Version="4.19.19303.3" />
     <PackageReference Include="GoodToCode.Extensions" Version="4.19.19300.1" />
-    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19303.2" />
-    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19303.2" />
-    <PackageReference Include="GoodToCode.Framework.Hosting" Version="4.19.19303.2" />
+    <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19309.3" />
+    <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19309.3" />
+    <PackageReference Include="GoodToCode.Framework.Hosting" Version="4.19.19309.3" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
