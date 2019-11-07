@@ -57,6 +57,7 @@ namespace GoodToCode.Entity.WebServices
                     options.SerializerSettings.ContractResolver
                         = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                 });
+            services.AddApplicationInsightsTelemetry();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

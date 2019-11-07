@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -42,6 +43,7 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/GoodToCode.css" asp-append-version="true" />
     </environment>
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body>
     @await Html.PartialAsync("~/Partials/Shared/Header.cshtml")
