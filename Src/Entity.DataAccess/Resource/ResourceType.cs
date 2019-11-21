@@ -8,7 +8,7 @@ namespace GoodToCode.Entity.Resource
     /// Type of Resource
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceType : ValueInfo<ResourceType>, IResourceType
+    public class ResourceType : ValueBase<ResourceType>, IResourceType
     {
         /// <summary>
         /// Friendly name

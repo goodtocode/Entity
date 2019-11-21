@@ -1,4 +1,5 @@
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -8,7 +9,7 @@ namespace GoodToCode.Entity.Venture
     /// Ventures
     /// </summary>
 
-    public class VentureScheduleSPConfig : StoredProcedureConfiguration<VentureSchedule>
+    public class VentureScheduleSPConfig : EntityConfiguration<VentureSchedule>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

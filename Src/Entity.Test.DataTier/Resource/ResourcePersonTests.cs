@@ -79,7 +79,7 @@ namespace GoodToCode.Entity.Person
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            using (var writer = new EntityWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -124,7 +124,7 @@ namespace GoodToCode.Entity.Person
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            using (var writer = new EntityWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
             {
                 resultEntity = await writer.CreateAsync();
             }
@@ -168,7 +168,7 @@ namespace GoodToCode.Entity.Person
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            using (var writer = new EntityWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -235,7 +235,7 @@ namespace GoodToCode.Entity.Person
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             testEntity.FirstName = uniqueValue;
-            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            using (var writer = new EntityWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -277,7 +277,7 @@ namespace GoodToCode.Entity.Person
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
+            using (var writer = new EntityWriter<ResourcePerson>(testEntity, new ResourcePersonSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -443,7 +443,7 @@ namespace GoodToCode.Entity.Person
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<ResourcePerson>(toDelete, new ResourcePersonSPConfig()))
+                using (var db = new EntityWriter<ResourcePerson>(toDelete, new ResourcePersonSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

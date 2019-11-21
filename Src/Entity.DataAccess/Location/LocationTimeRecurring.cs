@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Location
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class LocationTimeRecurring : EntityInfo<LocationTimeRecurring>, ILocationTimeRecurring
+    public class LocationTimeRecurring : EntityBase<LocationTimeRecurring>, ILocationTimeRecurring
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

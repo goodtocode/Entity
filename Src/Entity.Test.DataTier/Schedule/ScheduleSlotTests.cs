@@ -70,7 +70,7 @@ namespace GoodToCode.Entity.Schedule
             testEntity.SlotKey = SlotInfoTests.RecycleBin.LastOrDefault();
 
             // Create should update original object, and pass back a fresh-from-db object
-            using (var writer = new StoredProcedureWriter<ScheduleSlot>(testEntity, new ScheduleSlotSPConfig()))
+            using (var writer = new EntityWriter<ScheduleSlot>(testEntity, new ScheduleSlotSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -138,7 +138,7 @@ namespace GoodToCode.Entity.Schedule
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            using (var writer = new StoredProcedureWriter<ScheduleSlot>(testEntity, new ScheduleSlotSPConfig()))
+            using (var writer = new EntityWriter<ScheduleSlot>(testEntity, new ScheduleSlotSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -168,7 +168,7 @@ namespace GoodToCode.Entity.Schedule
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<ScheduleSlot>(toDelete, new ScheduleSlotSPConfig()))
+                using (var db = new EntityWriter<ScheduleSlot>(toDelete, new ScheduleSlotSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

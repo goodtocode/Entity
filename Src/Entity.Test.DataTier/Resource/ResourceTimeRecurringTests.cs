@@ -72,7 +72,7 @@ namespace GoodToCode.Entity.Resource
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -138,7 +138,7 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
             testEntity.ResourceName = uniqueValue;
-            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -179,7 +179,7 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<ResourceTimeRecurring>(testEntity, new ResourceTimeRecurringSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -223,7 +223,7 @@ namespace GoodToCode.Entity.Resource
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<ResourceTimeRecurring>(toDelete, new ResourceTimeRecurringSPConfig()))
+                using (var db = new EntityWriter<ResourceTimeRecurring>(toDelete, new ResourceTimeRecurringSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

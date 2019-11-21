@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class SlotInfo : EntityInfo<SlotInfo>, ISlot
+    public class SlotInfo : EntityBase<SlotInfo>, ISlot
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

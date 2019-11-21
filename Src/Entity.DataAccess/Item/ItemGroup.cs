@@ -9,7 +9,7 @@ namespace GoodToCode.Entity.Item
     /// Group of Item
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ItemGroup : ValueInfo<ItemGroup>, IItemGroup
+    public class ItemGroup : ValueBase<ItemGroup>, IItemGroup
     {
         /// <summary>
         /// Friendly name

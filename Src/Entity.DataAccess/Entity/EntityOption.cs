@@ -11,7 +11,7 @@ namespace GoodToCode.Entity
     /// EntityOption 
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode"), DataAccessBehavior(DataAccessBehaviors.NoUpdate)]
-    public class EntityOption : EntityInfo<EntityOption>, IEntityOption
+    public class EntityOption : EntityBase<EntityOption>, IEntityOption
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

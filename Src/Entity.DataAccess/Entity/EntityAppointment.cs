@@ -11,7 +11,7 @@ namespace GoodToCode.Entity
     /// Entity location and time
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EntityAppointment : EntityInfo<EntityAppointment>, IEntityAppointment
+    public class EntityAppointment : EntityBase<EntityAppointment>, IEntityAppointment
     {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

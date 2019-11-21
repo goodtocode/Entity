@@ -18,7 +18,7 @@ namespace GoodToCode.Entity.Resource
     /// Resource
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceInfo : EntityInfo<ResourceInfo>, IResource
+    public class ResourceInfo : EntityBase<ResourceInfo>, IResource
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

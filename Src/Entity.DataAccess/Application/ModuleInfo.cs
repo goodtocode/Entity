@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.Application
     /// Module DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ModuleInfo : ValueInfo<ModuleInfo>, INameId
+    public class ModuleInfo : ValueBase<ModuleInfo>, INameId
     {
         /// <summary>
         /// Name of this item

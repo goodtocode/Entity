@@ -11,7 +11,7 @@ namespace GoodToCode.Entity
     /// Entitys
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EntityLocation : EntityInfo<EntityLocation>, IEntityLocation
+    public class EntityLocation : EntityBase<EntityLocation>, IEntityLocation
     {       
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

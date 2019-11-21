@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode"), DataAccessBehavior(DataAccessBehaviors.NoUpdate)]
-    public class ScheduleSlot : EntityInfo<ScheduleSlot>, IScheduleSlot
+    public class ScheduleSlot : EntityBase<ScheduleSlot>, IScheduleSlot
     {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

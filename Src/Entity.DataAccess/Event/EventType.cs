@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Event
     /// Type of event
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventType : ValueInfo<EventType>, IEventType
+    public class EventType : ValueBase<EventType>, IEventType
     {
         /// <summary>
         /// Friendly name

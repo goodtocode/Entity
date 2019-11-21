@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
+using GoodToCode.Framework.Repository;
+using Microsoft.EntityFrameworkCore;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -47,9 +49,9 @@ namespace GoodToCode.Entity.WebServices
             var crudControllers = new List<CrudApiRoute>() { new CrudApiRoute(typeof(PersonInfo), "api/Person") };
             services
                 .AddMvc(o => o.Conventions.Add(
-                  new CrudApiControllerRouteConvention(crudControllers)
-              )).ConfigureApplicationPartManager(m =>
-                  m.FeatureProviders.Add(new CrudApiControllerFeatureProvider(crudControllers)
+                  new CrudApiControllerRouteConvention(crudControllers)))
+                    .ConfigureApplicationPartManager(m => 
+                        m.FeatureProviders.Add(new CrudApiControllerFeatureProvider(crudControllers)
               ))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
@@ -58,6 +60,9 @@ namespace GoodToCode.Entity.WebServices
                         = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                 });
             services.AddApplicationInsightsTelemetry();
+            
+            // Must add DB Context for each controller
+            services.AddDbContext<StoredProcedureWriter<PersonInfo>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -87,7 +92,7 @@ namespace GoodToCode.Entity.WebServices
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });            
+            });
         }
     }
 }

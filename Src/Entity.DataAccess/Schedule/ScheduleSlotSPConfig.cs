@@ -1,5 +1,5 @@
-
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -8,8 +8,7 @@ namespace GoodToCode.Entity.Schedule
     /// <summary>
     /// Events
     /// </summary>
-
-    public class ScheduleSlotSPConfig : StoredProcedureConfiguration<ScheduleSlot>
+    public class ScheduleSlotSPConfig : EntityConfiguration<ScheduleSlot>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

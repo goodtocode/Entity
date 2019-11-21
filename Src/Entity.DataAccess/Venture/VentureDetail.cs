@@ -12,7 +12,7 @@ namespace GoodToCode.Entity.Venture
     /// </summary>
 
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureDetail : EntityInfo<VentureDetail>, IVentureDetail
+    public class VentureDetail : EntityBase<VentureDetail>, IVentureDetail
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

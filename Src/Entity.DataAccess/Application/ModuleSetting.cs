@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Application
     /// ModuleSetting DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode"), TableName("ModuleSetting")]
-    public class ModuleSetting : EntityInfo<ModuleSetting>, IModuleSetting
+    public class ModuleSetting : EntityBase<ModuleSetting>, IModuleSetting
 	{
         /// <summary>
         /// ModuleKey

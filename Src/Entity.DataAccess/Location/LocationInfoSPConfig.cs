@@ -1,7 +1,6 @@
-
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Name;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -10,8 +9,7 @@ namespace GoodToCode.Entity.Location
     /// <summary>
     /// Events
     /// </summary>
-
-    public class LocationInfoSPConfig : StoredProcedureConfiguration<LocationInfo>
+    public class LocationInfoSPConfig : EntityConfiguration<LocationInfo>
     {
         private readonly string name = Defaults.String;
 

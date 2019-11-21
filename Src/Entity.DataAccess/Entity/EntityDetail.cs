@@ -10,9 +10,8 @@ namespace GoodToCode.Entity
     /// <summary>
     /// Entity detail
     /// </summary>
-
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EntityDetail : EntityInfo<EntityDetail>, IEntityDetail
+    public class EntityDetail : EntityBase<EntityDetail>, IEntityDetail
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

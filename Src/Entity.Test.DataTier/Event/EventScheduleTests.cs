@@ -82,7 +82,7 @@ namespace GoodToCode.Entity.Event
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.EventKey = EventInfoTests.RecycleBin.LastOrDefault();
             testEntity.EventCreatorKey = PersonInfoTests.RecycleBin.LastOrDefault();
-            using (var writer = new StoredProcedureWriter<EventSchedule>(testEntity, new EventScheduleSPConfig()))
+            using (var writer = new EntityWriter<EventSchedule>(testEntity, new EventScheduleSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -148,7 +148,7 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
             testEntity.ScheduleName = uniqueValue;
-            using (var writer = new StoredProcedureWriter<EventSchedule>(testEntity, new EventScheduleSPConfig()))
+            using (var writer = new EntityWriter<EventSchedule>(testEntity, new EventScheduleSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -189,7 +189,7 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<EventSchedule>(testEntity, new EventScheduleSPConfig()))
+            using (var writer = new EntityWriter<EventSchedule>(testEntity, new EventScheduleSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -233,7 +233,7 @@ namespace GoodToCode.Entity.Event
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<EventSchedule>(toDelete, new EventScheduleSPConfig()))
+                using (var db = new EntityWriter<EventSchedule>(toDelete, new EventScheduleSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

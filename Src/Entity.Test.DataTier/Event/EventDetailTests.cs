@@ -82,7 +82,7 @@ namespace GoodToCode.Entity.Event
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.EventKey = EventInfoTests.RecycleBin.LastOrDefault();
             testEntity.DetailTypeKey = DetailTypes.Directions;
-            using (var writer = new StoredProcedureWriter<EventDetail>(testEntity, new EventDetailSPConfig()))
+            using (var writer = new EntityWriter<EventDetail>(testEntity, new EventDetailSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -148,7 +148,7 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
             testEntity.Description = uniqueValue;
-            using (var writer = new StoredProcedureWriter<EventDetail>(testEntity, new EventDetailSPConfig()))
+            using (var writer = new EntityWriter<EventDetail>(testEntity, new EventDetailSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -189,7 +189,7 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<EventDetail>(testEntity, new EventDetailSPConfig()))
+            using (var writer = new EntityWriter<EventDetail>(testEntity, new EventDetailSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -232,7 +232,7 @@ namespace GoodToCode.Entity.Event
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<EventDetail>(toDelete, new EventDetailSPConfig()))
+                using (var db = new EntityWriter<EventDetail>(toDelete, new EventDetailSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

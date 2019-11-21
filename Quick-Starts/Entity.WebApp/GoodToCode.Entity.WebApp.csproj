@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingDto>InProcess</AspNetCoreHostingDto>
+    <ApplicationInsightsResourceId>/subscriptions/8475cb81-d1d1-4a39-81f0-384227a6f979/resourcegroups/framework/providers/microsoft.insights/components/Entities</ApplicationInsightsResourceId>
   </PropertyGroup>
 
 
@@ -13,9 +14,15 @@
     <PackageReference Include="GoodToCode.Framework.Abstractions" Version="4.19.19309.3" />
     <PackageReference Include="GoodToCode.Framework.Dto" Version="4.19.19309.3" />
     <PackageReference Include="GoodToCode.Framework.Hosting" Version="4.19.19309.3" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.0.0" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services" />
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">

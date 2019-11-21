@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Option
     /// OptionInfo
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class OptionInfo : ValueInfo<OptionInfo>, IOption
+    public class OptionInfo : ValueBase<OptionInfo>, IOption
 	{
         /// <summary>
         /// Grouping of properties

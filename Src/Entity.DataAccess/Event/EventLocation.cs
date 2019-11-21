@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Event
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventLocation : EntityInfo<EventLocation>, IEventLocation
+    public class EventLocation : EntityBase<EventLocation>, IEventLocation
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

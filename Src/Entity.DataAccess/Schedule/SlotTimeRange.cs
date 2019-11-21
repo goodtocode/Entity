@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class SlotTimeRange : EntityInfo<SlotTimeRange>, ISlotTimeRange
+    public class SlotTimeRange : EntityBase<SlotTimeRange>, ISlotTimeRange
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

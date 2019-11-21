@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Venture
     /// Ventures
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureLocation : EntityInfo<VentureLocation>, IVentureLocation
+    public class VentureLocation : EntityBase<VentureLocation>, IVentureLocation
     {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

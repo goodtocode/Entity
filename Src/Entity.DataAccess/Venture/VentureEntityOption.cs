@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Venture
     /// VentureEntity DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureEntityOption : EntityInfo<VentureEntityOption>, IVentureEntityOption
+    public class VentureEntityOption : EntityBase<VentureEntityOption>, IVentureEntityOption
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

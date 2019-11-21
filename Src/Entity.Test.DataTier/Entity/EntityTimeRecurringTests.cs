@@ -76,7 +76,7 @@ namespace GoodToCode.Entity
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.EntityKey = PersonInfoTests.RecycleBin.LastOrDefault();
-            using (var writer = new StoredProcedureWriter<EntityTimeRecurring>(testEntity, new EntityTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<EntityTimeRecurring>(testEntity, new EntityTimeRecurringSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -141,7 +141,7 @@ namespace GoodToCode.Entity
             Assert.IsTrue(testEntity.Id != Defaults.Integer);
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
-            using (var writer = new StoredProcedureWriter<EntityTimeRecurring>(testEntity, new EntityTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<EntityTimeRecurring>(testEntity, new EntityTimeRecurringSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -182,7 +182,7 @@ namespace GoodToCode.Entity
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<EntityTimeRecurring>(testEntity, new EntityTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<EntityTimeRecurring>(testEntity, new EntityTimeRecurringSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -210,7 +210,7 @@ namespace GoodToCode.Entity
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<EntityTimeRecurring>(toDelete, new EntityTimeRecurringSPConfig()))
+                using (var db = new EntityWriter<EntityTimeRecurring>(toDelete, new EntityTimeRecurringSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

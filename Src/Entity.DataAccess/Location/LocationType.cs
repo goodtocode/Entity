@@ -8,7 +8,7 @@ namespace GoodToCode.Entity.Location
     /// Type of Location
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class LocationType : ValueInfo<LocationType>, ILocationType
+    public class LocationType : ValueBase<LocationType>, ILocationType
     {
         /// <summary>
         /// Friendly name

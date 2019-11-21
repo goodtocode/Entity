@@ -1,4 +1,5 @@
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -6,9 +7,8 @@ namespace GoodToCode.Entity.Person
 {
     /// <summary>
     /// EntityPerson
-    /// </summary>
-    
-    public class PersonInfoSPConfig : StoredProcedureConfiguration<PersonInfo>
+    /// </summary>    
+    public class PersonInfoSPConfig : EntityConfiguration<PersonInfo>
     {
         /// <summary>
         /// Constructor

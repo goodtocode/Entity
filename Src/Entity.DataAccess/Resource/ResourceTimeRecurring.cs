@@ -14,7 +14,7 @@ namespace GoodToCode.Entity.Resource
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceTimeRecurring : EntityInfo<ResourceTimeRecurring>, IResourceTimeRecurring
+    public class ResourceTimeRecurring : EntityBase<ResourceTimeRecurring>, IResourceTimeRecurring
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
@@ -85,7 +85,7 @@ namespace GoodToCode.Entity.Resource
 
             ResourceName = new HtmlUnsafeCleanser(ResourceName).Cleanse().ToPascalCase();
             ResourceDescription = new HtmlUnsafeCleanser(ResourceDescription).Cleanse();
-            using (var writer = new StoredProcedureWriter<ResourceTimeRecurring>(this, new ResourceTimeRecurringSPConfig()))
+            using (var writer = new EntityWriter<ResourceTimeRecurring>(this, new ResourceTimeRecurringSPConfig()))
             {
                 return await writer.SaveAsync();
             }

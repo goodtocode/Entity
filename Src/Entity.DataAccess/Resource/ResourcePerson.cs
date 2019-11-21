@@ -15,7 +15,7 @@ namespace GoodToCode.Entity.Resource
     /// EntityPerson
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourcePerson : EntityInfo<ResourcePerson>, IFormattable, IPerson, IEntity
+    public class ResourcePerson : EntityBase<ResourcePerson>, IFormattable, IPerson, IEntity
     {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
@@ -95,7 +95,7 @@ namespace GoodToCode.Entity.Resource
             FirstName = new HtmlUnsafeCleanser(this.FirstName).Cleanse();
             MiddleName = new HtmlUnsafeCleanser(this.MiddleName).Cleanse();
             LastName = new HtmlUnsafeCleanser(this.LastName).Cleanse();
-            using (var writer = new StoredProcedureWriter<ResourcePerson>(this, new ResourcePersonSPConfig()))
+            using (var writer = new EntityWriter<ResourcePerson>(this, new ResourcePersonSPConfig()))
             {
                 return await writer.SaveAsync();
             }

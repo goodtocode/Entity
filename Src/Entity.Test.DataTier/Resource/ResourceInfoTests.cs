@@ -75,7 +75,7 @@ namespace GoodToCode.Entity.Resource
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            using (var writer = new EntityWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -123,7 +123,7 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            using (var writer = new EntityWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
             {
                 resultEntity = await writer.CreateAsync();
             }
@@ -171,7 +171,7 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             // Do Insert and check passed entity and returned entity
-            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            using (var writer = new EntityWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
             {
                 resultEntity = await writer.CreateAsync();
             }
@@ -232,7 +232,7 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             testEntity.Name = uniqueValue;
-            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            using (var writer = new EntityWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -274,7 +274,7 @@ namespace GoodToCode.Entity.Resource
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
+            using (var writer = new EntityWriter<ResourceInfo>(testEntity, new ResourceInfoSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -291,7 +291,6 @@ namespace GoodToCode.Entity.Resource
             // Remove from RecycleBin (its already marked deleted)
             RecycleBin.Remove(lastKey);
         }
-
 
         [TestMethod()]
         public void Resource_ResourceInfo_Serialize()
@@ -320,7 +319,7 @@ namespace GoodToCode.Entity.Resource
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<ResourceInfo>(toDelete, new ResourceInfoSPConfig()))
+                using (var db = new EntityWriter<ResourceInfo>(toDelete, new ResourceInfoSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

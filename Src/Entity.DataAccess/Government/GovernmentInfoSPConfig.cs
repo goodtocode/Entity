@@ -1,4 +1,5 @@
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -8,7 +9,7 @@ namespace GoodToCode.Entity.Government
     /// EntityGovernment
     /// </summary>
 
-    public class GovernmentInfoSPConfig : StoredProcedureConfiguration<GovernmentInfo>
+    public class GovernmentInfoSPConfig : EntityConfiguration<GovernmentInfo>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

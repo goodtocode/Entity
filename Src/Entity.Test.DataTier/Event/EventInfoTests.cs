@@ -78,7 +78,7 @@ namespace GoodToCode.Entity.Event
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.EventCreatorKey = creator.Key;
-            using (var writer = new StoredProcedureWriter<EventInfo>(testEntity, new EventInfoSPConfig()))
+            using (var writer = new EntityWriter<EventInfo>(testEntity, new EventInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -147,7 +147,7 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             testEntity.Name = uniqueValue;
-            using (var writer = new StoredProcedureWriter<EventInfo>(testEntity, new EventInfoSPConfig()))
+            using (var writer = new EntityWriter<EventInfo>(testEntity, new EventInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -191,7 +191,7 @@ namespace GoodToCode.Entity.Event
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            using (var writer = new StoredProcedureWriter<EventInfo>(testEntity, new EventInfoSPConfig()))
+            using (var writer = new EntityWriter<EventInfo>(testEntity, new EventInfoSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -237,7 +237,7 @@ namespace GoodToCode.Entity.Event
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<EventInfo>(toDelete, new EventInfoSPConfig()))
+                using (var db = new EntityWriter<EventInfo>(toDelete, new EventInfoSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

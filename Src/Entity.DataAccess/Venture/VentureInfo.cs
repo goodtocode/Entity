@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Venture
     /// Ventures
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class VentureInfo : EntityInfo<VentureInfo>, IVenture
+    public class VentureInfo : EntityBase<VentureInfo>, IVenture
     {
         private readonly string name = Defaults.String;
 

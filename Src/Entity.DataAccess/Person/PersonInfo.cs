@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Person
     /// EntityPerson
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class PersonInfo : EntityInfo<PersonInfo>, IFormattable, IPerson
+    public class PersonInfo : EntityBase<PersonInfo>, IFormattable, IPerson
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

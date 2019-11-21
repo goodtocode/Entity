@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Event
     /// EventEntity DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventEntityOption : EntityInfo<EventEntityOption>, IEventEntityOption
+    public class EventEntityOption : EntityBase<EventEntityOption>, IEventEntityOption
 	{        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

@@ -1,5 +1,6 @@
 
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -8,8 +9,7 @@ namespace GoodToCode.Entity
     /// <summary>
     /// EntityOption 
     /// </summary>
-
-    public class EntityOptionSPConfig : StoredProcedureConfiguration<EntityOption>
+    public class EntityOptionSPConfig : EntityConfiguration<EntityOption>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

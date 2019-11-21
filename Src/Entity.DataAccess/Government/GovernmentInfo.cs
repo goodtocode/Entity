@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.Government
     /// EntityGovernment
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class GovernmentInfo : EntityInfo<GovernmentInfo>, IGovernment
+    public class GovernmentInfo : EntityBase<GovernmentInfo>, IGovernment
     {        
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

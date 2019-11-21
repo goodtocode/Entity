@@ -8,7 +8,7 @@ namespace GoodToCode.Entity.Event
     /// Type of event
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventGroup : ValueInfo<EventGroup>, IEventGroup
+    public class EventGroup : ValueBase<EventGroup>, IEventGroup
     {
         /// <summary>
         /// Friendly name

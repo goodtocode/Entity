@@ -1,5 +1,6 @@
 
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -8,7 +9,7 @@ namespace GoodToCode.Entity.Venture
     /// <summary>
     /// VentureEntity DAO
     /// </summary>
-    public class VentureEntityOptionSPConfig : StoredProcedureConfiguration<VentureEntityOption>
+    public class VentureEntityOptionSPConfig : EntityConfiguration<VentureEntityOption>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

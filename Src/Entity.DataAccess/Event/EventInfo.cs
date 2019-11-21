@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Event
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EventInfo : EntityInfo<EventInfo>, IEvent
+    public class EventInfo : EntityBase<EventInfo>, IEvent
     {
         private readonly string name = Defaults.String;
 

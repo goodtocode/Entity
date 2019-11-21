@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.Business
     /// BusinessInfo DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class BusinessInfo : EntityInfo<BusinessInfo>, IBusiness
+    public class BusinessInfo : EntityBase<BusinessInfo>, IBusiness
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

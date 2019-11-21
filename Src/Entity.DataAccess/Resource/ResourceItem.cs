@@ -12,7 +12,7 @@ namespace GoodToCode.Entity.Resource
     /// EntityItem
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ResourceItem : EntityInfo<ResourceItem>, IItemInfo, IResourceInfo
+    public class ResourceItem : EntityBase<ResourceItem>, IItemInfo, IResourceInfo
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

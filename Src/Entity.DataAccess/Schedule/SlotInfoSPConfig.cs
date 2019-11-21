@@ -1,10 +1,5 @@
-
-using GoodToCode.Extensions;
-
-using GoodToCode.Extensions.Text.Cleansing;
 using GoodToCode.Framework.Data;
-using GoodToCode.Framework.Repository;
-using GoodToCode.Framework.Validation;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -13,8 +8,7 @@ namespace GoodToCode.Entity.Schedule
     /// <summary>
     /// Events
     /// </summary>
-
-    public class SlotInfoSPConfig : StoredProcedureConfiguration<SlotInfo>
+    public class SlotInfoSPConfig : EntityConfiguration<SlotInfo>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

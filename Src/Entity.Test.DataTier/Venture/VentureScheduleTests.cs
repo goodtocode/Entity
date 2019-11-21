@@ -81,7 +81,7 @@ namespace GoodToCode.Entity.Venture
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
             testEntity.VentureKey = VentureInfoTests.RecycleBin.LastOrDefault();
-            using (var writer = new StoredProcedureWriter<VentureSchedule>(testEntity, new VentureScheduleSPConfig()))
+            using (var writer = new EntityWriter<VentureSchedule>(testEntity, new VentureScheduleSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }                
@@ -147,7 +147,7 @@ namespace GoodToCode.Entity.Venture
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
 
             testEntity.ScheduleName = uniqueValue;
-            using (var writer = new StoredProcedureWriter<VentureSchedule>(testEntity, new VentureScheduleSPConfig()))
+            using (var writer = new EntityWriter<VentureSchedule>(testEntity, new VentureScheduleSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -188,7 +188,7 @@ namespace GoodToCode.Entity.Venture
             Assert.IsTrue(testEntity.Key != Defaults.Guid);
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
 
-            using (var writer = new StoredProcedureWriter<VentureSchedule>(testEntity, new VentureScheduleSPConfig()))
+            using (var writer = new EntityWriter<VentureSchedule>(testEntity, new VentureScheduleSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }

@@ -81,9 +81,9 @@ namespace GoodToCode.Entity.Schedule
             //var scheduleEntity = new ScheduleInfo();
             //var slotRangeEntity = new SlotTimeRange();
             //var slotRecurEntity = new SlotTimeRecurring();
-            //var slotRecurWriter = new StoredProcedureWriter<SlotTimeRecurring>();
+            //var slotRecurWriter = new EntityWriter<SlotTimeRecurring>();
             //var scheduleSlotEntity = new ScheduleSlot();
-            //var scheduleSlotWriter = new StoredProcedureWriter<ScheduleSlot>();
+            //var scheduleSlotWriter = new EntityWriter<ScheduleSlot>();
 
             //// Create schedule to hold the slots
             //scheduleEntity.Fill(testSchedules.FirstOrDefaultSafe());
@@ -144,7 +144,7 @@ namespace GoodToCode.Entity.Schedule
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<ScheduleInfo>(toDelete, new ScheduleInfoSPConfig()))
+                using (var db = new EntityWriter<ScheduleInfo>(toDelete, new ScheduleInfoSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

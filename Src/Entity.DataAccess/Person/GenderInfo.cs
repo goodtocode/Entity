@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.Person
     /// EntityGender
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class GenderInfo : ValueInfo<GenderInfo>, IFormattable, INameCode
+    public class GenderInfo : ValueBase<GenderInfo>, IFormattable, INameCode
     {
         /// <summary>
         /// Friendly name of the Gender

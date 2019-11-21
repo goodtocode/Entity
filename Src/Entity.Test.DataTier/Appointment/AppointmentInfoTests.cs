@@ -79,7 +79,7 @@ namespace GoodToCode.Entity.Appointment
             Assert.IsTrue(locationKey != Defaults.Guid);
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            using (var writer = new StoredProcedureWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
+            using (var writer = new EntityWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -148,7 +148,7 @@ namespace GoodToCode.Entity.Appointment
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             testEntity.Name = uniqueValue;
-            using (var writer = new StoredProcedureWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
+            using (var writer = new EntityWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -192,7 +192,7 @@ namespace GoodToCode.Entity.Appointment
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            using (var writer = new StoredProcedureWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
+            using (var writer = new EntityWriter<AppointmentInfo>(testEntity, new AppointmentInfoSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -238,7 +238,7 @@ namespace GoodToCode.Entity.Appointment
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<AppointmentInfo>(toDelete, new AppointmentInfoSPConfig()))
+                using (var db = new EntityWriter<AppointmentInfo>(toDelete, new AppointmentInfoSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

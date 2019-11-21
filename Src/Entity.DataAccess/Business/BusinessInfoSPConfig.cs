@@ -1,4 +1,5 @@
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -8,7 +9,7 @@ namespace GoodToCode.Entity.Business
     /// BusinessInfo DAO
     /// </summary>
 
-    public class BusinessInfoSPConfig : StoredProcedureConfiguration<BusinessInfo>
+    public class BusinessInfoSPConfig : EntityConfiguration<BusinessInfo>
     {
         /// <summary>
         /// Entity Create/Insert Stored Procedure

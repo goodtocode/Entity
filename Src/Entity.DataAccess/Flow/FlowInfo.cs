@@ -9,7 +9,7 @@ namespace GoodToCode.Entity.Flow
     /// Contains workflows and their steps
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class FlowInfo : ValueInfo<FlowInfo>, INameDescription
+    public class FlowInfo : ValueBase<FlowInfo>, INameDescription
 	{
         /// <summary>
         /// Friendly name

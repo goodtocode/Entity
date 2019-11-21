@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Location
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class LocationInfo : EntityInfo<LocationInfo>, INameDescription
+    public class LocationInfo : EntityBase<LocationInfo>, INameDescription
     {
         private readonly string name = Defaults.String;
 

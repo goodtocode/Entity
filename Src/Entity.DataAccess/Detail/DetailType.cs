@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Detail
     ///  detail type
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class DetailType : ValueInfo<DetailType>
+    public class DetailType : ValueBase<DetailType>
     {
         /// <summary>
         /// This detail does not apply to the exclude Id

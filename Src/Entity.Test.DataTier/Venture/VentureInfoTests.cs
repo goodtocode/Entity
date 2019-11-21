@@ -74,7 +74,7 @@ namespace GoodToCode.Entity.Venture
 
             // Create should update original object, and pass back a fresh-from-db object
             testEntity.Fill(testEntities[Arithmetic.Random(1, testEntities.Count)]);
-            using (var writer = new StoredProcedureWriter<VentureInfo>(testEntity, new VentureInfoSPConfig()))
+            using (var writer = new EntityWriter<VentureInfo>(testEntity, new VentureInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -143,7 +143,7 @@ namespace GoodToCode.Entity.Venture
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
             testEntity.Name = uniqueValue;
-            using (var writer = new StoredProcedureWriter<VentureInfo>(testEntity, new VentureInfoSPConfig()))
+            using (var writer = new EntityWriter<VentureInfo>(testEntity, new VentureInfoSPConfig()))
             {
                 resultEntity = await writer.SaveAsync();
             }
@@ -187,7 +187,7 @@ namespace GoodToCode.Entity.Venture
             Assert.IsTrue(testEntity.CreatedDate.Date == DateTime.UtcNow.Date);
             Assert.IsTrue(!testEntity.FailedRules.Any());
 
-            using (var writer = new StoredProcedureWriter<VentureInfo>(testEntity, new VentureInfoSPConfig()))
+            using (var writer = new EntityWriter<VentureInfo>(testEntity, new VentureInfoSPConfig()))
             {
                 resultEntity = await writer.DeleteAsync();
             }
@@ -233,7 +233,7 @@ namespace GoodToCode.Entity.Venture
             foreach (Guid item in RecycleBin)
             {
                 toDelete = reader.GetAll().Where(x => x.Key == item).FirstOrDefaultSafe();
-                using (var db = new StoredProcedureWriter<VentureInfo>(toDelete, new VentureInfoSPConfig()))
+                using (var db = new EntityWriter<VentureInfo>(toDelete, new VentureInfoSPConfig()))
                 {
                     await db.DeleteAsync();
                 }

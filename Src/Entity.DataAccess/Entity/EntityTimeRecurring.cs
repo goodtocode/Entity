@@ -11,7 +11,7 @@ namespace GoodToCode.Entity
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class EntityTimeRecurring : EntityInfo<EntityTimeRecurring>, IEntityTimeRecurring
+    public class EntityTimeRecurring : EntityBase<EntityTimeRecurring>, IEntityTimeRecurring
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

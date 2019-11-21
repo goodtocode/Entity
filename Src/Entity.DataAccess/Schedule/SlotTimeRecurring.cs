@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class SlotTimeRecurring : EntityInfo<SlotTimeRecurring>, ISlotTimeRecurring
+    public class SlotTimeRecurring : EntityBase<SlotTimeRecurring>, ISlotTimeRecurring
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation

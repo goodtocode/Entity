@@ -9,7 +9,7 @@ namespace GoodToCode.Entity.Application
     /// ApplicationInfo DAO
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ApplicationInfo : ValueInfo<ApplicationInfo>, IApplication
+    public class ApplicationInfo : ValueBase<ApplicationInfo>, IApplication
     {
         /// <summary>
         /// Application name

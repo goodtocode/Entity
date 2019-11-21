@@ -1,6 +1,7 @@
 
 using GoodToCode.Extensions;
 using GoodToCode.Framework.Data;
+using GoodToCode.Framework.Entity;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -9,7 +10,7 @@ namespace GoodToCode.Entity.Venture
     /// <summary>
     /// Ventures
     /// </summary>
-    public class VentureInfoSPConfig : StoredProcedureConfiguration<VentureInfo>
+    public class VentureInfoSPConfig : EntityConfiguration<VentureInfo>
     {
         private readonly string name = Defaults.String;
 

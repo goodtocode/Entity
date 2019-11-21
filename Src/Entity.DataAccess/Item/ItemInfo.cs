@@ -11,7 +11,7 @@ namespace GoodToCode.Entity.Item
     /// Items
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ItemInfo : EntityInfo<ItemInfo>, IItem
+    public class ItemInfo : EntityBase<ItemInfo>, IItem
     {
         private readonly string name = Defaults.String;
 

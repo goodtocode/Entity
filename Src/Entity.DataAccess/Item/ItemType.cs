@@ -9,7 +9,7 @@ namespace GoodToCode.Entity.Item
     /// Type of Item
     /// </summary>    
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ItemType : ValueInfo<ItemType>, IItemType
+    public class ItemType : ValueBase<ItemType>, IItemType
     {
         /// <summary>
         /// Friendly name

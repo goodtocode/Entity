@@ -7,7 +7,7 @@ namespace GoodToCode.Entity.Option
     /// PropertyGroup
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class OptionGroup : ValueInfo<OptionGroup>
+    public class OptionGroup : ValueBase<OptionGroup>
 	{
 		/// <summary>
 		/// Constructor

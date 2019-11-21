@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.Schedule
     /// Events
     /// </summary>
     [ConnectionStringName("DefaultConnection"), DatabaseSchemaName("EntityCode")]
-    public class ScheduleInfo : EntityInfo<ScheduleInfo>
+    public class ScheduleInfo : EntityBase<ScheduleInfo>
     {
         /// <summary>
         /// Rules used by the validator for Data Validation and Business Validation
