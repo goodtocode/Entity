@@ -10,6 +10,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using System.Collections.Generic;
 using GoodToCode.Framework.Repository;
 using Microsoft.EntityFrameworkCore;
+using GoodToCode.Framework.Entity;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -50,9 +51,9 @@ namespace GoodToCode.Entity.WebServices
             services
                 .AddMvc(o => o.Conventions.Add(
                   new CrudApiControllerRouteConvention(crudControllers)))
-                    .ConfigureApplicationPartManager(m => 
+                    .ConfigureApplicationPartManager(m =>
                         m.FeatureProviders.Add(new CrudApiControllerFeatureProvider(crudControllers)
-              ))
+                ))
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
@@ -60,9 +61,10 @@ namespace GoodToCode.Entity.WebServices
                         = new Newtonsoft.Json.Serialization.DefaultContractResolver();
                 });
             services.AddApplicationInsightsTelemetry();
-            
+
             // Must add DB Context for each controller
-            services.AddDbContext<StoredProcedureWriter<PersonInfo>>();
+            services.AddDbContext<EntityWriter<PersonInfo>>();
+            services.AddTransient<IEntityConfiguration<PersonInfo>, PersonInfoSPConfig>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
