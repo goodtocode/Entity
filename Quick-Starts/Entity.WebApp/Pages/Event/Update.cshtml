@@ -1,0 +1,60 @@
+﻿@page
+@model GoodToCode.Entity.Event.UpdateModel
+
+@using GoodToCode.Extensions
+@using GoodToCode.Entity.Event
+
+@{
+    ViewData["Title"] = "Update";
+}
+<h1>Update</h1>
+
+<h4>Update a new Person</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Event.Id" />
+            <input type="hidden" asp-for="Event.Key" />
+            <div class="form-group">
+                <label asp-for="Event.Name" class="control-label"></label>
+                <input asp-for="Event.Name" class="form-control" />
+                <span asp-validation-for="Event.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Description" class="control-label"></label>
+                <input asp-for="Event.Description" class="form-control" />
+                <span asp-validation-for="Event.Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Event.Slogan" class="control-label"></label>
+                <input asp-for="Event.Slogan" class="form-control" />
+                <span asp-validation-for="Event.Slogan" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Update" class="btn btn-primary" />
+            </div>
+        </form>
+        <div class="row">
+            <div class="col-xs-offset-1 col-xs-10 ">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    @Html.ValidationSummary(false, UpdateModel.ValidationSummaryMessage, new { @class = "text-danger" })
+                }
+                else
+                {
+                    <p class="text-info">@TempData[UpdateModel.ResultMessage]</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

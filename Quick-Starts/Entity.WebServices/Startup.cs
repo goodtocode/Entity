@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using GoodToCode.Framework.Repository;
 using Microsoft.EntityFrameworkCore;
 using GoodToCode.Framework.Entity;
+using GoodToCode.Entity.Event;
 
 namespace GoodToCode.Entity.WebServices
 {
@@ -47,7 +48,10 @@ namespace GoodToCode.Entity.WebServices
                 c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
             });
 
-            var crudControllers = new List<CrudApiRoute>() { new CrudApiRoute(typeof(PersonInfo), "api/Person") };
+            var crudControllers = new List<CrudApiRoute>() {
+                new CrudApiRoute(typeof(PersonInfo), "api/Person"),
+                new CrudApiRoute(typeof(EventInfo), "api/Event")
+            };
             services
                 .AddMvc(o => o.Conventions.Add(
                   new CrudApiControllerRouteConvention(crudControllers)))
