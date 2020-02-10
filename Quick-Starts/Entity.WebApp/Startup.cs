@@ -1,3 +1,4 @@
+using GoodToCode.Entity.Event;
 using GoodToCode.Entity.Person;
 using GoodToCode.Framework.Hosting;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,10 @@ namespace GoodToCode.Entity.WebApp
 
             services.AddHttpCrud<PersonDto>(); // Add Get, Put, Post, Delete calls as CRUD-aligned requests
             services.AddHttpQuery<PersonDto>(); // Add Url Query based calls that return lists
+
+
+            services.AddHttpCrud<EventDto>(); // Add Get, Put, Post, Delete calls as CRUD-aligned requests
+            services.AddHttpQuery<EventDto>(); // Add Url Query based calls that return lists
 
             // Mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
