@@ -48,8 +48,9 @@ namespace GoodToCode.Entity.WebServices
                 c.SwaggerDoc("v1", new Info { Title = "API Discovery", Version = "v1" });
             });
 
+            // CrudApi Step 1: Add CrudApi controllers and routes to those controllers
             var crudControllers = new List<CrudApiRoute>() {
-                new CrudApiRoute(typeof(PersonInfo), "api/Person"),
+                //new CrudApiRoute(typeof(PersonInfo), "api/Person"),
                 new CrudApiRoute(typeof(EventInfo), "api/Event")
             };
             services
@@ -66,9 +67,9 @@ namespace GoodToCode.Entity.WebServices
                 });
             services.AddApplicationInsightsTelemetry();
 
-            // Must add DB Context for each controller
-            services.AddDbContext<EntityWriter<PersonInfo>>();
-            services.AddTransient<IEntityConfiguration<PersonInfo>, PersonInfoSPConfig>();
+            // CrudApi Step 2: Add database config for each controller. 1 Controller can contain 1 Entity/DbConfig maximum
+            //services.AddTransient<IEntityConfiguration<PersonInfo>, PersonInfoSPConfig>();
+            services.AddTransient<IEntityConfiguration<EventInfo>, EventInfoSPConfig>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
