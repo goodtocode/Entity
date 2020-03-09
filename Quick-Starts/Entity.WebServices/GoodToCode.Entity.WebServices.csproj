@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AspNetCoreHostingDto>InProcess</AspNetCoreHostingDto>
     <PackageId>GoodToCode.Entity.WebServices.Core</PackageId>
     <Version>4.18.9</Version>
@@ -30,7 +30,6 @@
     <PackageReference Include="GoodToCode.Framework.Hosting.Server" Version="4.19.19341.1" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.8.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.1.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
   </ItemGroup>
@@ -38,15 +37,4 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services" />
   </ItemGroup>
-
-
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PostBuild.$(ConfigurationName).bat&quot; &quot;$(MSBuildProjectDirectory)\$(OutDir)&quot; &quot;$(ConfigurationName)&quot; &quot;$(ProjectName)&quot;" />
-  </Target>
-
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="Call &quot;$(MSBuildProjectDirectory)\App_Data\PreBuild.$(ConfigurationName).bat&quot; &quot;$(MSBuildProjectDirectory)&quot; &quot;$(ConfigurationName)&quot; &quot;$(ProjectName)&quot;" />
-  </Target>
-
 </Project>
