@@ -10,7 +10,7 @@ namespace GoodToCode.Entity.WebServices
     /// <summary>
     /// Searches for Person records    
     /// </summary>
-    [Produces("application/json"), Controller]
+    [Produces("application/json")]
     public class PersonSearchController : ControllerBase
     {
         public const string ControllerName = "PersonSearch";
@@ -36,10 +36,13 @@ namespace GoodToCode.Entity.WebServices
             var returnValue = new List<PersonInfo>();
             var id = idOrKey.TryParseInt32();
             var key = idOrKey.TryParseGuid();
-            var searchResults = new EntityReader<PersonInfo>().GetByWhere(x => x.FirstName.Contains(firstName) || x.LastName.Contains(lastName) || x.Key == key || x.Id == id).Take(MaxRecords);
+            using (var entityReader = new EntityReader<PersonInfo>())
+            {
+                var searchResults = entityReader.GetByWhere(x => x.FirstName.Contains(firstName) || x.LastName.Contains(lastName) || x.Key == key || x.Id == id).Take(MaxRecords);
 
-            if (searchResults.Any())
-                returnValue.FillRange(searchResults);
+                if (searchResults.Any())
+                    returnValue.FillRange(searchResults);
+            }
 
             return returnValue;
         }
@@ -52,8 +55,11 @@ namespace GoodToCode.Entity.WebServices
         [HttpPost(ControllerRoute)]
         public IEnumerable<IPerson> Post([FromBody]PersonDto data)
         {
-            var searchResults = new EntityReader<PersonInfo>().GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(MaxRecords);
-            return searchResults;
-        }     
+            using (var entityReader = new EntityReader<PersonInfo>())
+            {
+                var searchResults = entityReader.GetByWhere(x => x.FirstName.Contains(data.FirstName) || x.LastName.Contains(data.LastName) || x.BirthDate == data.BirthDate || x.Key == data.Key || x.Id == data.Id).Take(MaxRecords);
+                return searchResults;
+            }
+        }
     }
 }
